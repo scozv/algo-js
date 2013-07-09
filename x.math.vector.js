@@ -88,8 +88,8 @@
 	(function(Vector, undefined){
 		Vector.dot = function(v1, v2){
 			return Array.zip(v1.coordinates, v2.coordinates)
-				.foldl(
-					function(x, acc){
+				.reduce(
+					function(acc, x){
 						return acc + (x[1] * x[0]);
 					}, 
 					0.0);
@@ -97,8 +97,8 @@
 
 		Vector.norm = function(v){
 			var squareSum = 
-				v.coordinates.foldl(
-					function(x, acc){
+				v.coordinates.reduce(
+					function(acc, x){
 						return acc + (x * x);
 					},
 					0.0);

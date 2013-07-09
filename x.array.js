@@ -11,39 +11,22 @@
 	// Array.zip: (arr1, arr2) => arr3 
 
 	$pt.foldl = function(fn, acc){
-		// fn = (x, acc) -> acc
-		// fn must return sth.
-		acc = acc || 0.0;
-		var i;
-		for (i = 0;i < this.length;i++){
-			acc = fn(this[i], acc);
-		}
-
-		return acc;
+		throw new Error('use Array.reduce instead');
 	};
 
 	$pt.foldr = function(fn, acc){
-		// fn = (x, acc) -> acc
-		// for static the arr, we clone a copy
-		var arr = this.clone();
-		acc = acc || 0.0;
-
-		var i;
-		for (i = arr.length - 1;i >= 0;i--){
-			acc = fn(arr[i], acc);
-		}
-
-		return acc;
+		throw new Error('use Array.reduceRight instead');
 	};
 
-	$pt.map = function(fn){
-		var arr = [],
-			i;
-		for (i=0;i<this.length;i++){
-			arr.push(fn(this[i]));
-		}
-		return arr;
-	};
+	// 
+	// $pt.map = function(fn){
+	// 	var arr = [],
+	// 		i;
+	// 	for (i=0;i<this.length;i++){
+	// 		arr.push(fn(this[i]));
+	// 	}
+	// 	return arr;
+	// };
 
 	$pt.clone = function(){
 		return this.map(function(x){return x;});

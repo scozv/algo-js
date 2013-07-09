@@ -2,7 +2,7 @@
 	// using x.array.js
 	
 	Stats.sum = function(arr){
-		return arr.foldl(function(x, acc){return x + acc;}, 0.0);
+		return arr.reduce(function(acc, x){return x + acc;}, 0.0);
 	};
 
 	Stats.mean = function(arr){
@@ -12,8 +12,8 @@
 	// sample variance
 	Stats.var = function(arr){
 		var avg = Stats.mean(arr);
-		return arr.foldl(
-			function(x, acc){
+		return arr.reduce(
+			function(acc, x){
 				return (x - avg) * (x - avg);
 			}, 
 			0.0) / (arr.length - 1);
