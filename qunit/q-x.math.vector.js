@@ -3,21 +3,8 @@ test('Math.Vector constucting', function(){
 		return !isNaN( parseFloat(x) ) && isFinite( x );
 	};
 
-	var isNumberArray = function(x){
-		var valid = false;
-		if (Array.isArray(x)){
-			var i = 0;
-			for (;i<x.length;i++){
-				if (!isNumber(x[i])){
-					valid = false;
-					break;
-				}
-			}
-
-			valid = true;
-		}
-
-		return valid;
+	var isNumberArray = function(arr){
+		return Array.isArray(arr) && arr.every(function(x){return isNumber(x);});
 	};
 
 	// points
