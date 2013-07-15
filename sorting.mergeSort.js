@@ -2,30 +2,38 @@
 	// using x.array.js
 	// using sorting.js
 
-	function _deepCloneTo(arr, to){
+	function _deepCloneTo(arr, to, l, r){
+		// copy arr to to deeply from l to r inclusively
 		// require arr.length  = to.length;
-		for (i=0;i<arr.length;i++){
+
+		r = Math.mod(r, arr.length);
+
+		for (i=l;i<=r;i++){
 			to[i] = arr[i];
 		}
 	};
+
+	var inversions = 0;
 
 	function _merge(arr, aux, l, mid, r, fn, compare){
 		// required sorted(arr, l, mid);
 		// required sorted(arr, mid+1, r);
 		// require arr.length = aux.length;
-		// if (exceed > 7){console.log('Ex');return;}else{console.log(exceed);}
 
-		_deepCloneTo(arr, aux);
+		_deepCloneTo(arr, aux, l, r);
 		var i = l, j = mid + 1,
 			k = l;
 		for (;k<=r;k++){
 			if (i>mid) {arr[k]=aux[j++];}
 			else if (j>r) {arr[k]=aux[i++];}
-			else if (compare(fn(aux[i]), fn(aux[j])) > 0) {arr[k]=aux[j++];}
+			else if (compare(fn(aux[i]), fn(aux[j])) > 0) {
+				// inversions += (mid - i + 1);
+				arr[k]=aux[j++];
+			}
 			else {arr[k]=aux[i++];}
 		}
 
-		exceed++;
+
 	};
 
 	function _mergeSort(arr, aux, l, r, fn, compare){
@@ -45,7 +53,11 @@
 		var copy = arr.clone();
 		var aux = [];
 
+		// inversions = 0;
+
 		_mergeSort(copy, aux, 0, copy.length-1, fn, compare);
+
+		// console.log('# of inversions: ' + inversions);
 
 		return copy;
 	};
