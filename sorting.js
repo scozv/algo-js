@@ -20,6 +20,17 @@
 		return sorted;
 	};
 
+	Sorting.__build__ = function(file){
+		// sort the arr from the file
+		var arr = file
+			.split('\n')
+			.map(function(x){
+				return parseInt(x.replace(/^\s\s*/, '').replace(/\s\s*$/, ''));
+			});
+
+		Sorting.mergeSort(arr);			
+	};
+
 	Sorting.__arraySwap__ = function(arr, i1, i2){
 		/// <summary>swap the element of index i1 and i2 in array named arr.</summary>
 
@@ -32,24 +43,3 @@
 	};
 
 }(window.Sorting = window.Sorting || {}));
-
-
-
-function remoteReader(url){
-	var ctx = new XMLHttpRequest();
-	ctx.open('GET', url, true);
-	ctx.onreadystatechange = function (){
-		if (ctx.readyState===4 && ctx.status ===200){
-			var txt = ctx.responseText;
-			var lines = txt.split('\r\n');
-			var arr = new Array();
-			// i have known the number of the numbers
-			for (var i=0;i<10000;i++){arr.push(parseInt(lines[i]));}
-	  		cp = 0;
-	  	    quickSort(arr, 0, arr.length-1);
-	  	    console.log(cp);
-	    }
-	};
-
-    ctx.send(null)
-}
