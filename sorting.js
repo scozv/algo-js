@@ -28,7 +28,7 @@
 				return parseInt(x.replace(/^\s\s*/, '').replace(/\s\s*$/, ''));
 			});
 
-		Sorting.mergeSort(arr);			
+		Sorting.mergeSort(arr);
 	};
 
 	Sorting.__arraySwap__ = function(arr, i1, i2){
@@ -40,6 +40,26 @@
 		var swap=arr[i1];
 		arr[i1]=arr[i2];
 		arr[i2]=swap;
+	};
+
+	Sorting.__randomUniqueArray__ = function(length){
+		/// <summary>gets an array of such length, each unique integer element in [0, length].</summary>
+
+		var arr = [],
+			i;
+		for (i=0;i<length;i++){
+			arr[i]=i;
+		}
+
+		// Knuth shuffle
+		var j=-1;
+		for (i=length-1;i>0;i--){
+			// math.r in [0, 1), we need j in [0, i]
+			j = Math.floor(Math.random() * (i + 1));
+			Sorting.__arraySwap__(arr, i, j);
+		}
+
+		return arr;
 	};
 
 }(window.Sorting = window.Sorting || {}));

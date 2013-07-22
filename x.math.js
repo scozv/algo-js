@@ -8,4 +8,13 @@
 	Math.mod = function(i, n){
 		return (i & 0x7FFFFFFF) % n;
 	};
+
+	Math.__timer__ = function(fn){
+		// stopwatch
+		var start = (new Date()).getTime();
+		fn();
+		var end = (new Date()).getTime();
+		return end - start;
+	};
+
 }(window.Math = window.Math || {}));
