@@ -2,15 +2,15 @@
 	/*
 	* inspired by http://enterprisejquery.com/2010/10/how-good-c-habits-can-encourage-bad-javascript-habits-part-1/
 	*/
-	Sorting.isSorted = function(arr, fn, order){
+	Sorting.isSorted = function(arr, fn, compare){
 		// default sort with function
 		fn = fn || function (x){return x;}
 		// default order by asc
-		order = order || function (x, y){return x < y;}
+		compare = compare || function (x, y){return x - y;}
 
 		var sorted = true, i;
 		for (i=0;i<arr.length-2;i++){
-			if (!order(fn(arr[i]), fn(arr[i+1]))){
+			if (compare(fn(arr[i]), fn(arr[i+1])) < 0){
 				console.log(arr[i], arr[i+1]);
 				sorted = false;
 				break;
