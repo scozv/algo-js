@@ -8,7 +8,7 @@
 
 		r = Math.mod(r, arr.length);
 
-		for (i=l;i<=r;i++){
+		for (var i=l;i<=r;i++){
 			to[i] = arr[i];
 		}
 	};

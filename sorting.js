@@ -10,8 +10,8 @@
 
 		var sorted = true, i;
 		for (i=0;i<arr.length-2;i++){
-			if (compare(fn(arr[i]), fn(arr[i+1])) < 0){
-				console.log(arr[i], arr[i+1]);
+			if (compare(fn(arr[i]), fn(arr[i+1])) > 0){
+				// console.log(arr[i], arr[i+1]);
 				sorted = false;
 				break;
 			}
