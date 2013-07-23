@@ -51,3 +51,66 @@ test('Correctness of sorting', function(){
 	ok(Sorting.isSorted(Sorting.mergeSortBU(arr)), 'merge sort (bottom up version) for array of length 10000');
 	ok(Sorting.isSorted(Sorting.quickSort(arr)), 'quick sort for array of length 10000');
 });
+
+test('Time of sorting', function () {
+	var timeArray = function (index, sorting) {
+		// get an array of sorting time, resulting from the input sample
+		// return index.map(input => time(input))
+
+		var time = [],
+			arr = [],
+			i;
+
+		for (i = 0; i < index.length; i++) {
+			arr = Sorting.__randomUniqueArray__(index[i]);
+			time[i] = Math.__timer__(function () {
+				sorting(arr);
+			});
+		}
+
+		return time;
+	};
+
+	var error = function (end, sorting) {
+		// 0. index: get the index array [0...len)
+		// 1. time: get the time array [t_0...t_len)
+		// 2. cod: get a, b for ax+b = y, we use cod for [a, b]
+		// 3. time1: get the time' array [t'_0...t'_len), where t_i = ax_i + b
+		// 4. TODO dev: get sqrt(sum((t'_i-t_i)^2))
+		// 5. TODO return dev < 1e-5
+		// 6. actually, we return ratio of the number of error > 1
+
+		var index,
+			time,
+			cod,
+			time1,
+			dev,
+			e;
+
+		index = Math.range(10000, end, 100);
+		time = timeArray(index, sorting);
+		cod = Math.Stats.linearLeastSquare(index.map(function(i){
+			return i * Math.log(i);
+		}), time);
+		time1 = index.map(function(i){return cod[0] * (i * Math.log(i)) + cod[1];});
+		e =  time.zip(time1).map(function(x){return Math.pow(x[0]-x[1], 2);});
+		dev = Math.Stats.sum(e);
+
+		// console.log(index);
+		// console.log(index.map(function(i){return i * Math.log(i);}));
+		// console.log(time);
+		// console.log(cod);
+		// console.log(time1);
+		// console.log(e);
+		// console.log(dev)
+		// console.log(e.filter(function(x){return x>1.0;}).length);
+		// console.log(e.length);
+
+		// return Math.sqrt(dev);
+		return e.filter(function(x){return x>1.0;}).length / e.length
+	};
+
+	// comment out following test, for its time-consuming
+	// ok(error(100000, Sorting.mergeSort) < 0.1, 'merge sort in nlogn');
+	ok(true, 'wait for time test of sorting, please look at the code of q-sorting.js');
+});
