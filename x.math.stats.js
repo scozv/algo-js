@@ -40,7 +40,7 @@
 				n += (arr1[i]-avg1)*(arr1[i]-avg1);
 			}
 
-			return m / n;
+			return [m / n, avg2 - m / n * avg1];
 		};
 	}(Math.Stats = Math.Stats || {}));
 })(window.Math = window.Math || {});

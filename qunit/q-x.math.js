@@ -14,8 +14,8 @@ test('Math.stats', function(){
 		return a1.map(function(x){return Math.pow(x, a);});
 	};
 
-	ok(Math.Stats.linearLeastSquare(a1, f(3, 1)) - 3 < 1e-29, 'y=3x+1');
-	ok(Math.Stats.linearLeastSquare(a1, f(-2.31, 3.12)) - (-2.31) < 1e-29, 'y=-2.31x+3.12');
-	ok(Math.Stats.linearLeastSquare(a1, f1(2), Math.log) - (2) < 1e-29, 'y=x^2, with log');
-	ok(Math.Stats.linearLeastSquare(a1, f1(-3.141501), Math.log) - (-3.141501) < 1e-29, 'y=x^-3.141501, with log');
+	ok(Math.Stats.linearLeastSquare(a1, f(3, 1))[0] - 3 < 1e-29, 'y=3x+1');
+	ok(Math.Stats.linearLeastSquare(a1, f(-2.31, 3.12))[0] - (-2.31) < 1e-29, 'y=-2.31x+3.12');
+	ok(Math.Stats.linearLeastSquare(a1, f1(2), Math.log)[0] - (2) < 1e-29, 'y=x^2, with log');
+	ok(Math.Stats.linearLeastSquare(a1, f1(-3.141501), Math.log)[0] - (-3.141501) < 1e-29, 'y=x^-3.141501, with log');
 });
