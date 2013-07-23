@@ -18,18 +18,12 @@
 		throw new Error('use Array.reduceRight instead');
 	};
 
-	// 
-	// $pt.map = function(fn){
-	// 	var arr = [],
-	// 		i;
-	// 	for (i=0;i<this.length;i++){
-	// 		arr.push(fn(this[i]));
-	// 	}
-	// 	return arr;
-	// };
-
 	$pt.clone = function(){
 		return this.map(function(x){return x;});
+	};
+
+	$pt.zip = function(that){
+		return Array.zip(this, that);
 	};
 
 	// static member
