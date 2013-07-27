@@ -20,6 +20,32 @@
 		return sorted;
 	};
 
+	Sorting.heapSort = function(arr, option){
+		option = option || {
+			'order': 'ASC'
+		};
+
+		var heap;
+
+		switch (option.order){
+			case 'ASC':
+			case 'asc':
+				heap = T.MinHeap();
+				break;
+			case 'DESC':
+			case 'desc':
+				heap = T.MaxHeap();
+				break;
+			default:
+				throw new Error('invalid order option, use one of ASC | DESC');
+		}
+
+		// push x into heap
+		arr.forEach(function(x){heap.push(x);});
+
+		return heap.__toArray__();
+	};
+
 	Sorting.__build__ = function(file){
 		// sort the arr from the file
 		var arr = file

@@ -1,4 +1,4 @@
-test('Sorting basic function', function(){
+test('Sorting, the basic function', function(){
 	// test random unique array generator
 	var uniqueArraySort = function(length){
 		// get an unique random array, sort it, and it is supported to eaqul the array [0, 1..., n-1]
@@ -45,14 +45,17 @@ test('Sorting basic function', function(){
 	ok(testIsSorted(50, function(x){return x;}, function(x, y){return y-x;}), 'isSorte test for array of length 50, x=>x, x>y');
 });
 
-test('Correctness of sorting', function(){
+test('Sorting, the correctness', function(){
 	var arr = Sorting.__randomUniqueArray__(10000);
 	ok(Sorting.isSorted(Sorting.mergeSort(arr)), 'merge sort for array of length 10000');
 	ok(Sorting.isSorted(Sorting.mergeSortBU(arr)), 'merge sort (bottom up version) for array of length 10000');
 	ok(Sorting.isSorted(Sorting.quickSort(arr)), 'quick sort for array of length 10000');
+	// heap sorting
+	ok(Sorting.isSorted(Sorting.heapSort(arr, {order:'ASC'})), 'heap sort for array of length 10000');
+	ok(Sorting.isSorted(Sorting.heapSort(arr, {order:'DESC'}), null, function(x, y){return y - x;}), 'heap sort for array of length 10000');
 });
 
-test('Time of sorting', function () {
+test('Soring, the time test', function () {
 	var timeArray = function (index, sorting) {
 		// get an array of sorting time, resulting from the input sample
 		// return index.map(input => time(input))
@@ -107,10 +110,14 @@ test('Time of sorting', function () {
 		// console.log(e.length);
 
 		// return Math.sqrt(dev);
-		return e.filter(function(x){return x>1.0;}).length / e.length
+		var len = e.filter(function(x){return x>1.0;}).length;
+		console.log(len, e.length);
+		return  len / e.length
 	};
 
 	// comment out following test, for its time-consuming
 	// ok(error(100000, Sorting.mergeSort) < 0.1, 'merge sort in nlogn');
+	// ok(error(100000, Sorting.quickSort) < 0.1, 'merge sort in nlogn');
+	// ok(error(100000, Sorting.heapSort) < 0.1, 'merge sort in nlogn');
 	ok(true, 'wait for time test of sorting, please look at the code of q-sorting.js');
 });

@@ -57,14 +57,24 @@
 			this.__sink__(1);
 			this.__id__[this.__count__ + 1] = undefined;
 			return res;
+		},
+
+		__toArray__: function(){
+			console.warn('this heap has been destroyed by pop to empty');
+			var arr = [];
+			while (!this.isEmpty()) {
+				arr.push(this.pop());
+			}
+
+			return arr;
 		}
 	};
 
-	type.Max_heap = function(){
+	type.MaxHeap = function(){
 		return new _heap(function(x, y){return y - x;});
 	};
 
-	type.Min_heap = function(){
+	type.MinHeap = function(){
 		return new _heap(function(x, y){return x - y;});
 	};
 
