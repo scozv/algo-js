@@ -15,10 +15,10 @@
 			}
 
 			if (i >= j) {break;}
-			Sorting.__arraySwap__(arr, i, j);
+			Array.swap(arr, i, j);
 		}
 
-		Sorting.__arraySwap__(arr, l, j);
+		Array.swap(arr, l, j);
 		return j;
 	};
 

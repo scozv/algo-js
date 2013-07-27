@@ -1,11 +1,7 @@
-(function(Sorting, undefined){
+(function(type, undefined){
 	// using sorting.js
 
-	// -----API
-	// Sorting.MaxHeap(), gets an new max heap
-	// Sorting.MinHeap(), gets an new min heap
-
-	var _Heap = function(compare){
+	var _heap = function(compare){
 		// inspired by alg4p1's implementation
 		this.__id__ = [-1];
 		this.__count__ = 0;
@@ -13,18 +9,18 @@
 		this.__compare__ = compare || function(x, y){return x - y;};
 	};
 
-	_Heap.prototype = {
+	_heap.prototype = {
 		isEmpty: function(){
 			return this.__count__ <= 0;
 		},
 
-		// exchange child with parent, until heap is ordered
+		// exchange child with parent, until _heap is ordered
 		__swim__:function (k){
 			var id = this.__id__,
 				cp = this.__compare__;
 
 			while (k>1 && cp(id[k], id[k>>1]) < 0){
-				Sorting.__arraySwap__(id, k, k>>1);
+				Array.swap(id, k, k>>1);
 				k >>= 1;
 			}
 		},
@@ -35,7 +31,7 @@
 			return this.__count__;
 		},
 
-		// exchange parent with larger child for maxheap or smaller child for minheap, until heap is ordered
+		// exchange parent with larger child for max_heap or smaller child for min_heap, until _heap is ordered
 		__sink__: function(k){
 			var id = this.__id__,
 				cp = this.__compare__,
@@ -45,7 +41,7 @@
 				j = (k<<1);
 				if (j < ct && cp(id[j+1], id[j]) < 0) {j++;}
 				if (cp(id[j], id[k]) < 0) {
-					Sorting.__arraySwap__(id, k, j);
+					Array.swap(id, k, j);
 					k = j;
 				} else {break;}
 			}
@@ -53,23 +49,23 @@
 
 		pop: function(){
 			if (this.__count__ <= 0){
-				throw new Error('empty heap now.');
+				throw new Error('empty _heap now.');
 			}
 
 			var res = this.__id__[1];
-			Sorting.__arraySwap__(this.__id__, 1, this.__count__--);
+			Array.swap(this.__id__, 1, this.__count__--);
 			this.__sink__(1);
 			this.__id__[this.__count__ + 1] = undefined;
 			return res;
 		}
 	};
 
-	Sorting.MaxHeap = function(){
-		return new _Heap(function(x, y){return y - x;});
+	type.Max_heap = function(){
+		return new _heap(function(x, y){return y - x;});
 	};
 
-	Sorting.MinHeap = function(){
-		return new _Heap(function(x, y){return x - y;});
+	type.Min_heap = function(){
+		return new _heap(function(x, y){return x - y;});
 	};
 
-}(window.Sorting = window.Sorting || {}));
+}(window.T = window.T || {}));

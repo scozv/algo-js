@@ -36,4 +36,13 @@
 		}
 		return arr;
 	};
+
+	Array.swap = function(arr, i, j){
+		i %= arr.length;
+		j %= arr.length;
+
+		var swap=arr[i];
+		arr[i]=arr[j];
+		arr[j]=swap;
+	};
 }(window.Array = window.Array || {}));

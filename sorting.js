@@ -34,12 +34,7 @@
 	Sorting.__arraySwap__ = function(arr, i1, i2){
 		/// <summary>swap the element of index i1 and i2 in array named arr.</summary>
 
-		i1 %= arr.length;
-		i2 %= arr.length;
-
-		var swap=arr[i1];
-		arr[i1]=arr[i2];
-		arr[i2]=swap;
+		throw new Error('use Array.swap() instead');
 	};
 
 	Sorting.__randomUniqueArray__ = function(length){
@@ -56,7 +51,7 @@
 		for (i=length-1;i>0;i--){
 			// math.r in [0, 1), we need j in [0, i]
 			j = Math.floor(Math.random() * (i + 1));
-			Sorting.__arraySwap__(arr, i, j);
+			Array.swap(arr, i, j);
 		}
 
 		return arr;
