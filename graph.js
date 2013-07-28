@@ -1,46 +1,76 @@
-(function(Graph, undefined){
+(function(type, undefined){
 
-	Graph.__adjacencyList__ = [];
-	
-	Graph.__deepClone__ = function(graph){
-		/// <summary>gets a deep cloned copy of the graph.<summary>
+	// shortcut
+	// _g, the adjacency list of graph, not this
+	// $pt, see wiki
 
-		graph = graph || Graph.__adjacencyList__;
+	type.Graph = function(directed){
+		// gets a unweighted graph, dafualt is undirected graph
+		if (directed !== true){directed = false;}
 
-		var arr = [];
-		for (var i=0;i<graph.length;i++){
-			var edge = graph[i][1];
-			var endpoints = [];
-			for (var j=0;j<edge.length;j++){endpoints.push(edge[j]);}
-			arr.push([graph[i][0], endpoints]);
-		}
+		// adgList format (each x in adgList): [v, [v1, v2, v3...]] = [label, [edgeVertexArray]]
+		// label can be used for marking visit info
+		this.__adjacencyList__ = [];
+		this.__directed__ = directed;
+		this.__validVertexNumber__ = 0;
 
-		return arr;
+		this.__invalidVertexIndexError__ = new Error('vertex must be a numeric index');
 	};
 
-	Graph.__pushEdge__ = function(v1, v2, directed){
+	$pt = type.Graph.prototype;
+	$pt.v = function(){
+		return this.__validVertexNumber__;
+	};
+
+	$pt.clone = function(){
+		var gh = new Graph(this.__directed__);
+		this.__adjacencyList__.forEach(function(x){
+			// clone each x in format [v, []]
+			// TODO: warning the case in which we push v2 into an empty vertex
+			gh.__adjacencyList__.push([x[0], x[1].clone()]);
+		});
+
+		return gh;
+	};
+
+	$pt.__pushEdge__ = function(v1, v2){
 		/// <summary>pushes an edge into thisEdge graph from the v1 to v2.</summary>
 
-		if (directed!==true){directed=false;}
-		var graph = Graph.__adjacencyList__;
-		// if we push v2 into an empty vertex 
-		// [v, []] = [label, edgeVertexArray]
-		if (!graph[v1]){graph[v1] = [v1, []]}
-		graph[v1][1].push(v2);
+		if (isNaN(v1 = +v1) || isNaN(v2 = +v2)) {
+			throw this.__invalidVertexIndexError__;
+		}
 
-		if (!directed){
-			if (!graph[v2]){graph[v2] = [v2, []]}
-			graph[v2][1].push(v1);			
+		var _g = this.__adjacencyList__;
+
+		// warning the case in which we push v2 into an empty vertex
+		if (!_g[v1]){ 
+			_g[v1] = [v1, []];
+			this.__validVertexNumber__++;
+		}
+
+		_g[v1][1].push(v2);
+
+		if (!this.__directed__){
+			// if not directed, we push [v2, v1]
+			if (!_g[v2]){ 
+				_g[v2] = [v2, []];
+				this.__validVertexNumber__++;
+			}
+
+			_g[v2][1].push(v1);			
 		}
 	};
 
-	Graph.__getEdge__ = function(v){
+	Graph.__edgesFrom__ = function(v){
 		/// <summary>gets the edge sourceing from v.</summary>
+		if (isNaN(v = +v)) {
+			throw this.__invalidVertexIndexError__;
+		}
 
-		return Graph.__adjacencyList__[v][1];	
+		return this.__adjacencyList__[v][1];	
 	};
 
-	Graph.__getKthEdge__ = function(k){
+	Graph.__edgeAt__ = function(k){
 		/// <summary>gets a the k-th edge of graph, return the two endpoint.</summary>
 
 		var graph = Graph.__adjacencyList__;
@@ -126,31 +156,67 @@
 		return str.join('\n\r');
 	};
 
-}(window.Graph = window.Graph || {}));
+	var minimumCut = function(graph){
+		/// <summary>gets the number of potential minimum cut in single try.<summary>
+
+		var gCount = countGraph(graph);
+		while (graph.v() > 2){
+			var p = random(1, gCount[1]<<1);
+			// find the p-th edge
+			var e = edge(graph, p);
+			// console.log(p, e);
+			var x1 = e[0];
+			var x2 = e[1];
+
+			mergeVertex(graph, x1, x2);
+
+			// display(graph);
+			gCount = countGraph(graph);
+		}
+
+		return gCount[1];
+	};
+
+	var mergeVertex = function(graph, v1, v2){
+		/// <summary>merges the vertex and contracts the edge.<summary>
+
+		// merge the edge from v1 to v2, e1 is the edges from v1 to v2 (no matter in undirected graph)
+		// 1. copy the endpoints from v1's to v2's
+		// 2. loop all vertex of graph, change endpoint v1 to v2
+		// 3.      if self loop, delete endpoint
+		// 4. mark v1 visited
+		var _g = graph.__adjacencyList__,
+			e1 = graph.__edgesFrom__(v1),
+			e2 = graph.__edgesFrom__(v2),
+			i;
+
+		// 1
+		e1.forEach(function(v){
+			if (e2.indexOf(v) === -1) {e2.push(v);}
+		});
+
+		// 2
+		_g.forEach(function(x){
+			if (x && x[1]) {
+				// edges from x[0]
+				for (var i=0;i<x[1].length;i++){
+					if (x[1][i] == v1) { x[1][i] = v2; }
+					// self loop
+					if (x[1][i] == x[0]) { x[1][i] = -1; }
+				}
+			}
+		});
+
+		// 3
+		_g[v1][0] = -1;
+		this.__validVertexNumber__--;
+	};
+
+}(window.T = window.T || {}));
+
 
 /*
-function minimumCut(graph){
-    /// <summary>gets the number of potential minimum cut in one try.<summary>
 
-	// debugger;
-
-	var gCount = countGraph(graph);
-	while (gCount[0] > 2){
-		var p = random(1, gCount[1]<<1);
-		// find the p-th edge
-		var e = edge(graph, p);
-		// console.log(p, e);
-		var x1 = e[0];
-		var x2 = e[1];
-
-		mergeVertex(graph, x1, x2);
-
-		// display(graph);
-		gCount = countGraph(graph);
-	}
-
-	return gCount[1];
-}
 
 function multiMinimumCut(graph, times){
 	/// <summary>gets the minimum number of potential minimum cut in multiple try.<summary>
@@ -163,34 +229,6 @@ function multiMinimumCut(graph, times){
 	}
 
 	return min;
-}
-
-function mergeVertex(graph, v1, v2){
-    /// <summary>merges the vertex and contracts the edge.<summary>
-
-	// merge the edge from v1 to v2, e1 is the edges of v1
-	// 1. copy the endpoints from v1's to v2's
-	// 2. loop all vertex of graph, change endpoint v1 to v2
-	// 3.      if self loop, delete endpoint
-	// 4. mark v1 visited
-
-	var e1 = graph[parseInt(v1)-1][1];
-	var e2 = graph[parseInt(v2)-1][1];
-
-	// 1
-	for (var i=0;i<e1.length;i++){e2.push(e1[i]);}
-	// 2
-	for (var i=0;i<graph.length;i++){
-		var thisVertex = graph[i][0];
-		var thisEdge = graph[i][1];
-		for (var j=0;j<thisEdge.length;j++){
-			if (thisEdge[j]==v1){thisEdge[j]=v2;}
-			// self loop
-			if (thisEdge[j]==thisVertex){thisEdge[j]=-1;}
-		}
-	}
-	// 3
-	graph[parseInt(v1)-1][0] = -1;
 }
 
 var g = [
