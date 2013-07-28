@@ -61,7 +61,7 @@
 		}
 	};
 
-	Graph.__edgesFrom__ = function(v){
+	$pt.__edgesFrom__ = function(v){
 		/// <summary>gets the edge sourceing from v.</summary>
 		if (isNaN(v = +v)) {
 			throw this.__invalidVertexIndexError__;
@@ -70,82 +70,86 @@
 		return this.__adjacencyList__[v][1];	
 	};
 
-	Graph.__edgeAt__ = function(k){
+	$pt.__edgeAt__ = function(k){
 		/// <summary>gets a the k-th edge of graph, return the two endpoint.</summary>
 
-		var graph = Graph.__adjacencyList__;
-		var validVertex = 0;
-		for (var i=0;i<graph.length;i++){
-			if (graph[i][0]>=0){
-				for (var j=0;j<graph[i][1].length;j++){
-					if (graph[i][1][j]>=0){
-						validVertex++;
-						if (validVertex==k){
-							return [graph[i][0], graph[i][1][j]];
-						}
-					}
-				}
-			}
-		}
+		var _g = this.__adjacencyList__,
+			p = 0,
+			edge = [-1, -1];
 
-		return [-1, -1];
+		_g.some(function(x){
+			return (x && x[0] && x[0]>=0) &&
+				x[1].some(function(v){
+					if (v>=0 && (p++ == k)){
+						edge = [x[0], v];
+						return true;
+					} else {return false;}
+				});
+		});
+
+		return edge;
 	};
 
-	Graph.__countGraph__ = function(graph){
+	$pt.__count__ = function(){
 		/// <summary>gets the number of vertex and edge.<summary>
 		/// <returns type="Array[2]">returns the number of vertex and edge in arr[0] and arr[1].</returns>
 
-		graph = graph || Graph.__adjacencyList__;
-		var x = 0;
-		var v = 0;
-		for (var i=0;i<graph.length;i++){
-			if (graph[i][0]>=0){
-				for (var j=0;j<graph[i][1].length;j++){
-					if (graph[i][1][j]>=0){
-						x++;
-					}
-				}
+		var _g = this.__adjacencyList__,
+			v = 0,
+			e = 0;
+
+		_g.forEach(function(x){
+			if (x && x[0] && x[0]>=0){
 				v++;
+				x[1].forEach(function(u){
+					e += ( u>=0 ? 1 : 0 );
+				})
 			}
-		}
+		});
 
-		return [v, x>>1];
+		return [v, this.__directed__ ? e : e>>1];
 	};
 
-	Graph.count = function(){
-		return Graph.__countGraph__(Graph.__adjacencyList__);
-	}
-
-	Graph.__visiable__ = function(v){
+	$pt.__visiableAt__ = function(v){
 		/// <summary>determins whether the v of graph is visiable for visiting or not.</summary>
+		if (isNaN(v = +v)) {
+			throw this.__invalidVertexIndexError__;
+		}		
 
-		var graph = Graph.__adjacencyList__;
-		return graph && graph[v] && graph[v][0];
+		var _g = this.__adjacencyList__;
+		return _g[v] && _g[v][0] && _g[v][0] >= 0;
 	};
 
-	Graph.__labelVertex__ = function(v, label){
+	$pt.__labelAt__ = function(v, label){
 		/// <summary>marks the label to graph, v for its visited or not, 
 		/// the default label is false, means we visits the vertex default.
 		/// </summary>
-		var graph = Graph.__adjacencyList__;
-		if (!graph[v]) {graph[v]=[v, []];}
+		if (isNaN(v = +v)) {
+			throw this.__invalidVertexIndexError__;
+		}	
+
+		var _g = this.__adjacencyList__;
+		if (!_g[v]) {_g[v]=[v, []];}
 		
-		graph[v][0]=label;
+		if (arguments.length > 1 || label !== undefined){
+			_g[v][0] = label;
+		}
+
+		return _g[v][0];
 	};
 
-	Graph.__visitVertex__ = function(v){
-		var graph = Graph.__adjacencyList__;
-		labelVertex(graph, v, false);
+	$pt.__visitAt__ = function(v){
+		this.__labelAt__(v, -1);
 	};
 
 
-	Graph.__random__ = function(x1, x2){
+	var random = function(x1, x2){
 		/// <summary>gets a random integet between x1 and x2, inclusive.</summary>
 
 		return Math.floor(Math.random() * (x2 - x1 + 1)) + x1;  
 	};
 
-	Graph.__toString__ = function(graph){
+	var toString = function(graph){
 
 		graph = graph || Graph.__adjacencyList__;
 		var str = [];
@@ -156,25 +160,65 @@
 		return str.join('\n\r');
 	};
 
+	type.Graph.__build__ = function(file){
+		var gh = new type.Graph(),
+			info,
+			i;
+
+		file
+			.split('\n')
+			.forEach(function(line){
+				info = line.split(' ').map(function(x){
+					return +(x.replace(/^\s\s*/, '').replace(/\s\s*$/, ''));
+				});
+
+				for (i=1;i<info.length;i++){
+					gh.__pushEdge__(info[0], info[i]);
+				}
+			});
+
+		return type.Graph.multiMinimumCut(gh, gh.v());
+	};
+
+	type.Graph.multiMinimumCut = function(graph, times){
+		/// <summary>gets the minimum number of potential minimum cut in multiple try.<summary>
+
+		var min = Number.MAX_VALUE,
+			gh,
+			cut;
+
+		Math.range(times).forEach(function(){
+			gh = graph.clone();
+			cut = minimumCut(gh);
+			if (cut<min){min=cut;}
+		});
+
+		return min;
+	};
+
 	var minimumCut = function(graph){
 		/// <summary>gets the number of potential minimum cut in single try.<summary>
 
-		var gCount = countGraph(graph);
-		while (graph.v() > 2){
-			var p = random(1, gCount[1]<<1);
-			// find the p-th edge
-			var e = edge(graph, p);
-			// console.log(p, e);
-			var x1 = e[0];
-			var x2 = e[1];
-
-			mergeVertex(graph, x1, x2);
-
-			// display(graph);
-			gCount = countGraph(graph);
+		var count = graph.__count__(),
+			v = count[0],
+			e = count[1],
+			k = 0,
+			edge;
+		while (v > 2){
+			k = random(1, e);
+			// find the k-th edge
+			edge = graph.__edgeAt__(k);
+			console.log(k, edge);
+			// merge
+			mergeVertex(graph, edge[0], edge[1]);
+			// recount
+			count = graph.__count__();
+			v = count[0];
+			e = count[1];
 		}
 
-		return gCount[1];
+		// return number of edges of min cut
+		return graph.__count__()[1];
 	};
 
 	var mergeVertex = function(graph, v1, v2){
@@ -216,20 +260,6 @@
 
 
 /*
-
-
-function multiMinimumCut(graph, times){
-	/// <summary>gets the minimum number of potential minimum cut in multiple try.<summary>
-
-	var min = Number.MAX_VALUE;
-	for (var i=0;i<times;i++){
-		var target = deepCloneGraph(graph);
-		var cut = minimumCut(target);
-		if (cut<min){min=cut;}
-	}
-
-	return min;
-}
 
 var g = [
   [1, [2, 3, 4]], 
