@@ -23,12 +23,15 @@
 	};
 
 	$pt.clone = function(){
-		var gh = new Graph(this.__directed__);
+		var gh = new type.Graph(this.__directed__);
 		this.__adjacencyList__.forEach(function(x){
 			// clone each x in format [v, []]
 			// TODO: warning the case in which we push v2 into an empty vertex
-			gh.__adjacencyList__.push([x[0], x[1].clone()]);
+			gh.__adjacencyList__[x[0]] = [x[0], x[1].clone()];
 		});
+
+		gh.__validVertexNumber__ = this.__validVertexNumber__;
+		gh.__invalidVertexIndexError__ = this.__invalidVertexIndexError__;
 
 		return gh;
 	};
@@ -67,7 +70,13 @@
 			throw this.__invalidVertexIndexError__;
 		}
 
-		return this.__adjacencyList__[v][1];	
+		var _g = this.__adjacencyList__;
+
+		if (!_g[v]){ 
+			_g[v] = [v, []];
+		}
+
+		return _g[v][1];
 	};
 
 	$pt.__edgeAt__ = function(k){
@@ -163,21 +172,28 @@
 	type.Graph.__build__ = function(file){
 		var gh = new type.Graph(),
 			info,
-			i;
+			i,
+			minCut,
+			e = 0;
 
 		file
 			.split('\n')
 			.forEach(function(line){
-				info = line.split(' ').map(function(x){
-					return +(x.replace(/^\s\s*/, '').replace(/\s\s*$/, ''));
+				info = line.replace(/^\s\s*/, '').replace(/\s\s*$/, '').split('\t')
+				.map(function(x){
+					return +x;
 				});
 
 				for (i=1;i<info.length;i++){
 					gh.__pushEdge__(info[0], info[i]);
+					e++;
 				}
 			});
 
-		return type.Graph.multiMinimumCut(gh, gh.v());
+		console.log('build', e, gh.__count__());
+
+		minCut = type.Graph.multiMinimumCut(gh, gh.v());
+		console.log(minCut);
 	};
 
 	type.Graph.multiMinimumCut = function(graph, times){
@@ -190,6 +206,7 @@
 		Math.range(times).forEach(function(){
 			gh = graph.clone();
 			cut = minimumCut(gh);
+			console.log(gh.__directed__, cut);
 			if (cut<min){min=cut;}
 		});
 
@@ -205,10 +222,12 @@
 			k = 0,
 			edge;
 		while (v > 2){
+			// console.log(v, e);
 			k = random(1, e);
 			// find the k-th edge
 			edge = graph.__edgeAt__(k);
-			console.log(k, edge);
+			// console.log(edge);
+			// console.log(k, edge);
 			// merge
 			mergeVertex(graph, edge[0], edge[1]);
 			// recount
@@ -236,17 +255,17 @@
 
 		// 1
 		e1.forEach(function(v){
-			if (e2.indexOf(v) === -1) {e2.push(v);}
+			if (v>=0 /*&& e2.indexOf(v) === -1*/) {e2.push(v);}
 		});
 
 		// 2
 		_g.forEach(function(x){
-			if (x && x[1]) {
+			if (x && x[0]) {
 				// edges from x[0]
-				for (var i=0;i<x[1].length;i++){
-					if (x[1][i] == v1) { x[1][i] = v2; }
+				for (i=0;i<x[1].length;i++){
+					if (x[1][i] === v1) { x[1][i] = v2; }
 					// self loop
-					if (x[1][i] == x[0]) { x[1][i] = -1; }
+					if (x[1][i] === x[0]) { x[1][i] = -1; }
 				}
 			}
 		});
