@@ -1,8 +1,4 @@
 (function(Math, undefined){
-	// ----- API
-	// static member
-	// Math.mod: (i, n) => num, gets the positive mode from i % n
-
 
 	// i.e. $mod(-1, 4) = 3
 	Math.mod = function(i, n){
@@ -44,6 +40,29 @@
 
 		return arr;
 	};
+
+	Math.randomInteger = function(a, b){
+		// return a random integer in [a=0, b]
+		var swap = 0;
+		if (arguments.length === 0) {
+			throw new Error('at least one parameter');
+		} else if (arguments.length === 1) {
+			b = a;
+			a = 0;
+		}
+
+		if (isNaN(a = +a) || isNaN(b = +b)) {
+			throw new Error('invalid number as parameter');
+		}
+
+		if (a > b) {
+			swap = a;
+			a = b;
+			b = swap;
+		}
+
+		return Math.floor(Math.random() * (b - a + 1)) + a;
+	}
 
 	Math.__timer__ = function(fn){
 		// stopwatch

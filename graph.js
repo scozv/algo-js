@@ -167,13 +167,6 @@
 		this.__labelAt__(v, -1);
 	};
 
-
-	var random = function(x1, x2){
-		/// <summary>gets a random integet between x1 and x2, inclusive.</summary>
-
-		return Math.floor(Math.random() * (x2 - x1 + 1)) + x1;  
-	};
-
 	type.Graph.__build__ = function(file){
 		var gh = new type.Graph(),
 			info,
@@ -206,14 +199,18 @@
 
 		var min = Number.MAX_VALUE,
 			gh,
-			cut;
+			cut, 
+			time = [];
 
 		Math.range(times).forEach(function(){
 			gh = graph.clone();
-			cut = minimumCut(gh);
+			time.push(Math.__timer__(function(){
+				cut = minimumCut(gh);
+			}));
 			if (cut<min){min=cut;}
 		});
-
+		console.log(Math.Stats.mean(time), Math.Stats.stddev(time));
+		console.log(time.join(', '));
 		return min;
 	};
 
@@ -226,7 +223,7 @@
 			k = 0,
 			edge;
 		while (v > 2){
-			k = random(1, e);
+			k = Math.randomInteger(1, e);
 			// find the k-th edge
 			edge = graph.__edgeAt__(k);
 			// merge
@@ -249,6 +246,7 @@
 		// 2. loop all vertex of graph, change endpoint v1 to v2
 		// 3.      if self loop, delete endpoint
 		// 4. mark v1 visited
+
 		var _g = graph.__adjacencyList__,
 			e1 = graph.__edgesFrom__(v1),
 			e2 = graph.__edgesFrom__(v2),
@@ -265,13 +263,13 @@
 				// edges from x[0]
 				for (i=0;i<x[1].length;i++){
 					if (x[1][i] === v1) { x[1][i] = v2; }
-					// self loop
+					// 3 self loop
 					if (x[1][i] === x[0]) { x[1][i] = -1; }
 				}
 			}
 		});
 
-		// 3
+		// 4
 		_g[v1][0] = -1;
 		this.__validVertexNumber__--;
 	};
