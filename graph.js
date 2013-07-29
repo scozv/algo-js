@@ -272,17 +272,15 @@
 				for (i=0;i<x[1].length;i++){
 					if (x[1][i] === v1) { x[1][i] = v2; }
 					// 3 self loop
-					if (x[1][i] === x[0]) { x[1][i] = -1; this.__e__--;}
+					if (x[1][i] > 0 && x[1][i] === x[0]) { x[1][i] = -1; graph.__e__--;}
 				}
 			}
 		});
 
 		// 4
+		// DO NOT decrease __e__, for _g[v1][1] has been moved into _g[v2][1] at step 1
 		_g[v1][0] = -1;
-		this.__e__ -= (_g[v1][1] && _g[v1][1].length 
-			? _g[v1][1].filter(function(v){return v>0;}).length 
-			: 0);
-		this.__v__--;
+		graph.__v__--;
 	};
 
 })(window.T = window.T || {});
