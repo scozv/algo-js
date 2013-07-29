@@ -12,14 +12,19 @@
 		// label can be used for marking visit info
 		this.__adjacencyList__ = [];
 		this.__directed__ = directed;
-		this.__validVertexNumber__ = 0;
+		this.__v__ = 0;
+		this.__e__ = 0;
 
 		this.__invalidVertexIndexError__ = new Error('vertex must be a numeric index');
 	};
 
 	$pt = type.Graph.prototype;
 	$pt.v = function(){
-		return this.__validVertexNumber__;
+		return this.__v__;
+	};
+
+	$pt.e = function(){
+		return this.__directed__ ? this.__e__ : this.__e__ >> 1;
 	};
 
 	$pt.clone = function(){
@@ -30,7 +35,9 @@
 			gh.__adjacencyList__[x[0]] = [x[0], x[1].clone()];
 		});
 
-		gh.__validVertexNumber__ = this.__validVertexNumber__;
+		gh.__v__ = this.__v__;
+		gh.__e__ = this.__e__;
+
 		gh.__invalidVertexIndexError__ = this.__invalidVertexIndexError__;
 
 		return gh;
@@ -44,8 +51,8 @@
 			str = ['Graph, #v = ' + count[0] + ', #e = ' + count[1] + '.'];
 
 		if (verbose){
-			_g.forEach(function(x){
-				str.push(x[0] + ': ' + x[1].join(' '));
+			_g.filter(function(x){return x && x[0] && x[0] > 0}).forEach(function(x){
+				str.push(x[0] + ': ' + x[1].filter(function(v){return v>0}).join(' '));
 			});
 		}
 
@@ -63,20 +70,22 @@
 
 		if (!_g[v1]){ 
 			_g[v1] = [v1, []];
-			this.__validVertexNumber__++;
+			this.__v__++;
 		}
 
 		_g[v1][1].push(v2);
+		this.__e__++;
 
 		if (!this.__directed__ && bidirectional){
 			// if not directed, AND we force bidirectional pusing, 
 			// then we push [v2, v1]
 			if (!_g[v2]){ 
 				_g[v2] = [v2, []];
-				this.__validVertexNumber__++;
+				this.__v__++;
 			}
 
-			_g[v2][1].push(v1);			
+			_g[v2][1].push(v1);	
+			this.__e__++;		
 		}
 	};
 
@@ -119,20 +128,21 @@
 		/// <summary>gets the number of vertex and edge.<summary>
 		/// <returns type="Array[2]">returns the number of vertex and edge in arr[0] and arr[1].</returns>
 
-		var _g = this.__adjacencyList__,
-			v = 0,
-			e = 0;
+		// var _g = this.__adjacencyList__,
+		// 	v = 0,
+		// 	e = 0;
 
-		_g.forEach(function(x){
-			if (x && x[0] && x[0]>=0){
-				v++;
-				x[1].forEach(function(u){
-					e += ( u>=0 ? 1 : 0 );
-				})
-			}
-		});
+		// _g.forEach(function(x){
+		// 	if (x && x[0] && x[0]>=0){
+		// 		v++;
+		// 		x[1].forEach(function(u){
+		// 			e += ( u>=0 ? 1 : 0 );
+		// 		})
+		// 	}
+		// });
 
-		return [v, this.__directed__ ? e : e>>1];
+		// return [v, this.__directed__ ? e : e>>1];
+		return [this.v(), this.e()];
 	};
 
 	$pt.__visiableAt__ = function(v){
@@ -171,8 +181,7 @@
 		var gh = new type.Graph(),
 			info,
 			i,
-			minCut,
-			e = 0;
+			minCut;
 
 		file
 			.split('\n')
@@ -184,7 +193,6 @@
 
 				for (i=1;i<info.length;i++){
 					gh.__pushEdge__(info[0], info[i]);
-					e++;
 				}
 			});
 
@@ -264,14 +272,17 @@
 				for (i=0;i<x[1].length;i++){
 					if (x[1][i] === v1) { x[1][i] = v2; }
 					// 3 self loop
-					if (x[1][i] === x[0]) { x[1][i] = -1; }
+					if (x[1][i] === x[0]) { x[1][i] = -1; this.__e__--;}
 				}
 			}
 		});
 
 		// 4
 		_g[v1][0] = -1;
-		this.__validVertexNumber__--;
+		this.__e__ -= (_g[v1][1] && _g[v1][1].length 
+			? _g[v1][1].filter(function(v){return v>0;}).length 
+			: 0);
+		this.__v__--;
 	};
 
 })(window.T = window.T || {});
