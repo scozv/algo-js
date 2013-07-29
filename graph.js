@@ -36,7 +36,23 @@
 		return gh;
 	};
 
-	$pt.__pushEdge__ = function(v1, v2){
+	$pt.toString = function(verbose){
+		if (verbose !== true) {verbose = false;}
+
+		var count = this.__count__(),
+			_g = this.__adjacencyList__,
+			str = ['Graph, #v = ' + count[0] + ', #e = ' + count[1] + '.'];
+
+		if (verbose){
+			_g.forEach(function(x){
+				str.push(x[0] + ': ' + x[1].join(' '));
+			});
+		}
+
+		return str.join('\n\r');
+	};
+
+	$pt.__pushEdge__ = function(v1, v2, bidirectional){
 		/// <summary>pushes an edge into thisEdge graph from the v1 to v2.</summary>
 
 		if (isNaN(v1 = +v1) || isNaN(v2 = +v2)) {
@@ -45,7 +61,6 @@
 
 		var _g = this.__adjacencyList__;
 
-		// warning the case in which we push v2 into an empty vertex
 		if (!_g[v1]){ 
 			_g[v1] = [v1, []];
 			this.__validVertexNumber__++;
@@ -53,8 +68,9 @@
 
 		_g[v1][1].push(v2);
 
-		if (!this.__directed__){
-			// if not directed, we push [v2, v1]
+		if (!this.__directed__ && bidirectional){
+			// if not directed, AND we force bidirectional pusing, 
+			// then we push [v2, v1]
 			if (!_g[v2]){ 
 				_g[v2] = [v2, []];
 				this.__validVertexNumber__++;
@@ -158,17 +174,6 @@
 		return Math.floor(Math.random() * (x2 - x1 + 1)) + x1;  
 	};
 
-	var toString = function(graph){
-
-		graph = graph || Graph.__adjacencyList__;
-		var str = [];
-		for (var i=0;i<graph.length;i++){
-			str.push(graph[i][0] + ': ' + graph[i][1].join(' '));
-		}
-
-		return str.join('\n\r');
-	};
-
 	type.Graph.__build__ = function(file){
 		var gh = new type.Graph(),
 			info,
@@ -190,7 +195,7 @@
 				}
 			});
 
-		console.log('build', e, gh.__count__());
+		console.log(gh.toString());
 
 		minCut = type.Graph.multiMinimumCut(gh, gh.v());
 		console.log(minCut);
@@ -206,7 +211,6 @@
 		Math.range(times).forEach(function(){
 			gh = graph.clone();
 			cut = minimumCut(gh);
-			console.log(gh.__directed__, cut);
 			if (cut<min){min=cut;}
 		});
 
@@ -222,12 +226,9 @@
 			k = 0,
 			edge;
 		while (v > 2){
-			// console.log(v, e);
 			k = random(1, e);
 			// find the k-th edge
 			edge = graph.__edgeAt__(k);
-			// console.log(edge);
-			// console.log(k, edge);
 			// merge
 			mergeVertex(graph, edge[0], edge[1]);
 			// recount
@@ -275,27 +276,4 @@
 		this.__validVertexNumber__--;
 	};
 
-}(window.T = window.T || {}));
-
-
-/*
-
-var g = [
-  [1, [2, 3, 4]], 
-  [2, [1, 3, 4]],
-  [3, [1, 2, 4, 5]], 
-  [4, [1, 2, 3, 6]], 
-  [5, [3, 6, 7, 8]], 
-  [6, [4, 5, 7, 8]], 
-  [7, [5, 6, 8]], 
-  [8, [5, 6, 7]]
-];
-
-
-var g = [
-  [1, [2, 3]], 
-  [2, [1, 3, 4]],
-  [3, [1, 2, 4]], 
-  [4, [2, 3]]
-];
-*/
+})(window.T = window.T || {});
