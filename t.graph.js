@@ -155,6 +155,16 @@
 		return _g[v] && _g[v][0] && _g[v][0] >= 0;
 	};
 
+	$pt.__hasEdgesAt__ = function(v){
+		/// <summary>determins whether graph has edge(s) sourcing from v or not.</summary>
+		if (isNaN(v = +v)) {
+			throw this.__invalidVertexIndexError__;
+		}		
+
+		var _g = this.__adjacencyList__;
+		return _g[v] && _g[v][1] && _g[v][1].length;
+	};	
+
 	$pt.__labelAt__ = function(v, label){
 		/// <summary>marks the label to graph, v for its visited or not, 
 		/// the default label is false, means we visits the vertex default.
@@ -198,8 +208,8 @@
 
 		console.log(gh.toString());
 
-		minCut = Graph.multiMinimumCut(gh, gh.v());
-		console.log(minCut);
+		result = Graph.dfs(gh);
+		console.log(result);
 	};
 
 })(window.T = window.T || {});
