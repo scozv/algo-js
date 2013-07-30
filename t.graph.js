@@ -208,7 +208,7 @@
 
 		console.log(gh.toString());
 
-		result = Graph.dfs(gh);
+		result = Graph.bfs(gh);
 		console.log(result);
 	};
 
