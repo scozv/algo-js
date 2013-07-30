@@ -210,6 +210,12 @@
 
 		result = Graph.bfs(gh);
 		console.log(result);
+
+		result = Graph.dfs(gh);
+		console.log(result);
+
+		result = Graph.undirectedConnected(gh);
+		console.log(result);
 	};
 
 })(window.T = window.T || {});

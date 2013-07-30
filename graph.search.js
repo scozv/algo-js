@@ -2,16 +2,42 @@
 	// using t.graph.js
 	// using t.queue.js
 
+	// TODO: labelAt (v, 'v' | 'm') for diff meaning, v: visited, m: marked
+	// or we can use -1 for initial label of vertex, then after, label 0 as marked, label t>0 as visited by some order
+
 	Graph.bfs = function(graph){
-		return search(graph, new T.Queue());
+		return search(graph.clone(), new T.Queue(), 1);
 	};
 
 	Graph.dfs = function(graph){
-		return search(graph, new T.Stack());
+		return search(graph.clone(), new T.Stack(), 1);
 	};
 
-	var search = function(graph, frontier){
+	Graph.undirectedConnected = function(graph){
+		if (graph.__directed__){
+			throw new Error('cannot apply undirected connectivity validation on a directed graph');
+		}
+
 		graph = graph.clone();
+
+		var connect = [],	// [x] where x = [head, [following vertex]]
+			label;
+
+		Math.range(1, graph.v()+1).forEach(function(v){
+			label = graph.__labelAt__(v);
+			if (label !== 'v'){
+				connect.push([v, search(graph, new T.Stack(), v)]);
+			}
+		});
+
+		// undirected graph is connected iff connect.length == 1 && connnect[0][1] == Graph.dfs(graph)
+		return connect;
+	};
+
+	var search = function(graph, frontier, i){
+		// seach graph from initial vertex v, using that frontier
+
+		i = i || (i = +i) || 1; 
 
 		var order		= [],
 			frontierIn	= function(item) {
@@ -22,28 +48,56 @@
 				return (frontier.pop && frontier.pop()) || 
 					(frontier.dequeue && frontier.dequeue());
 			},
-			current;
+			current,
+			label;
 
-		frontierIn(1);
+		frontierIn(i);
 		while (!frontier.isEmpty()){
 			current = frontierOut();
 			
-			// push all valid v sourcing from current into queue
+			// push all valid v sourcing from current into frontier
 			if (graph.__hasEdgesAt__(current)) {
 				graph.__edgesFrom__(current).forEach(function(v){
-					if (graph.__visiableAt__(v)) {
+					label = graph.__labelAt__(v);
+					if (label !== 'm' && label !== 'v') {
 						frontierIn(v);
-						// v has been add into queue
-						// TODO: labelAt (v, 'visited' | 'marked') for diff meaning
-						graph.__labelAt__(v, -1);
+						// v has been add into frontier						
+						graph.__labelAt__(v, 'm');
 					}
 				});
 			}
 			// visit current
-			graph.__visitAt__(current);
+			graph.__labelAt__(current, 'v');
 			order.push(current);
 		}
 
 		return order;
+	};
+
+	var dfs = function(graph){
+		var i = 1,							// initial vertex for dfs
+			frontier = new T.Stack(),		// frontier for keep order
+			head = new T.Stack,				// head stack for push vertex before pusing (walking) its edges
+			current,
+			label;
+
+		frontier.push(i);
+		while (!frontier.isEmpty()){
+			current = frontier.pop();
+			head.push(current);
+
+			if (graph.__hasEdgesAt__(current)) {
+				graph.__edgesFrom__(current).forEach(function(v){
+					label = graph.__labelAt__(v);
+					if (typeof label !== 'string') {
+						frontier.push(v);
+						// v has been add into frontier						
+						graph.__labelAt__(v, 'm');
+					}
+				});
+			} // end if
+
+
+		}
 	};
 })(window.Graph = window.Graph || {});
