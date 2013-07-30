@@ -11,6 +11,8 @@
 	};
 
 	var search = function(graph, frontier){
+		graph = graph.clone();
+
 		var order		= [],
 			frontierIn	= function(item) {
 				return (frontier.push && frontier.push(item)) ||
