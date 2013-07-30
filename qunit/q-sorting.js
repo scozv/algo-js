@@ -37,7 +37,7 @@ test('Sorting, the basic function', function(){
 	var testIsSorted = function(length, fn, compare){
 		var arr = Sorting.__randomUniqueArray__(length);
 		arr.sort(function(x, y){return compare(fn(x), fn(y));});
-		return Sorting.isSorted(arr, fn, compare);
+		return Sorting.isSorted(arr, compare);
 	};
 
 	ok(testIsSorted(50, function(x){return x;}, function(x, y){return x-y;}), 'isSorte test for array of length 50, x=>x, x<y');
@@ -52,7 +52,7 @@ test('Sorting, the correctness', function(){
 	ok(Sorting.isSorted(Sorting.quickSort(arr)), 'quick sort for array of length 10000');
 	// heap sorting
 	ok(Sorting.isSorted(Sorting.heapSort(arr, {order:'ASC'})), 'heap sort for array of length 10000');
-	ok(Sorting.isSorted(Sorting.heapSort(arr, {order:'DESC'}), null, function(x, y){return y - x;}), 'heap sort for array of length 10000');
+	ok(Sorting.isSorted(Sorting.heapSort(arr, {order:'DESC'}), function(x, y){return y - x;}), 'heap sort for array of length 10000');
 });
 
 test('Soring, the time test', function () {
