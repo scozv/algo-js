@@ -4,14 +4,20 @@
 	// _g, the adjacency list of graph, not this
 	// $pt, see wiki
 
-	type.Graph = function(directed){
+	type.Graph = function(n, directed){
+		if (isNaN(n = +n)) {
+			throw new Error('graph buiding must need a number indicating how many vertex the graph has');
+		}
+
 		// gets a unweighted graph, dafualt is undirected graph
 		if (directed !== true){directed = false;}
+
+		Object.defineProperty(this, 'n', {value: n, writable: false});
+		Object.defineProperty(this, '__directed__', {value: directed, writable: false});
 
 		// adgList format (each x in adgList): [v, [v1, v2, v3...]] = [label, [edgeVertexArray]]
 		// label can be used for marking visit info
 		this.__adjacencyList__ = [];
-		this.__directed__ = directed;
 		this.__v__ = 0;
 		this.__e__ = 0;
 
@@ -28,7 +34,7 @@
 	};
 
 	$pt.clone = function(){
-		var gh = new type.Graph(this.__directed__);
+		var gh = new type.Graph(this.n, this.__directed__);
 		this.__adjacencyList__.forEach(function(x){
 			// clone each x in format [v, []]
 			// TODO: warning the case in which we push v2 into an empty vertex
@@ -48,7 +54,7 @@
 
 		var count = this.__count__(),
 			_g = this.__adjacencyList__,
-			str = ['Graph, #v = ' + count[0] + ', #e = ' + count[1] + '.'];
+			str = ['Graph: #n = ' + String(this.n) + ', #v = ' + String(count[0]) + ', #e = ' + String(count[1])];
 
 		if (verbose){
 			_g.filter(function(x){return x && x[0] && x[0] > 0}).forEach(function(x){
@@ -188,7 +194,7 @@
 	};
 
 	type.Graph.__build__ = function(lines){
-		var gh = new type.Graph(),
+		var gh = new type.Graph(lines.length),
 			info,
 			i,
 			minCut;
@@ -214,6 +220,9 @@
 		console.log(result);
 
 		result = Graph.undirectedConnected(gh);
+		console.log(result);
+
+		result = Graph.multiMinimumCut(gh, gh.n);
 		console.log(result);
 
 		result = Graph.topologicalSort(gh);

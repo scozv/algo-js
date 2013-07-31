@@ -83,10 +83,10 @@
 		
 		var i = 1,							// initial vertex for dfs
 			frontier = new T.Stack(),		// frontier for keep order
-			head = new T.Stack(),				// head stack for push vertex before pusing (walking) its edges
+			head = new T.Stack(),			// head stack for push vertex before pusing (walking) its edges
 			current,
 			label,
-			n = graph.v();					// as topological order
+			n = graph.n;					// as topological order
 
 		frontier.push(i);
 		head.push(-1);
