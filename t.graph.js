@@ -216,6 +216,9 @@
 
 		result = Graph.undirectedConnected(gh);
 		console.log(result);
+
+		result = Graph.topologicalOrder(gh);
+		console.log(result);
 	};
 
 })(window.T = window.T || {});

@@ -74,16 +74,19 @@
 		return order;
 	};
 
-	var dfs = function(graph){
+	Graph.topologicalOrder = function(graph){
+		graph = graph.clone();
+		
 		var i = 1,							// initial vertex for dfs
 			frontier = new T.Stack(),		// frontier for keep order
 			head = new T.Stack,				// head stack for push vertex before pusing (walking) its edges
 			current,
-			label;
+			label,
+			n = graph.v();					// as topological order
 
 		frontier.push(i);
 		while (!frontier.isEmpty()){
-			current = frontier.pop();
+			current = frontier.peek();
 			head.push(current);
 
 			if (graph.__hasEdgesAt__(current)) {
@@ -97,7 +100,22 @@
 				});
 			} // end if
 
+			if (current !== head.peek()){
+				// that means we are not on the top of dfs(v), we visit current from its parent
+			} else {
+				// lable as topological order
+				graph.__labelAt__(current, String(n--));
+				frontier.pop();
+				head.pop();
+			}
+		} // end while
 
-		}
+		var result = graph.__adjacencyList__.map(function(x, i){
+			return [i, x[0]];
+		});
+
+		return Sorting
+			.quickSort(result, function(x, y){return x[1]-y[1];})
+			.map(function(x){return x[0];});
 	};
 })(window.Graph = window.Graph || {});
