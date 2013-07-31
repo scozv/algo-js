@@ -74,19 +74,37 @@
 		return order;
 	};
 
-	Graph.topologicalOrder = function(graph){
+	Graph.topologicalSort = function(graph){
+		if (!graph.__directed__){
+			throw new Error('cannot apply topological sorting on a undirected graph');
+		}
+
 		graph = graph.clone();
 		
 		var i = 1,							// initial vertex for dfs
 			frontier = new T.Stack(),		// frontier for keep order
-			head = new T.Stack,				// head stack for push vertex before pusing (walking) its edges
+			head = new T.Stack(),				// head stack for push vertex before pusing (walking) its edges
 			current,
 			label,
 			n = graph.v();					// as topological order
 
 		frontier.push(i);
+		head.push(-1);
+
 		while (!frontier.isEmpty()){
+
 			current = frontier.peek();
+			if (current === head.peek()){
+				// that means we are on the top of dfs(v), we visit current from its parent
+
+				// lable as topological order
+				graph.__labelAt__(current, String(n--));
+				frontier.pop();
+				head.pop();
+
+				continue;
+			}
+
 			head.push(current);
 
 			if (graph.__hasEdgesAt__(current)) {
@@ -100,19 +118,11 @@
 				});
 			} // end if
 
-			if (current !== head.peek()){
-				// that means we are not on the top of dfs(v), we visit current from its parent
-			} else {
-				// lable as topological order
-				graph.__labelAt__(current, String(n--));
-				frontier.pop();
-				head.pop();
-			}
 		} // end while
 
-		var result = graph.__adjacencyList__.map(function(x, i){
-			return [i, x[0]];
-		});
+		var result = graph.__adjacencyList__
+			.map(function(x, i){ return [i, x[0]]; })
+			.filter(function(x){return x;});
 
 		return Sorting
 			.quickSort(result, function(x, y){return x[1]-y[1];})

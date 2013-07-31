@@ -217,7 +217,7 @@
 		result = Graph.undirectedConnected(gh);
 		console.log(result);
 
-		result = Graph.topologicalOrder(gh);
+		result = Graph.topologicalSort(gh);
 		console.log(result);
 	};
 
