@@ -187,16 +187,15 @@
 		this.__labelAt__(v, -1);
 	};
 
-	type.Graph.__build__ = function(file){
+	type.Graph.__build__ = function(lines){
 		var gh = new type.Graph(),
 			info,
 			i,
 			minCut;
 
-		file
-			.split('\n')
+		lines
 			.forEach(function(line){
-				info = line.replace(/^\s\s*/, '').replace(/\s\s*$/, '').split('\t')
+				info = line.split('\t')
 				.map(function(x){
 					return +x;
 				});
