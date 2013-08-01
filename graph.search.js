@@ -6,11 +6,15 @@
 	// or we can use -1 for initial label of vertex, then after, label 0 as marked, label t>0 as visited by some order
 
 	Graph.bfs = function(graph){
-		return search(graph.clone(), new T.Queue(), 1);
+		var g = graph.clone();
+		return search(g, new T.Queue(), 1);
+		g = null;
 	};
 
 	Graph.dfs = function(graph){
-		return search(graph.clone(), new T.Stack(), 1);
+		var g = graph.clone();
+		return search(g, new T.Stack(), 1);
+		g = null;
 	};
 
 	Graph.undirectedConnected = function(graph){
@@ -18,58 +22,85 @@
 			throw new Error('cannot apply undirected connectivity validation on a directed graph');
 		}
 
-		graph = graph.clone();
+		var g = graph.clone();
 
 		var connect = [],	// [x] where x = [head, [following vertex]]
 			label;
 
-		Math.range(1, graph.n+1).forEach(function(v){
-			label = graph.__labelAt__(v);
+		Math.range(1, g.n+1).forEach(function(v){
+			label = g.__labelAt__(v);
 			if (label !== 'v'){
-				connect.push([v, search(graph, new T.Stack(), v)]);
+				connect.push([v, search(g, new T.Stack(), v)]);
 			}
 		});
+
+		g = null;
 
 		// undirected graph is connected iff connect.length == 1 && connnect[0][1] == Graph.dfs(graph)
 		return connect;
 	};
 
 	Graph.topologicalSort = function(graph){
+		if (!graph.__directed__){
+			throw new Error('cannot apply topological sorting on a undirected graph');
+		}		
 
-		graph = graph.clone();
-
-		var result, 
+		var g = graph.clone(),
+			result, 
 			i = 0;
 
-		Math.range(1, graph.n+1).forEach(function(v){
-			if (typeof graph.__labelAt__(v) !== 'string'){
+		Math.range(1, g.n+1).forEach(function(v){
+			if (typeof g.__labelAt__(v) !== 'string'){
 				// unvisited or unmarked
 				i++;
-				tsearch(graph, v);
+				tsearch(g, v);
 			}
 		});
 
 		// TODO: inspect i to find graph info after topo sort, is there non connection, is there cycle?
 		console.log(i);
 
-		result = graph.__adjacencyList__
+		result = g.__adjacencyList__
 			.map(function(x, i){ return [i, (+x[0])]; })
 			.filter(function(x){return x;});
 
-		return Sorting
+		g = null;
+
+		result = Sorting
 			.quickSort(result, function(x, y){return x[1]-y[1];})
 			.map(function(x){return x[0];});
+
+		return result;
+	};
+
+	Graph.sccKosaraju = function(graph){
+		var label,					// label of vertex
+			rg = reverse(graph),	// reversed graph
+			g = graph.clone(),		// clone one
+			connect = [];			// connectivity array
+
+		Graph.topologicalSort(rg).forEach(function(v){
+			label = g.__labelAt__(v);
+			if (typeof label !== 'string'){
+				connect.push([v, search(g, new T.Stack(), v)]);
+			}			
+		});
+
+		rg = null;
+		g = null;
+
+		// [component number, max component size]
+		// return [connect.length, Math.Stats.max(connect.map(function(x){return x[1].length}))];
+		connect = connect.map(function(x){return x[1].length;});
+		console.log(Math.Stats.sum(connect));
+		return Sorting
+			.quickSort(connect, function(x, y){return y-x;})
+			.slice(0, 10);
 	};
 
 	var tsearch = function(graph, i){
-		if (!graph.__directed__){
-			throw new Error('cannot apply topological sorting on a undirected graph');
-		}
-
-		// graph = graph.clone();
 		
-		var 
-			frontier = new T.Stack(),		// frontier for keep order
+		var frontier = new T.Stack(),		// frontier for keep order
 			head = new T.Stack(),			// head stack for push vertex before pusing (walking) its edges
 			current,
 			label,
@@ -156,7 +187,7 @@
 			Math.range(1, graph.n+1).forEach(function(u){
 				if (graph.__hasEdgesAt__(u)){
 					graph.__edgesFrom__(u).forEach(function(v){
-						rg.__pushEdge(v, u);
+						rg.__pushEdge__(v, u);
 					});
 				}
 			});

@@ -1,6 +1,14 @@
 (function(Math, undefined){
 	(function(Stats, undefined){
 		// using x.array.js
+
+		Stats.max = function(arr){
+			return firstOrder(arr, function(x, y){return y-x;}, Number.MIN_VALUE);
+		};
+
+		Stats.min = function(arr){
+			return firstOrder(arr, function(x, y){return x-y;}, Number.MAX_VALUE);	
+		};
 		
 		Stats.sum = function(arr){
 			return arr.reduce(function(acc, x){return x + acc;}, 0.0);
@@ -41,6 +49,16 @@
 			}
 
 			return [m / n, avg2 - m / n * avg1];
+		};
+
+		var firstOrder = function(arr, compare, acc){
+			arr.forEach(function(x){
+				if (compare(x, acc) < 0) {
+					acc = x;
+				}
+			});
+
+			return acc;
 		};
 	}(Math.Stats = Math.Stats || {}));
 })(window.Math = window.Math || {});

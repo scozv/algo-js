@@ -194,7 +194,7 @@
 	};
 
 	type.Graph.__build__ = function(lines){
-		var gh = new type.Graph(875714, true),
+		var gh = new type.Graph(n, true),
 			info,
 			i,
 			minCut;
@@ -210,7 +210,7 @@
 				
 			});
 
-		result = Graph.topologicalSort(gh);
+		result = Graph.sccKosaraju(gh);
 		console.log(result);
 	};
 
