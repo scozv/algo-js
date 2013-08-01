@@ -23,7 +23,7 @@
 		var connect = [],	// [x] where x = [head, [following vertex]]
 			label;
 
-		Math.range(1, graph.v()+1).forEach(function(v){
+		Math.range(1, graph.n+1).forEach(function(v){
 			label = graph.__labelAt__(v);
 			if (label !== 'v'){
 				connect.push([v, search(graph, new T.Stack(), v)]);
@@ -32,6 +32,80 @@
 
 		// undirected graph is connected iff connect.length == 1 && connnect[0][1] == Graph.dfs(graph)
 		return connect;
+	};
+
+	Graph.topologicalSort = function(graph){
+
+		graph = graph.clone();
+
+		var result, 
+			i = 0;
+
+		Math.range(1, graph.n+1).forEach(function(v){
+			if (typeof graph.__labelAt__(v) !== 'string'){
+				// unvisited or unmarked
+				i++;
+				tsearch(graph, v);
+			}
+		});
+
+		// TODO: inspect i to find graph info after topo sort, is there non connection, is there cycle?
+		console.log(i);
+
+		result = graph.__adjacencyList__
+			.map(function(x, i){ return [i, (+x[0])]; })
+			.filter(function(x){return x;});
+
+		return Sorting
+			.quickSort(result, function(x, y){return x[1]-y[1];})
+			.map(function(x){return x[0];});
+	};
+
+	var tsearch = function(graph, i){
+		if (!graph.__directed__){
+			throw new Error('cannot apply topological sorting on a undirected graph');
+		}
+
+		// graph = graph.clone();
+		
+		var 
+			frontier = new T.Stack(),		// frontier for keep order
+			head = new T.Stack(),			// head stack for push vertex before pusing (walking) its edges
+			current,
+			label,
+			n = graph.n;					// as topological order
+
+		frontier.push(i);
+		head.push(-1);
+
+		while (!frontier.isEmpty()){
+
+			current = frontier.peek();
+			if (current === head.peek()){
+				// that means we are on the top of dfs(v), we visit current from its parent
+
+				// lable as topological order
+				graph.__labelAt__(current, String(n--));
+				frontier.pop();
+				head.pop();
+
+				continue;
+			}
+
+			head.push(current);
+
+			if (graph.__hasEdgesAt__(current)) {
+				graph.__edgesFrom__(current).forEach(function(v){
+					label = graph.__labelAt__(v);
+					if (typeof label !== 'string') {
+						frontier.push(v);
+						// v has been add into frontier						
+						graph.__labelAt__(v, 'm');
+					}
+				});
+			} // end if
+
+		} // end while
 	};
 
 	var search = function(graph, frontier, i){
@@ -74,58 +148,23 @@
 		return order;
 	};
 
-	Graph.topologicalSort = function(graph){
-		if (!graph.__directed__){
-			throw new Error('cannot apply topological sorting on a undirected graph');
+	var reverse = function(graph){
+		// get a new graph from graph, with each u->v into v->u
+
+		if (graph.__directed__){
+			var rg = new T.Graph(graph.n, true);
+			Math.range(1, graph.n+1).forEach(function(u){
+				if (graph.__hasEdgesAt__(u)){
+					graph.__edgesFrom__(u).forEach(function(v){
+						rg.__pushEdge(v, u);
+					});
+				}
+			});
+
+			return rg;
+		} else {
+			// reverse undirected graph is itself
+			return graph.clone();
 		}
-
-		graph = graph.clone();
-		
-		var i = 1,							// initial vertex for dfs
-			frontier = new T.Stack(),		// frontier for keep order
-			head = new T.Stack(),			// head stack for push vertex before pusing (walking) its edges
-			current,
-			label,
-			n = graph.n;					// as topological order
-
-		frontier.push(i);
-		head.push(-1);
-
-		while (!frontier.isEmpty()){
-
-			current = frontier.peek();
-			if (current === head.peek()){
-				// that means we are on the top of dfs(v), we visit current from its parent
-
-				// lable as topological order
-				graph.__labelAt__(current, String(n--));
-				frontier.pop();
-				head.pop();
-
-				continue;
-			}
-
-			head.push(current);
-
-			if (graph.__hasEdgesAt__(current)) {
-				graph.__edgesFrom__(current).forEach(function(v){
-					label = graph.__labelAt__(v);
-					if (typeof label !== 'string') {
-						frontier.push(v);
-						// v has been add into frontier						
-						graph.__labelAt__(v, 'm');
-					}
-				});
-			} // end if
-
-		} // end while
-
-		var result = graph.__adjacencyList__
-			.map(function(x, i){ return [i, x[0]]; })
-			.filter(function(x){return x;});
-
-		return Sorting
-			.quickSort(result, function(x, y){return x[1]-y[1];})
-			.map(function(x){return x[0];});
 	};
 })(window.Graph = window.Graph || {});

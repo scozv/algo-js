@@ -194,36 +194,21 @@
 	};
 
 	type.Graph.__build__ = function(lines){
-		var gh = new type.Graph(lines.length),
+		var gh = new type.Graph(875714, true),
 			info,
 			i,
 			minCut;
 
 		lines
 			.forEach(function(line){
-				info = line.split('\t')
+				info = line.split(' ')
 				.map(function(x){
 					return +x;
 				});
 
-				for (i=1;i<info.length;i++){
-					gh.__pushEdge__(info[0], info[i]);
-				}
+				gh.__pushEdge__(info[0], info[1]);
+				
 			});
-
-		console.log(gh.toString());
-
-		result = Graph.bfs(gh);
-		console.log(result);
-
-		result = Graph.dfs(gh);
-		console.log(result);
-
-		result = Graph.undirectedConnected(gh);
-		console.log(result);
-
-		result = Graph.multiMinimumCut(gh, gh.n);
-		console.log(result);
 
 		result = Graph.topologicalSort(gh);
 		console.log(result);
