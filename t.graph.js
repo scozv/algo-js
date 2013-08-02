@@ -194,20 +194,24 @@
 	};
 
 	type.Graph.__build__ = function(lines){
-		var gh = new type.Graph(n, true),
+		var gh,
 			info,
 			i,
 			minCut;
 
 		lines
-			.forEach(function(line){
-				info = line.split(' ')
-				.map(function(x){
-					return +x;
-				});
+			.forEach(function(line, i){
+				if (i===0){
+					gh = new type.Graph(+line, true)
+				} else {
+					info = line.split(' ')
+						.map(function(x){
+							return (+(x.replace(/^\s\s*/, '').replace(/\s\s*$/, '')));
+						})
+						.filter(function(x){return x>0;});
 
-				gh.__pushEdge__(info[0], info[1]);
-				
+						gh.__pushEdge__(info[0], info[1]);					
+				}			
 			});
 
 		result = Graph.sccKosaraju(gh);

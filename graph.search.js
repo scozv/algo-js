@@ -47,13 +47,14 @@
 
 		var g = graph.clone(),
 			result, 
-			i = 0;
+			i = 0,
+			n = [g.n]; 
 
 		Math.range(1, g.n+1).forEach(function(v){
 			if (typeof g.__labelAt__(v) !== 'string'){
 				// unvisited or unmarked
 				i++;
-				tsearch(g, v);
+				tsearch(g, v, n);
 			}
 		});
 
@@ -62,7 +63,7 @@
 
 		result = g.__adjacencyList__
 			.map(function(x, i){ return [i, (+x[0])]; })
-			.filter(function(x){return x;});
+			.filter(function(x, i){return i > 0 && x;});
 
 		g = null;
 
@@ -98,15 +99,16 @@
 			.slice(0, 10);
 	};
 
-	var tsearch = function(graph, i){
+	var tsearch = function(graph, i, n){
 		
 		var frontier = new T.Stack(),		// frontier for keep order
 			head = new T.Stack(),			// head stack for push vertex before pusing (walking) its edges
 			current,
-			label,
-			n = graph.n;					// as topological order
+			label;
+			// n = graph.n;					// as topological order
 
 		frontier.push(i);
+		graph.__labelAt__(i, 'm');
 		head.push(-1);
 
 		while (!frontier.isEmpty()){
@@ -116,7 +118,7 @@
 				// that means we are on the top of dfs(v), we visit current from its parent
 
 				// lable as topological order
-				graph.__labelAt__(current, String(n--));
+				graph.__labelAt__(current, String(n[0]--));
 				frontier.pop();
 				head.pop();
 
@@ -157,6 +159,7 @@
 			label;
 
 		frontierIn(i);
+		graph.__labelAt__(i, 'm');
 		while (!frontier.isEmpty()){
 			current = frontierOut();
 			
