@@ -103,8 +103,8 @@
 		var g = graph.clone(),
 			n = [0];
 
-		Math.range(1, g.n+1).forEach(function(v){
-			tarjan(g, v, n);
+		Math.range(1, g.n+1).forEach(function(i){
+			tarjan(g, i, n);
 
 			// pseudo code for tarjan(g, i, index) below, iteration version
 			// inspired by https://www.byvoid.com/blog/scc-tarjan
@@ -122,9 +122,12 @@
 					h.pop()
 
 					if low[u] == dfn[u]:
-						
+						component.push(u)
+						connect.push([u, component])
+						component = []
 					else:
 						low[h.peek] = min(low[h.peek], low[u])		# pay attention on h has poped before
+						component.push(u)
 
 				h.push(u)
 				low[u]=dfn[u]=index[0]++
