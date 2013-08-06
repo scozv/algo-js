@@ -114,6 +114,9 @@
 		});
 
 		Math.range(1, g.n+1).forEach(function(i){
+			if (g.__labelAt__(i) == -1) {
+				return;
+			}
 			// tarjan(g, i, n);
 
 			// pseudo code for tarjan(g, i, index) below, iteration version
