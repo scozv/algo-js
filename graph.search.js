@@ -101,45 +101,89 @@
 
 	Graph.sccTarjan = function(graph){
 		var g = graph.clone(),
-			n = [0];
+			n = [0],
+			connect = [],
+			low = [];
+
+		g.__adjacencyList__.forEach(function(x){
+			x[0] = 0;
+			// issue 8, 
+			// 0  for initial status
+			// -1 for visited
+			// [1, n] for visited order 
+		});
 
 		Math.range(1, g.n+1).forEach(function(i){
-			tarjan(g, i, n);
+			// tarjan(g, i, n);
 
 			// pseudo code for tarjan(g, i, index) below, iteration version
 			// inspired by https://www.byvoid.com/blog/scc-tarjan
 
-			f = frontier
-			h = head
+			var index = n,
+				frontier = new T.Stack(),		// frontier for keep order
+				head = new T.Stack(),			// head stack for push vertex before pusing (walking) its edges
+				current,
+				label,
+				component = [];
 
-			f.push(i)
-			label(i, 'm')
-			h.push(-1)
+			frontier.push(i);
+			g.__labelAt__(i, 'm');
+			head.push(-1);
 
-			for (u = f.peek) in f:
-				if u == h.peek:
-					f.pop()
-					h.pop()
+			while (!frontier.isEmpty()){
 
-					if low[u] == dfn[u]:
-						component.push(u)
-						connect.push([u, component])
-						component = []
-					else:
-						low[h.peek] = min(low[h.peek], low[u])		# pay attention on h has poped before
-						component.push(u)
+				current = frontier.peek();
+				if (current === head.peek()){
+					// that means we are on the top of dfs(v), we visit current from its parent
+					frontier.pop();
+					head.pop();
 
-				h.push(u)
-				low[u]=dfn[u]=index[0]++
+					// dfn or visited info
+					label = g.__labelAt__(current);
 
-				for v in u.edges:
-					switch lable(v):
-					case 'v': break;								# has been visited
-					case 'm': low[u]=min(low[u], dfn[v]); break;	# has been in frontier ('m'arked)
-					else	: f.push(v); label(v, 'm'); break;
+					if (low[current] === label) {
+						component.push(current);
+						connect.push([current, component]);
+						// -1 for visited
+						g.__labelAt__(current, -1);
+						component = [];
+					}
+					else {
+						// pay attention on h has poped before
+						low[head.peek()] = Math.min(low[head.peek()], low[current]);
+						component.push(current);
+					}
 
+					continue;
+				}
 
+				head.push(current);
+				low[current] = index[0]++;
+				g.__labelAt__(current, low[current]);
+
+				if (g.__hasEdgesAt__(current)) {
+					g.__edgesFrom__(current).forEach(function(v){
+						label = g.__labelAt__(v);
+						if (label > -1) {
+							// not visited yet
+							if (label > 0) {
+								// marked
+								low[current] = Math.min(low[current], label);
+							} else {
+								// not marked
+								frontier.push(v);
+							}
+						}
+					});
+				} // end if
+			} // end while
 		});
+
+		connect = connect.map(function(x){return x[1].length;});
+		console.log(Math.Stats.sum(connect));
+		return Sorting
+			.quickSort(connect, function(x, y){return y-x;})
+			.slice(0, 10);
 	};
 
 	var tsearch = function(graph, i, n){

@@ -214,6 +214,9 @@
 				}			
 			});
 
+		result = Graph.sccTarjan(gh);
+		console.log(result);
+
 		result = Graph.sccKosaraju(gh);
 		console.log(result);
 	};
