@@ -127,7 +127,7 @@
 				component = [];
 
 			frontier.push(i);
-			g.__labelAt__(i, 'm');
+			// g.__labelAt__(i, 'm');
 			head.push(-1);
 
 			while (!frontier.isEmpty()){
@@ -158,7 +158,7 @@
 				}
 
 				head.push(current);
-				low[current] = index[0]++;
+				low[current] = ++index[0];
 				g.__labelAt__(current, low[current]);
 
 				if (g.__hasEdgesAt__(current)) {
