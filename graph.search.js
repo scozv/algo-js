@@ -99,6 +99,46 @@
 			.slice(0, 10);
 	};
 
+	Graph.sccTarjan = function(graph){
+		var g = graph.clone(),
+			n = [0];
+
+		Math.range(1, g.n+1).forEach(function(v){
+			tarjan(g, v, n);
+
+			// pseudo code for tarjan(g, i, index) below, iteration version
+			// inspired by https://www.byvoid.com/blog/scc-tarjan
+
+			f = frontier
+			h = head
+
+			f.push(i)
+			label(i, 'm')
+			h.push(-1)
+
+			for (u = f.peek) in f:
+				if u == h.peek:
+					f.pop()
+					h.pop()
+
+					if low[u] == dfn[u]:
+						
+					else:
+						low[h.peek] = min(low[h.peek], low[u])		# pay attention on h has poped before
+
+				h.push(u)
+				low[u]=dfn[u]=index[0]++
+
+				for v in u.edges:
+					switch lable(v):
+					case 'v': break;								# has been visited
+					case 'm': low[u]=min(low[u], dfn[v]); break;	# has been in frontier ('m'arked)
+					else	: f.push(v); label(v, 'm'); break;
+
+
+		});
+	};
+
 	var tsearch = function(graph, i, n){
 		
 		var frontier = new T.Stack(),		// frontier for keep order
