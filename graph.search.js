@@ -144,12 +144,15 @@
 
 					if (low[current] === label) {
 						var c = [],		// temporary connect which will be a connect component
-							h;			// head of component stack
+							h,			// head of component stack
+							last = [label, label];
 
 						while (!component.isEmpty() && 
 							(h=component.peek(), true) &&
-							low[h] === label) {
+							(/*frontier.isEmpty() ||*/ low[h] === last[0] || low[h] === last[1])) {
 							c.push(component.pop());
+							last[0] = g.__labelAt__(h);
+							last[1] = low[h];
 							g.__labelAt__(h, -1);
 						}
 
