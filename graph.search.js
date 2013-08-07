@@ -147,8 +147,6 @@
 					if (low[current] === label) {
 						component.push(current);
 						connect.push([current, component]);
-						// -1 for visited
-						g.__labelAt__(current, -1);
 						component = [];
 					}
 					else {
@@ -156,6 +154,9 @@
 						low[head.peek()] = Math.min(low[head.peek()], low[current]);
 						component.push(current);
 					}
+
+					// -1 for visited, just when f.peek == h.peek
+					g.__labelAt__(current, -1);
 
 					continue;
 				}
