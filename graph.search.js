@@ -103,7 +103,8 @@
 		var g = graph.clone(),
 			n = [0],
 			connect = [],
-			low = [];
+			low = [],
+			component = [];
 
 		Math.range(1, g.n+1).forEach(function(v){
 			g.__labelAt__(v, 0);
@@ -113,6 +114,7 @@
 			if (g.__labelAt__(i) == -1) {
 				return;
 			}
+
 			// tarjan(g, i, n);
 
 			// pseudo code for tarjan(g, i, index) below, iteration version
@@ -122,8 +124,7 @@
 				frontier = new T.Stack(),		// frontier for keep order
 				head = new T.Stack(),			// head stack for push vertex before pusing (walking) its edges
 				current,
-				label,
-				component = [];
+				label;
 
 			frontier.push(i);
 			// g.__labelAt__(i, 'm');
@@ -144,15 +145,15 @@
 						component.push(current);
 						connect.push([current, component]);
 						component = [];
+						connect[connect.length-1][1].forEach(function(v){
+							g.__labelAt__(v, -1);
+						});
 					}
 					else {
 						// pay attention on h has poped before
 						low[head.peek()] = Math.min(low[head.peek()], low[current]);
 						component.push(current);
 					}
-
-					// -1 for visited, just when f.peek == h.peek
-					g.__labelAt__(current, -1);
 
 					continue;
 				}
