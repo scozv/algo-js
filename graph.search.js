@@ -143,12 +143,12 @@
 					component.push(current);
 
 					if (low[current] === label) {
-						var c = [],
-							h;
+						var c = [],		// temporary connect which will be a connect component
+							h;			// head of component stack
 
 						while (!component.isEmpty() && 
 							(h=component.peek(), true) &&
-							low[h] === g.__labelAt__(h)) {
+							low[h] === label) {
 							c.push(component.pop());
 							g.__labelAt__(h, -1);
 						}
