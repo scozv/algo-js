@@ -105,12 +105,8 @@
 			connect = [],
 			low = [];
 
-		g.__adjacencyList__.forEach(function(x){
-			x[0] = 0;
-			// issue 8, 
-			// 0  for initial status
-			// -1 for visited
-			// [1, n] for visited order 
+		Math.range(1, g.n+1).forEach(function(v){
+			g.__labelAt__(v, 0);
 		});
 
 		Math.range(1, g.n+1).forEach(function(i){
