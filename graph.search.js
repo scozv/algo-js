@@ -104,7 +104,7 @@
 			n = [0],
 			connect = [],
 			low = [],
-			component = [];
+			component = new T.Stack();
 
 		Math.range(1, g.n+1).forEach(function(v){
 			g.__labelAt__(v, 0);
@@ -140,19 +140,24 @@
 
 					// dfn or visited info
 					label = g.__labelAt__(current);
+					component.push(current);
 
 					if (low[current] === label) {
-						component.push(current);
-						connect.push([current, component]);
-						component = [];
-						connect[connect.length-1][1].forEach(function(v){
-							g.__labelAt__(v, -1);
-						});
+						var c = [],
+							h;
+
+						while (!component.isEmpty() && 
+							(h=component.peek(), true) &&
+							low[h] === g.__labelAt__(h)) {
+							c.push(component.pop());
+							g.__labelAt__(h, -1);
+						}
+
+						connect.push([current, c]);
 					}
 					else {
 						// pay attention on h has poped before
 						low[head.peek()] = Math.min(low[head.peek()], low[current]);
-						component.push(current);
 					}
 
 					continue;
