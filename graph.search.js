@@ -149,7 +149,7 @@
 
 						while (!component.isEmpty() && 
 							(h=component.peek(), true) &&
-							(/*frontier.isEmpty() ||*/ low[h] === last[0] || low[h] === last[1])) {
+							(frontier.isEmpty() || low[h] === last[0] || low[h] === last[1])) {
 							c.push(component.pop());
 							last[0] = g.__labelAt__(h);
 							last[1] = low[h];
