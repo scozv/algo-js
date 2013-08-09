@@ -1,16 +1,16 @@
 (function(Sorting, undefined){
 	// using sorting.js
 
-	function _partition(arr, l, r, fn, compare){
+	function _partition(arr, l, r, compare){
 		var i = l,
 			j = r + 1;
 
 		while (true){
-			while (compare(fn(arr[++i]), fn(arr[l])) < 0) {
+			while (compare(arr[++i], arr[l]) < 0) {
 				if (i == r) {break;}
 			}
 
-			while (compare(fn(arr[l]), fn(arr[--j])) < 0) {
+			while (compare(arr[l], arr[--j]) < 0) {
 				if ( j== l) {break;}
 			}
 
@@ -22,7 +22,7 @@
 		return j;
 	};
 
-	function _quickSort(arr, l, r, fn, compare){
+	function _quickSort(arr, l, r, compare){
 		/// <summary>quick sort the arr, during the range from index l to r, inclusive.</summary>
 
 		// base case
@@ -30,22 +30,20 @@
 
 		if (l>=r) {return;}	
 
-		var j = _partition(arr, l, r, fn, compare)
+		var j = _partition(arr, l, r, compare)
 
 		// recursive calls
-		_quickSort(arr, l, j-1, fn, compare);
-		_quickSort(arr, j+1, r, fn, compare);
+		_quickSort(arr, l, j-1, compare);
+		_quickSort(arr, j+1, r, compare);
 	};
 
-	Sorting.quickSort = function(arr, fn, compare){
-		// default sort with function
-		fn = fn || function (x){return x;}
+	Sorting.quickSort = function(arr, compare){
 		// default order by asc
 		compare = compare || function (x, y){return x - y;}
 		
 		var arrCopy = arr.clone();
 
-		_quickSort(arrCopy, 0, arrCopy.length-1, fn, compare);
+		_quickSort(arrCopy, 0, arrCopy.length-1, compare);
 
 		return arrCopy;
 	};

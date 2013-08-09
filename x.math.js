@@ -34,6 +34,10 @@
 			step = arguments[2];
 		}
 
+		if (isNaN(start = +start) || isNaN(end = +end) || isNaN(step = +step)) {
+			throw new Error('invalid number as parameter');
+		}
+
 		for (i=start;i<end;i+=step){
 			arr.push(i);
 		}
