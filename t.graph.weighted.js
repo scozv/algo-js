@@ -4,7 +4,7 @@
 	// _g, the adjacency list of graph, not this
 	// $pt, see wiki
 
-	type.Graph = function(n, directed){
+	type.GraphW = function(n, directed){
 		if (isNaN(n = +n)) {
 			throw new Error('graph buiding must need a number indicating how many vertex the graph has');
 		}
@@ -15,7 +15,7 @@
 		Object.defineProperty(this, 'n', {value: n, writable: false});
 		Object.defineProperty(this, '__directed__', {value: directed, writable: false});
 
-		// adgList format (each x in adgList): [v, [v1, v2, v3...]] = [label, [edgeVertexArray]]
+		// adgList format (each x in adgList): [v, [[v1, w1], [v2, w2], [v3, w3]...]] = [label, [edgeVertexArray]]
 		// label can be used for marking visit info
 		this.__adjacencyList__ = [];
 		this.__v__ = 0;
@@ -24,7 +24,7 @@
 		this.__invalidVertexIndexError__ = new Error('vertex must be a numeric index');
 	};
 
-	$pt = type.Graph.prototype;
+	$pt = type.GraphW.prototype;
 	$pt.v = function(){
 		return this.__v__;
 	};
@@ -34,11 +34,11 @@
 	};
 
 	$pt.clone = function(){
-		var gh = new type.Graph(this.n, this.__directed__);
+		var gh = new type.GraphW(this.n, this.__directed__);
 		this.__adjacencyList__.forEach(function(x){
 			// clone each x in format [v, []]
 			// TODO: warning the case in which we push v2 into an empty vertex
-			gh.__adjacencyList__[x[0]] = [x[0], x[1].clone()];
+			gh.__adjacencyList__[x[0]] = [x[0], x[1].map(function(v){return v.clone();})];
 		});
 
 		gh.__v__ = this.__v__;
@@ -58,14 +58,17 @@
 
 		if (verbose){
 			_g.filter(function(x){return x && x[0] && x[0] > 0}).forEach(function(x){
-				str.push(x[0] + ': ' + x[1].filter(function(v){return v>0}).join(' '));
+				str.push(x[0] + ': ' + x[1]
+					.filter(function(v){return v>0;})
+					.map(function(v){return String(v[0]) + ' (' + String(v[1]) + ')';})
+					.join(' '));
 			});
 		}
 
 		return str.join('\n\r');
 	};
 
-	$pt.__pushEdge__ = function(v1, v2, bidirectional){
+	$pt.__pushEdge__ = function(v1, v2, w, bidirectional){
 		/// <summary>pushes an edge into thisEdge graph from the v1 to v2.</summary>
 
 		if (isNaN(v1 = +v1) || isNaN(v2 = +v2)) {
@@ -79,7 +82,7 @@
 			this.__v__++;
 		}
 
-		_g[v1][1].push(v2);
+		_g[v1][1].push([v2, w]);
 		this.__e__++;
 
 		if (!this.__directed__ && bidirectional){
@@ -90,7 +93,7 @@
 				this.__v__++;
 			}
 
-			_g[v2][1].push(v1);	
+			_g[v2][1].push([v1, w]);	
 			this.__e__++;		
 		}
 	};
@@ -193,31 +196,33 @@
 		this.__labelAt__(v, -1);
 	};
 
-	type.Graph.__build__ = function(lines){
+	type.GraphW.__build__ = function(lines){
 		var gh,
 			info,
 			i,
-			minCut;
+			current,
+			vm;
 
 		lines
 			.forEach(function(line, i){
 				if (i===0){
-					gh = new type.Graph(+line, true)
+					gh = new type.GraphW(+line, true)
 				} else {
 					info = line.split(' ')
-						.map(function(x){
-							return (+(x.replace(/^\s\s*/, '').replace(/\s\s*$/, '')));
-						})
-						.filter(function(x){return x>0;});
+						.forEach(function(x, i){
+							if (i===0){current = +(x.replace(/^\s\s*/, '').replace(/\s\s*$/, ''));}
+							else {
+								vm = x.split(',').map(function(x){
+									return +(x.replace(/^\s\s*/, '').replace(/\s\s*$/, ''));
+								});
+								gh.__pushEdge__(current, vm[0], vm[1]);
 
-						gh.__pushEdge__(info[0], info[1]);					
+							}
+						});				
 				}			
 			});
 
-		result = Graph.sccTarjan(gh);
-		console.log(result);
-
-		result = Graph.sccKosaraju(gh);
+		result = Graph.dijkstra(gh);
 		console.log(result);
 	};
 
