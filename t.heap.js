@@ -74,8 +74,7 @@
 		return new _heap(function(x, y){return y - x;});
 	};
 
-	type.MinHeap = function(){
-		return new _heap(function(x, y){return x - y;});
+	type.MinHeap = function(compare){
+		return new _heap(compare || function(x, y){return x - y;});
 	};
-
 }(window.T = window.T || {}));
