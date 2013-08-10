@@ -25,18 +25,31 @@
 			g.__edgesFrom__(current[0]).forEach(function(v){
 				if (g.__labelAt__(v[0]) === -1){
 					// not visited, update each in frontier
-					var updated = frontier.__id__.some(function(x){
+					var updated = frontier.__id__.some(function(x, k){
+						// return x && x[0] === v[0] && (doUpdate, true)
 						return x && (x[0] === v[0]) && 
-							(x[1] = Math.min(x[1], current[1] + v[1]), true);
+							((function(){
+								if (current[1] + v[1] < x[1]) {
+									x[1] = current[1] + v[1];
+									frontier.__swim__(k);
+								}
+							})(), true);
 					});
 
 					if (!updated){
-						frontier.push([v[0], v[1]]);
+						frontier.push([v[0], current[1] + v[1]]);
 					}
 				} // end if, unvisited
 			});
 		}
 
-		return g.__adjacencyList__.map(function(v, i){return [i, v[0]];});
+		
+		return g.__adjacencyList__			
+			.map(function(v, i){return [i, v[0]];});	
+
+		// return g.__adjacencyList__			
+		// 	.map(function(v, i){return String(i) + '(' + String(v[0]) + ')';})
+		// 	.filter(function(v){return v && v[0] && v[0].length;})
+		// 	.join(',');
 	};
 })(window.Graph = window.Graph || {});

@@ -208,7 +208,7 @@
 				if (i===0){
 					gh = new type.GraphW(+line, true)
 				} else {
-					info = line.split(' ')
+					info = line.split('\t')
 						.forEach(function(x, i){
 							if (i===0){current = +(x.replace(/^\s\s*/, '').replace(/\s\s*$/, ''));}
 							else {
