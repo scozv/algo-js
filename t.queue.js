@@ -1,7 +1,6 @@
 (function(type, undefined){
 	type.Queue = function(){
 		this.__innerList__ = new T.LinkedList();
-		this.__emptyAccessError__ = new Error('access an empty queue');
 	};
 
 	type.Queue.prototype = {
@@ -13,7 +12,7 @@
 
 		peek: function(){
 			if (this.__innerList__.isEmpty()){
-				throw this.__emptyAccessError__;
+				throw new Error(T.ERROR.INVALID_EMPTY_COL_ACTION);
 			}
 
 			return this.__innerList__.__header__.next.elem;

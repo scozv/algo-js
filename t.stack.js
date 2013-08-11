@@ -2,7 +2,6 @@
 	type.Stack = function(){
 		this.__length__ = 0;
 		this.__innerList__ = [];
-		this.__emptyAccessError__ = new Error('access an empty stack');
 	};
 
 	type.Stack.prototype = {
@@ -21,7 +20,7 @@
 
 		peek: function(){
 			if (this.isEmpty()){
-				throw this.__emptyAccessError__;
+				throw new Error(T.ERROR.INVALID_EMPTY_COL_ACTION);
 			}
 
 			return this.__innerList__[this.__length__ - 1];
