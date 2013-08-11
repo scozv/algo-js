@@ -44,8 +44,9 @@
 		}
 
 		
-		return g.__adjacencyList__			
-			.map(function(v, i){return [i, v[0]];});	
+		return g.__adjacencyList__	
+			.map(function(v, i){return [i, v[0]];})
+			.filter(function(v){return v && v.length;})	;	
 
 		// return g.__adjacencyList__			
 		// 	.map(function(v, i){return String(i) + '(' + String(v[0]) + ')';})
