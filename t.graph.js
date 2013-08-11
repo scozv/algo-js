@@ -6,7 +6,7 @@
 
 	type.Graph = function(n, directed){
 		if (isNaN(n = +n)) {
-			throw new Error('graph buiding must need a number indicating how many vertex the graph has');
+			throw new Error(T.ERROR.INVALID_NUMERIC_VALUE);
 		}
 
 		// gets a unweighted graph, dafualt is undirected graph
@@ -20,8 +20,6 @@
 		this.__adjacencyList__ = [];
 		this.__v__ = 0;
 		this.__e__ = 0;
-
-		this.__invalidVertexIndexError__ = new Error('vertex must be a numeric index');
 	};
 
 	$pt = type.Graph.prototype;
@@ -43,8 +41,6 @@
 
 		gh.__v__ = this.__v__;
 		gh.__e__ = this.__e__;
-
-		gh.__invalidVertexIndexError__ = this.__invalidVertexIndexError__;
 
 		return gh;
 	};
@@ -69,7 +65,7 @@
 		/// <summary>pushes an edge into thisEdge graph from the v1 to v2.</summary>
 
 		if (isNaN(v1 = +v1) || isNaN(v2 = +v2)) {
-			throw this.__invalidVertexIndexError__;
+			throw new Error(T.ERROR.INVALID_NUMERIC_VALUE);
 		}
 
 		var _g = this.__adjacencyList__;
@@ -98,7 +94,7 @@
 	$pt.__edgesFrom__ = function(v){
 		/// <summary>gets the edge sourceing from v.</summary>
 		if (isNaN(v = +v)) {
-			throw this.__invalidVertexIndexError__;
+			throw new Error(T.ERROR.INVALID_NUMERIC_VALUE);
 		}
 
 		var _g = this.__adjacencyList__;
@@ -134,27 +130,13 @@
 		/// <summary>gets the number of vertex and edge.<summary>
 		/// <returns type="Array[2]">returns the number of vertex and edge in arr[0] and arr[1].</returns>
 
-		// var _g = this.__adjacencyList__,
-		// 	v = 0,
-		// 	e = 0;
-
-		// _g.forEach(function(x){
-		// 	if (x && x[0] && x[0]>=0){
-		// 		v++;
-		// 		x[1].forEach(function(u){
-		// 			e += ( u>=0 ? 1 : 0 );
-		// 		})
-		// 	}
-		// });
-
-		// return [v, this.__directed__ ? e : e>>1];
 		return [this.v(), this.e()];
 	};
 
 	$pt.__visiableAt__ = function(v){
 		/// <summary>determins whether the v of graph is visiable for visiting or not.</summary>
 		if (isNaN(v = +v)) {
-			throw this.__invalidVertexIndexError__;
+			throw new Error(T.ERROR.INVALID_NUMERIC_VALUE);
 		}		
 
 		var _g = this.__adjacencyList__;
@@ -164,7 +146,7 @@
 	$pt.__hasEdgesAt__ = function(v){
 		/// <summary>determins whether graph has edge(s) sourcing from v or not.</summary>
 		if (isNaN(v = +v)) {
-			throw this.__invalidVertexIndexError__;
+			throw new Error(T.ERROR.INVALID_NUMERIC_VALUE);
 		}		
 
 		var _g = this.__adjacencyList__;
@@ -176,7 +158,7 @@
 		/// the default label is false, means we visits the vertex default.
 		/// </summary>
 		if (isNaN(v = +v)) {
-			throw this.__invalidVertexIndexError__;
+			throw new Error(T.ERROR.INVALID_NUMERIC_VALUE);
 		}	
 
 		var _g = this.__adjacencyList__;

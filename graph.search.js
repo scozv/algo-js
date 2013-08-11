@@ -19,7 +19,7 @@
 
 	Graph.undirectedConnected = function(graph){
 		if (graph.__directed__){
-			throw new Error('cannot apply undirected connectivity validation on a directed graph');
+			throw new Error(T.ERROR.INVALID_GRAPH_ACTION);
 		}
 
 		var g = graph.clone();
@@ -42,7 +42,7 @@
 
 	Graph.topologicalSort = function(graph){
 		if (!graph.__directed__){
-			throw new Error('cannot apply topological sorting on a undirected graph');
+			throw new Error(T.ERROR.INVALID_GRAPH_ACTION);
 		}		
 
 		var g = graph.clone(),

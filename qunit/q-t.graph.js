@@ -36,6 +36,17 @@ test('Graph constructor and properties', function(){
 	ok(!g1.__hasEdgesAt__(3), '__hasEdgesAt__(3)');
 });
 
+test('Graph exceptions', function(){
+	var g1 = new T.Graph(10);
+	throws(function(){g1.__pushEdge__();}, 'exception from __pushEdge__');
+	throws(function(){g1.__edgesFrom__();}, 'exception from __edgesFrom__');
+	throws(function(){g1.__edgesFrom__();}, 'exception from __edgesFrom__');
+	throws(function(){g1.__visiableAt__();}, 'exception from __visiableAt__');
+	throws(function(){g1.__hasEdgesAt__();}, 'exception from __hasEdgesAt__');
+	throws(function(){g1.__labelAt__();}, 'exception from __labelAt__');
+	throws(function(){g1.__visitAt__();}, 'exception from __visitAt__');
+});
+
 test('Graph algorithm', function(){
 	var g1 = new T.Graph(50, true);
 	[[1, 8], [1, 35], [2, 15], [2, 46], [2, 22], [2, 23], [2, 23], 
