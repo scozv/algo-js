@@ -111,7 +111,7 @@
 	};
 
 	$pt.__edgeAt__ = function(k){
-		/// <summary>gets a the k-th edge of graph, return the two endpoint.</summary>
+		/// <summary>gets a the k-th edge of graph, return the two endpoint. start from 0 as index</summary>
 
 		var _g = this.__adjacencyList__,
 			p = 0,
