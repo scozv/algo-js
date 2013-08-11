@@ -7,14 +7,18 @@
 
 	Graph.bfs = function(graph){
 		var g = graph.clone();
-		return search(g, new T.Queue(), 1);
+		var result = search(g, new T.Queue(), 1);
 		g = null;
+
+		return result;
 	};
 
 	Graph.dfs = function(graph){
 		var g = graph.clone();
-		return search(g, new T.Stack(), 1);
+		var result = search(g, new T.Stack(), 1);
 		g = null;
+
+		return result;
 	};
 
 	Graph.undirectedConnected = function(graph){
@@ -187,6 +191,8 @@
 				} // end if
 			} // end while
 		});
+
+		g = null;
 
 		connect = connect.map(function(x){return x[1].length;});
 		console.log(Math.Stats.sum(connect));
