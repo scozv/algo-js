@@ -55,9 +55,9 @@
 		if (verbose){
 			_g.filter(function(x){return x && x[0] && x[0] > 0}).forEach(function(x){
 				str.push(x[0] + ': ' + x[1]
-					.filter(function(v){return v>0;})
-					.map(function(v){return String(v[0]) + ' (' + String(v[1]) + ')';})
-					.join(' '));
+					.filter(function(v){return v.length === 2;})
+					.map(function(v){return String(v[0]) + '(' + String(v[1]) + ')';})
+					.join(','));
 			});
 		}
 
