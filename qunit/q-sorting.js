@@ -121,3 +121,34 @@ test('Soring, the time test', function () {
 	// ok(error(100000, Sorting.heapSort) < 0.1, 'merge sort in nlogn');
 	ok(true, 'wait for time test of sorting, please look at the code of q-sorting.js');
 });
+
+test('Sorting, the binary search', function(){
+	strictEqual(Sorting.binarySearch([], 5), -1, 'search 5 in []');
+
+	strictEqual(Sorting.binarySearch([5], 5), 0, 'search 5 in [5]');
+	strictEqual(Sorting.binarySearch([5, 6], 5), 0, 'search 5 in [5, 6]');
+	strictEqual(Sorting.binarySearch([5, 6, 7], 5), 0, 'search 5 in [5, 6, 7]');
+	strictEqual(Sorting.binarySearch([4, 5], 5), 1, 'search 5 in [4, 5]');
+	strictEqual(Sorting.binarySearch([3, 4, 5], 5), 2, 'search 5 in [3, 4, 5]');
+	strictEqual(Sorting.binarySearch([4, 5, 6], 5), 1, 'search 5 in [4, 5, 6]');
+	strictEqual(Sorting.binarySearch([3, 4, 5, 6], 5), 2, 'search 5 in [3, 4, 5, 6]');
+	strictEqual(Sorting.binarySearch([4, 5, 6, 7], 5), 1, 'search 5 in [4, 5, 6, 7]');
+
+	strictEqual(Sorting.binarySearch([5], 4.9), -1, 'search 4.9 in [5]');
+	strictEqual(Sorting.binarySearch([5, 6], 4.9), -1, 'search 4.9 in [5, 6]');
+	strictEqual(Sorting.binarySearch([5, 6, 7], 4.9), -1, 'search 4.9 in [5, 6, 7]');
+	strictEqual(Sorting.binarySearch([4, 5], 4.9), -1, 'search 4.9 in [4, 5]');
+	strictEqual(Sorting.binarySearch([3, 4, 5], 4.9), -1, 'search 4.9 in [3, 4, 5]');
+	strictEqual(Sorting.binarySearch([4, 5, 6], 4.9), -1, 'search 4.9 in [4, 5, 6]');
+	strictEqual(Sorting.binarySearch([3, 4, 5, 6], 4.9), -1, 'search 4.9 in [3, 4, 5, 6]');
+	strictEqual(Sorting.binarySearch([4, 5, 6, 7], 4.9), -1, 'search 4.9 in [4, 5, 6, 7]');
+
+	strictEqual(Sorting.binarySearch([5], 5.1), -1, 'search 5.1 in [5]');
+	strictEqual(Sorting.binarySearch([5, 6], 5.1), -1, 'search 5.1 in [5, 6]');
+	strictEqual(Sorting.binarySearch([5, 6, 7], 5.1), -1, 'search 5.1 in [5, 6, 7]');
+	strictEqual(Sorting.binarySearch([4, 5], 5.1), -1, 'search 5.1 in [4, 5]');
+	strictEqual(Sorting.binarySearch([3, 4, 5], 5.1), -1, 'search 5.1 in [3, 4, 5]');
+	strictEqual(Sorting.binarySearch([4, 5, 6], 5.1), -1, 'search 5.1 in [4, 5, 6]');
+	strictEqual(Sorting.binarySearch([3, 4, 5, 6], 5.1), -1, 'search 5.1 in [3, 4, 5, 6]');
+	strictEqual(Sorting.binarySearch([4, 5, 6, 7], 5.1), -1, 'search 5.1 in [4, 5, 6, 7]');
+});

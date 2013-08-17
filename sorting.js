@@ -44,6 +44,32 @@
 		return heap.__toArray__();
 	};
 
+	Sorting.binarySearch = function(arr, x, low, high){
+		low = low || 0;
+		high = high || arr.length-1;
+
+		var mid = -1;
+
+		while (low <= high){
+			mid = low + ((high - low) >> 1);
+			if (arr[mid] === x) {return mid;}
+			else if (arr[mid] < x) {low = mid + 1;}
+			else {high = mid - 1;}
+		}
+
+		return -1;
+	};
+
+	Sorting.medianMaintenence = function(arr){
+		var min = T.MinHeap(),
+			max = T.MaxHeap(),
+			media = [];
+
+		arr.forEach(function(x){
+			
+		});
+	};
+
 	Sorting.__build__ = function(file){
 		// sort the arr from the file
 		var arr = file
