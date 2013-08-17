@@ -61,24 +61,34 @@
 	};
 
 	Sorting.medianMaintenence = function(arr){
-		var min = T.MinHeap(),
-			max = T.MaxHeap(),
+		// [MaxHeap, max], media ,[min, MinHeap]
+
+		var min = new T.MinHeap(),
+			max = new T.MaxHeap(),
 			media = [];
 
 		arr.forEach(function(x){
-			
+			if (min.size() === max.size()){
+				if (!max.isEmpty() && x > max.peek()) {min.push(x); max.push(min.pop());}
+				else {max.push(x);}
+			} else {
+				// we always keep max.size - min.size \in [0, 1]
+				if (x > max.peek()) { min.push(x); }
+				else { max.push(x); min.push(max.pop()); }
+			}
+
+			media.push(max.peek());
 		});
+
+		return media;
 	};
 
-	Sorting.__build__ = function(file){
+	Sorting.__build__ = function(lines){
 		// sort the arr from the file
-		var arr = file
-			.split('\n')
-			.map(function(x){
-				return parseInt(x.replace(/^\s\s*/, '').replace(/\s\s*$/, ''));
-			});
+		var arr = lines.map(function(x){return +x;});
 
-		Sorting.mergeSort(arr);
+		var result = Sorting.medianMaintenence(arr);
+		console.log(Math.Stats.sum(result) % 10000);
 	};
 
 	Sorting.__arraySwap__ = function(arr, i1, i2){

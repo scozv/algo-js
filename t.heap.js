@@ -52,7 +52,7 @@
 		},
 
 		pop: function(){
-			if (this.__count__ <= 0){
+			if (this.size() <= 0){
 				throw new Error('empty _heap now.');
 			}
 
@@ -61,6 +61,14 @@
 			this.__sink__(1);
 			this.__id__[this.__count__ + 1] = undefined;
 			return res;
+		},
+
+		peek: function(){
+			if (this.size() <= 0){
+				throw new Error('empty _heap now.');
+			}
+
+			return this.__id__[1];
 		},
 
 		__toArray__: function(){
