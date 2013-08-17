@@ -28,11 +28,11 @@
 		switch (option.order){
 			case 'ASC':
 			case 'asc':
-				heap = T.MinHeap();
+				heap = new T.MinHeap();
 				break;
 			case 'DESC':
 			case 'desc':
-				heap = T.MaxHeap();
+				heap = new T.MaxHeap();
 				break;
 			default:
 				throw new Error('invalid order option, use one of ASC | DESC');
