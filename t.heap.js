@@ -11,7 +11,11 @@
 
 	_heap.prototype = {
 		isEmpty: function(){
-			return this.__count__ <= 0;
+			return this.size() <= 0;
+		},
+
+		size: function(){
+			return this.__count__;
 		},
 
 		// exchange child with parent, until _heap is ordered
@@ -70,11 +74,26 @@
 		}
 	};
 
-	type.MaxHeap = function(){
-		return new _heap(function(x, y){return y - x;});
-	};
+	type.MaxHeap = (function(_super){
+		T.__x__(me, _super);
 
-	type.MinHeap = function(compare){
-		return new _heap(compare || function(x, y){return x - y;});
-	};
+		function me(){
+			_super.call(this, function(x, y){return y - x;});
+		}
+
+		return me;
+
+	})(_heap);
+
+	type.MinHeap = (function(_super){
+		T.__x__(me, _super);
+
+		function me(compare){
+			_super.call(this, compare || function(x, y){return x - y;});
+		}
+
+		return me;
+
+	})(_heap);
+
 }(window.T = window.T || {}));
