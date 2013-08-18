@@ -54,16 +54,24 @@
 			h[k].push(x);
 		});
 
-		// O(sqrt(n))
+		// O(sqrt(n) * O(sqrt(n) log sqrt(n)))
+		// = O(n log sqrt(n))
+		h.forEach(function(x){
+			if (x && x.sort){
+				x.sort(function(u, v){return u - v;});
+			}
+		});
+
+		// O(log sqrt(n))
 		function exsits(x){
 			k = Math.mod(x, hlen);
-			return h[k] && h[k].some(function(i){return i===x;});
+			return h[k] && h[k].length && x >= h[k][0] && x <= h[k][h[k].length-1] && Sorting.binarySearch(h[k], x) > -1;
 		}
 
 		// z = x+y?
-		// O(m nsqrt(n))
+		// O(m n log sqrt(n))
 		return Math.range(l, r+1).filter(function(z){
-			// O(nsqrt(n))
+			// O(n log sqrt(n))
 			return arr.some(function(x){
 				return (z-x !== x) && exsits(z-x);
 			});
@@ -73,7 +81,7 @@
 	hash.__build__ = function(lines){
 		var arr = lines.map(function(x){return +x;});
 
-		var result = hash.tsum1(arr, -10000, 10000);
+		var result = hash.tsum2(arr, -10000, 10000);
 		console.log(result);
 	};
 
