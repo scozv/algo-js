@@ -30,16 +30,45 @@
 		var h = [];
 
 		// n
-		arr.forEach(function(x){h[x] = true;})
+		arr.forEach(function(x){h[x] = 1;})
 
 		// m * n
 		return Math.range(l, r+1).filter(function(x){
 			// n * 1
+			console.log(x);
 			return arr.some(function(u){
-				return u !== (x-u) && h[u] && h[x-u];
+				return u !== (x-u) && h[x-u];
 			})
 		});
 	};
+
+	hash.tsum2 = function(arr, l, r){
+		var hlen = Math.sqrt(arr.length),
+			h = [],
+			k;
+
+		// O(n)
+		arr.forEach(function(x){
+			k = Math.mod(x, hlen);
+			h[k] = h[k] || [];
+			h[k].push(x);
+		});
+
+		// O(sqrt(n))
+		function exsits(x){
+			k = Math.mod(x, hlen);
+			return h[k] && h[k].some(function(i){return i===x;});
+		}
+
+		// z = x+y?
+		// O(m nsqrt(n))
+		return Math.range(l, r+1).filter(function(z){
+			// O(nsqrt(n))
+			return arr.some(function(x){
+				return (z-x !== x) && exsits(z-x);
+			});
+		});
+	}
 
 	hash.__build__ = function(lines){
 		var arr = lines.map(function(x){return +x;});
