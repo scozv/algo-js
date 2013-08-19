@@ -1,6 +1,9 @@
 (function(hash, undefined){
 
 	hash.tsum = function(arr, l, r){
+		// we sort arr
+		// binary search z-x in arr for each x
+
 		var a = arr.clone(),
 			zeroIndex = -1,
 			u, v;
@@ -27,22 +30,37 @@
 	};
 
 	hash.tsum1 = function(arr, l, r){
-		var h = [];
+		// we hash x to index of h1, for each x in arr, where x >= 0
+		// we hash x to index of h2, where x < 0
+		// we search z-x in related hash table, see whether it is a valid index or not, for each x in arr
+
+		var h1 = [], 
+			h2 = [],
+			v;
 
 		// n
-		arr.forEach(function(x){h[x] = 1;})
+		arr.forEach(function(x){
+			x >= 0 ?
+			h1[x] = true :
+			h2[-x] = true;
+		});
 
 		// m * n
 		return Math.range(l, r+1).filter(function(x){
 			// n * 1
 			console.log(x);
 			return arr.some(function(u){
-				return u !== (x-u) && h[x-u];
+				v = x-u;
+				return u !== v && ((v >= 0 && h1[v]) || (v < 0 && h2[v]));
 			})
 		});
 	};
 
 	hash.tsum2 = function(arr, l, r){
+		// we hash x to (x % sqrt(arr.length))
+		// search f(z-x) in hash table by valid index
+		// then seach z-x in that bucket by binary search
+
 		var hlen = Math.sqrt(arr.length),
 			h = [],
 			k;
@@ -81,7 +99,7 @@
 	hash.__build__ = function(lines){
 		var arr = lines.map(function(x){return +x;});
 
-		var result = hash.tsum2(arr, -10000, 10000);
+		var result = hash.tsum1(arr, -10000, 10000);
 		console.log(result);
 	};
 
