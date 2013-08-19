@@ -47,7 +47,8 @@
 
 	Sorting.mergeSort = function(arr, compare){
 		// default order by asc
-		compare = compare || function (x, y){return x - y;}
+		compare = Sorting.__compareOrDefault__(compare);
+		
 		var copy = arr.clone();
 		var aux = [];
 
@@ -62,7 +63,8 @@
 
 	Sorting.mergeSortBU = function(arr, compare){
 		// default order by asc
-		compare = compare || function (x, y){return x - y;}
+		compare = Sorting.__compareOrDefault__(compare);
+
 		var copy = arr.clone();
 		var aux = [];
 		var n = arr.length,

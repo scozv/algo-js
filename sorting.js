@@ -4,7 +4,7 @@
 	*/
 	Sorting.isSorted = function(arr, compare){
 		// default order by asc
-		compare = compare || function (x, y){return x - y;}
+		compare = Sorting.__compareOrDefault__(compare);
 
 		var sorted = true, i;
 		for (i=0;i<arr.length-2;i++){
@@ -115,6 +115,12 @@
 		}
 
 		return arr;
+	};
+
+	Sorting.__compareOrDefault__ = function(compare){
+		return compare && (typeof compare === 'function') ? 
+			compare : 
+			function(x, y){return x - y;}
 	};
 
 }(window.Sorting = window.Sorting || {}));
