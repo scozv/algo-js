@@ -6,7 +6,10 @@
 		this.__id__ = [-1];
 		this.__count__ = 0;
 		// default compare(x, y) is x - y;
-		this.__compare__ = compare || function(x, y){return x - y;};
+		Object.defineProperty(
+			this, 
+			'__compare__',
+			{writable: false, value: Sorting.__compareOrDefault__(compare)});
 	};
 
 	_heap.prototype = {
@@ -97,7 +100,7 @@
 		T.__x__(me, _super);
 
 		function me(compare){
-			_super.call(this, compare || function(x, y){return x - y;});
+			_super.call(this, compare);
 		}
 
 		return me;
