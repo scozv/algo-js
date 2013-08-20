@@ -5,5 +5,26 @@ test('Tree, BST', function(){
 		(bst1.__root__ === null) && 
 		(bst1.__count__ === 0) &&
 		(bst1.size() === 0) &&
-		(bst1.search(5) === null)), 'basic properties of BST');
+		(bst1.search(5) === null) && 
+		(bst1.rSearch(5) === null)), 'basic properties of BST');
+
+	var bst1 = new T.BinarySearchTree();
+	var arr = Sorting.__randomUniqueArray__(10);
+	arr.forEach(function(x){
+		bst1.insert(x);
+	});
+	ok(arr.every(function(x){
+		var node = bst1.search(x);
+		return node && node.elem === x;
+	}), 'insert and search from [0, 9]');
+
+	var bst1 = new T.BinarySearchTree();
+	var arr = Sorting.__randomUniqueArray__(10);
+	arr.forEach(function(x){
+		bst1.rInsert(x);
+	});
+	ok(arr.every(function(x){
+		var node = bst1.rSearch(x);
+		return node && node.elem === x;
+	}), 'insert and search from [0, 9], recursive version');
 });
