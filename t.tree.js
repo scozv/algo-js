@@ -38,7 +38,7 @@
 
 	$t.size = function(){return this.__count__;};
 
-		// ***** private members *****
+	// ***** private members *****
 
 	$t.__insertBelowAt__ = function(elem, node, index){
 			var child = new _node(elem);
@@ -151,5 +151,160 @@
 		this.__root__ ? 
 			f0(this.__root__) :
 			this.__root__ = new _node(elem);
+	};
+
+	$bst.forEach = function(TRAVERSAL, fn){
+		fn = fn && (typeof fn === 'function') ? fn : function(x){return x;};
+
+		var cp = this.__compare__;
+
+		// pre order
+		// inspired from http://www.geeksforgeeks.org/iterative-preorder-traversal/
+		var pre = function(node){
+			if (node) {
+				var frontier = new T.Stack(),
+					current;
+
+				frontier.push(node);
+				while (!frontier.isEmpty()) {
+					current = frontier.pop();
+					fn(current.elem);
+					current.children[1] ? frontier.push(current.children[1]) : null;
+					current.children[0] ? frontier.push(current.children[0]) : null;
+				}
+			}
+		};
+
+		// in order
+		// inspired from http://www.geeksforgeeks.org/inorder-tree-traversal-without-recursion/
+		var ino = function(node){
+			if (node) {
+				var frontier = new T.Stack(),
+					current = node;
+
+				while (current || !frontier.isEmpty()) {
+					if (current) {
+						frontier.push(current);
+						current = current.children[0];
+					} else {
+						current = frontier.pop();
+						fn(current.elem);
+						current = current.children[1];
+					}
+				}
+			}
+		};
+
+		// post order
+		// inspired from http://www.geeksforgeeks.org/iterative-postorder-traversal-using-stack/
+		var pos = function(node){
+			if (node) {
+				var frontier = new T.Stack(),
+					current = node;
+
+				do {
+					// Move to leftmost node
+					while (current){
+						current.children[1] ? frontier.push(current.children[1]) : null;
+						frontier.push(current);
+						current = current.children[0];
+					}
+
+					current = frontier.pop();
+					// If the popped item has a right child and the right child is not
+					// processed yet, then make sure right child is processed before root
+					if (current.children[1] && !frontier.isEmpty() &&
+						cp(frontier.peek().elem, current.children[1].elem) === 0) {
+						frontier.pop();
+						frontier.push(current);
+						current = current.children[1];
+					} else {
+						fn(current.elem);
+						current = null;
+					}
+
+				} while (!frontier.isEmpty())
+			}
+		};
+
+		switch (TRAVERSAL){
+			case T.TRAVERSAL.PRE_ORDER:
+				pre(this.__root__);
+				break;
+			case T.TRAVERSAL.POST_ORDER:
+				pos(this.__root__);
+				break;
+			default:
+				ino(this.__root__);
+				break;
+		}			
+
+	};
+
+	$bst.rForEach = function(TRAVERSAL, fn){
+		fn = fn && (typeof fn === 'function') ? fn : function(x){return x;};
+
+		// pre order
+		var pre = function(node){
+			if (node) {
+				fn(node.elem);
+				pre(node.children[0]);
+				pre(node.children[1]);
+			}
+		};
+
+		// in order
+		var ino = function(node){
+			if (node) {
+				ino(node.children[0]);
+				fn(node.elem);
+				ino(node.children[1]);
+			}
+		};
+
+		// post order
+		var pos = function(node){
+			if (node) {
+				pos(node.children[0]);			
+				pos(node.children[1]);
+				fn(node.elem);
+			}
+		};
+
+		switch (TRAVERSAL){
+			case T.TRAVERSAL.PRE_ORDER:
+				pre(this.__root__);
+				break;
+			case T.TRAVERSAL.POST_ORDER:
+				pos(this.__root__);
+				break;
+			default:
+				ino(this.__root__);
+				break;
+		}
+	};
+
+	$bst.map = function(TRAVERSAL, fn){
+		fn = fn && (typeof fn === 'function') ? fn : function(x){return x;};
+
+		var arr = [];
+		this.forEach(
+			TRAVERSAL, 
+			function(x){ arr.push(fn(x)); }
+		);
+
+		return arr;
+	};
+
+	$bst.rMap = function(TRAVERSAL, fn){
+		fn = fn && (typeof fn === 'function') ? fn : function(x){return x;};
+
+		var arr = [];
+		this.rForEach(
+			TRAVERSAL, 
+			function(x){ arr.push(fn(x)); }
+		);
+
+		return arr;
 	};
 }(window.T = window.T || {}));

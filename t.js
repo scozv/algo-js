@@ -12,6 +12,18 @@
 		value: error
 	});
 
+	var traversal = {};
+	Object.defineProperties(traversal, {
+		'PRE_ORDER'	: {writable: false, value: 0},
+		'IN_ORDER'	: {writable: false, value: 1},
+		'POST_ORDER': {writable: false, value: 2}
+	});
+
+	Object.defineProperty(type, 'TRAVERSAL',{
+		writable: false,
+		value: traversal
+	});
+
 	type.__x__ = function (d, b) {
 		// inspired from http://www.typescriptlang.org/Playground/
 		for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];

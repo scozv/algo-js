@@ -9,22 +9,32 @@ test('Tree, BST', function(){
 		(bst1.rSearch(5) === null)), 'basic properties of BST');
 
 	var bst1 = new T.BinarySearchTree();
-	var arr = Sorting.__randomUniqueArray__(10);
+	var arr = Sorting.__randomUniqueArray__(29);
 	arr.forEach(function(x){
 		bst1.insert(x);
 	});
 	ok(arr.every(function(x){
 		var node = bst1.search(x);
 		return node && node.elem === x;
-	}), 'insert and search from [0, 9]');
+	}), 'insert and search from [0, 29)');
 
 	var bst1 = new T.BinarySearchTree();
-	var arr = Sorting.__randomUniqueArray__(10);
+	var arr = Sorting.__randomUniqueArray__(29);
 	arr.forEach(function(x){
 		bst1.rInsert(x);
 	});
 	ok(arr.every(function(x){
 		var node = bst1.rSearch(x);
 		return node && node.elem === x;
-	}), 'insert and search from [0, 9], recursive version');
+	}), 'insert and search from [0, 29), recursive version');
+
+	deepEqual(
+		bst1.rMap(T.TRAVERSAL.PRE_ORDER), bst1.map(T.TRAVERSAL.PRE_ORDER), 
+		'traversal by pre order, iter vs rec');
+	deepEqual(
+		bst1.rMap(T.TRAVERSAL.IN_ORDER), bst1.map(T.TRAVERSAL.IN_ORDER), 
+		'traversal by in order, iter vs rec');
+	deepEqual(
+		bst1.rMap(T.TRAVERSAL.POST_ORDER), bst1.map(T.TRAVERSAL.POST_ORDER), 
+		'traversal by post order, iter vs rec');	
 });
