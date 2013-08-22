@@ -57,20 +57,4 @@
 			return this.map();
 		}
 	};
-
-	// algorithm application
-	type.Stack.validPopSeries = function(pushArray, popArray){
-		// if we push [1, 2, 3, 4] one by one, 
-		// can we get the series [2, 3, 4, 1] by poping after certain push?
-		var st = new type.Stack(),
-			j = 0 ;
-		pushArray.forEach(function(x){
-			st.push(x);
-			while(!st.isEmpty() && st.peek() == popArray[j]){
-				st.pop(); j++;
-			}
-		});
-
-		return st.isEmpty();
-	};
 }(window.T = window.T || {}));

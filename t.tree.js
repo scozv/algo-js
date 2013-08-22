@@ -27,7 +27,7 @@
 
 	$t.height = function(){
 			// The height of the root is the height of the tree.
-			// an empty tree (tree with no nodes, if such are allowed) has depth and height −1.
+			// an empty tree (tree with no nodes, if such are allowed) has depth and height -1.
 			if (this.__root__){return this.__root__.height;}
 			else {return -1;}
 	};

@@ -60,29 +60,6 @@
 		return -1;
 	};
 
-	Sorting.medianMaintenence = function(arr){
-		// [MaxHeap, max], media ,[min, MinHeap]
-
-		var min = new T.MinHeap(),
-			max = new T.MaxHeap(),
-			media = [];
-
-		arr.forEach(function(x){
-			if (min.size() === max.size()){
-				if (!max.isEmpty() && x > max.peek()) {min.push(x); max.push(min.pop());}
-				else {max.push(x);}
-			} else {
-				// we always keep max.size - min.size \in [0, 1]
-				if (x > max.peek()) { min.push(x); }
-				else { max.push(x); min.push(max.pop()); }
-			}
-
-			media.push(max.peek());
-		});
-
-		return media;
-	};
-
 	Sorting.__build__ = function(lines){
 		// sort the arr from the file
 		var arr = lines.map(function(x){return +x;});
