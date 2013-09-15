@@ -116,6 +116,17 @@
 		return parent;
 	};
 
+	$bst.__childOfParent__ = function(elem, parent){
+		// get a valid child of paraent, and the child.elem === elem
+
+		var cp = this.__compare__,
+			c = cp(elem, parent.elem),
+			i = c < 0 ? 0 : 1;
+		return c !== 0 && cp(elem, parent.children[i].elem) === 0 &&
+			parent.children[i];			
+
+	};
+
 	$bst.insert = function(elem){
 		// inserts elem under BST order, no duplication
 
