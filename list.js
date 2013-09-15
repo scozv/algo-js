@@ -37,4 +37,18 @@
 
 		return media;
 	};
+
+	list.minimumWeightedCompletion = function(arr, fn){
+		// for each x in arr, x[0], x[1] = weight, length
+		fn = fn || function(x, y){return y[0]/y[1] - x[0]/x[1];l};
+
+		var c = 0, s = 0;
+		Sorting.quickSort(arr, fn).forEach(function(x){
+			c += x[1];
+			s += (x[0] * c);
+		});
+
+		return s;
+	};
+
 })(window.List = window.List || {});

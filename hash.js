@@ -97,9 +97,18 @@
 	}
 
 	hash.__build__ = function(lines){
-		var arr = lines.map(function(x){return +x;});
+		var arr = lines.map(function(x){return x.split(' ').map(function(wl){
+			return +wl;
+		});});
 
-		var result = hash.tsum1(arr, -10000, 10000);
+		var result = List.minimumWeightedCompletion(arr, function(x, y){
+			var c = (y[1] - y[0]) - (x[1] - x[0]);
+			return c === 0 ? (y[1] - x[1]) : c;
+		});
+
+		console.log(result);
+
+		result = List.minimumWeightedCompletion(arr);
 		console.log(result);
 	};
 
