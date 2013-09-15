@@ -3,15 +3,19 @@
 		s = s || 1;
 
 		// assert is weighted, s in [1. n]
-		var frontier = new T.MinHeap(function(x, y){return x[1] - y[1];}),	// each x, y is formated like [v, w]
+
+		// each x, y is formated like [v, w], 
+		// means, for now on, shortest path from s to v is w
+		var frontier = new T.MinHeap(function(x, y){return x[1] - y[1];}),	
 			g = graph.clone(),
 			i = 0,
 			current;
 
 		Math.range(1, g.n+1).forEach(function(v){
-			g.__labelAt__(v, -1);
+			// label each vertex
 			// -1 for init
-			// [0, ...] for FINAL shortest length from init s
+			// [0, ...] for FINAL shortest length from init s			
+			g.__labelAt__(v, -1);
 		});
 
 		// init for s

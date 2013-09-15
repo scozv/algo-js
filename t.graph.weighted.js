@@ -91,23 +91,14 @@
 		lines
 			.forEach(function(line, i){
 				if (i===0){
-					gh = new type.GraphW(+line, true)
+					gh = new type.GraphW(+(line.split(' ')[0]), true)
 				} else {
-					info = line.split('\t')
-						.forEach(function(x, i){
-							if (i===0){current = +(x.replace(/^\s\s*/, '').replace(/\s\s*$/, ''));}
-							else {
-								vm = x.split(',').map(function(x){
-									return +(x.replace(/^\s\s*/, '').replace(/\s\s*$/, ''));
-								});
-								gh.__pushEdge__(current, vm[0], vm[1]);
-
-							}
-						});				
+					info = line.split(' ');
+					gh.__pushEdge__(+info[0], +info[1], +info[2]);			
 				}			
 			});
 
-		result = Graph.dijkstra(gh);
+		result = Graph.mstPrim(gh);
 		console.log(result);
 	};
 

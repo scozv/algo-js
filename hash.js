@@ -102,8 +102,8 @@
 		});});
 
 		var result = List.minimumWeightedCompletion(arr, function(x, y){
-			var c = (y[1] - y[0]) - (x[1] - x[0]);
-			return c === 0 ? (y[1] - x[1]) : c;
+			var c = (y[0] - y[1]) - (x[0] - x[1]);
+			return c === 0 ? (y[0] - x[0]) : c;
 		});
 
 		console.log(result);
