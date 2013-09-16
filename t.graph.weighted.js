@@ -91,10 +91,10 @@
 		lines
 			.forEach(function(line, i){
 				if (i===0){
-					gh = new type.GraphW(+(line.split(' ')[0]), true)
+					gh = new type.GraphW(+(line.split(' ')[0]))
 				} else {
 					info = line.split(' ');
-					gh.__pushEdge__(+info[0], +info[1], +info[2]);			
+					gh.__pushEdge__(+info[0], +info[1], +info[2], true);			
 				}			
 			});
 

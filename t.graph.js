@@ -140,7 +140,7 @@
 		}		
 
 		var _g = this.__adjacencyList__;
-		return _g[v] && _g[v][0] && _g[v][0] >= 0;
+		return (_g[v] === undefined) || (_g[v] && _g[v][0] && _g[v][0] >= 0);
 	};
 
 	$pt.__hasEdgesAt__ = function(v){

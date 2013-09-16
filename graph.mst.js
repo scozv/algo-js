@@ -1,17 +1,17 @@
 (function(Graph, undefined){
 	// using graph.weighted.js
 
-	Graph.mstPrim = function(graph){
+	Graph.mstPrim = function(g){
 
-		graph = graph.clone();
-		var X = ['1']; // staring from vertex 1st
+		var graph = g.clone();
+		var X = [1]; // staring from vertex 1st
 		graph.__visitAt__(1);
 		var T = [];
 		var totalCost = 0;
 
-		var count = graph.__count__(), i, j; // return [vertexCount, edgeCount]
+		var i, j; // return [vertexCount, edgeCount]
 		
-		while (X.length < count[0]){
+		while (X.length < graph.n){
 			// let e = (u, v) be the cheapest edge of G, with u in X, v not in X
 			var min = [0, 0, Number.MAX_VALUE] // u, v, cost
 			for(i=0;i<X.length;i++){
