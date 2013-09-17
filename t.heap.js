@@ -107,4 +107,20 @@
 
 	})(_heap);
 
+	$minPt = type.MinHeap.prototype;
+
+	$minPt.update = function(indexWhen, updateWhen, updateHow){
+		var heap = this,
+			updated = this.__id__.some(function(x, i){
+				return i <= heap.__count__ && x && indexWhen(x) && ((function(){
+					if (updateWhen(x)){
+						updateHow(x);
+						heap.__swim__(i);
+					}
+				})(), true);
+			});
+
+		return updated;
+	};
+
 }(window.T = window.T || {}));

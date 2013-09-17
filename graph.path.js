@@ -4,7 +4,7 @@
 
 		// assert is weighted, s in [1. n]
 
-		// each x, y is formated like [v, w], 
+		// in our heap (frontier), each x, y is formated like [v, w], 
 		// means, for now on, shortest path from s to v is w
 		var frontier = new T.MinHeap(function(x, y){return x[1] - y[1];}),	
 			g = graph.clone(),
@@ -29,16 +29,10 @@
 			g.__edgesFrom__(current[0]).forEach(function(v){
 				if (g.__labelAt__(v[0]) === -1){
 					// not visited, update each in frontier
-					var updated = frontier.__id__.some(function(x, k){
-						// return x && x[0] === v[0] && (doUpdate, true)
-						return x && (x[0] === v[0]) && 
-							((function(){
-								if (current[1] + v[1] < x[1]) {
-									x[1] = current[1] + v[1];
-									frontier.__swim__(k);
-								}
-							})(), true);
-					});
+					var updated = frontier.update(
+						function(x){return x[0] === v[0];},
+						function(x){return current[1] + v[1] < x[1];},
+						function(x){x[1] = current[1] + v[1];});
 
 					if (!updated){
 						frontier.push([v[0], current[1] + v[1]]);
