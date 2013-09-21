@@ -100,6 +100,9 @@
 
 		result = Graph.mstPrim(gh);
 		console.log(result);
+
+		result = Graph.mstKruskal(gh);
+		console.log(result);
 	};
 
 })(window.T = window.T || {});

@@ -34,6 +34,13 @@ test('Graph constructor and properties', function(){
 	ok(g1.__hasEdgesAt__(1), '__hasEdgesAt__(1)');
 	ok(g1.__hasEdgesAt__(2), '__hasEdgesAt__(2)');
 	ok(!g1.__hasEdgesAt__(3), '__hasEdgesAt__(3)');
+
+	var lst;
+	ok((lst = g1.__getEdgeList__(), lst.length === 4) && lst[0].length === 2, 'get edge list of graph');
+
+	g2 = new T.GraphW(10, true);
+	g2.__pushEdge__(1, 3, 4);
+	ok((lst = g2.__getEdgeList__(), lst.length === 1) && lst[0].length === 3, 'get edge list of weigthed graph');
 });
 
 test('Graph exceptions', function(){

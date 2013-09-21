@@ -47,4 +47,26 @@
 		
 		return mst.reduce(function(acc, x){return acc + x[2];}, 0);
 	};
+
+	Graph.mstKruskal = function(graph){
+		var g = graph.clone(),
+			edges = Sorting.quickSort(
+				g.__getEdgeList__(), 
+				function(x, y){return x[2] - y[2];}),
+			mst = [],
+			u = 0,
+			v = 0,
+			frontier =  new UnionFind.QuickFind(g.n);
+
+		edges.forEach(function(e){
+			u = e[0];
+			v = e[1];
+			if (!frontier.connected(u, v)){
+				mst.push(e);
+				frontier.union(u, v);
+			}
+		});
+
+		return mst.reduce(function(acc, x){return acc + x[2];}, 0);
+	};
 }(window.Graph = window.Graph || {}));

@@ -14,6 +14,7 @@
 
 		Object.defineProperty(this, 'n', {value: n, writable: false});
 		Object.defineProperty(this, '__directed__', {value: directed, writable: false});
+		Object.defineProperty(this, '__edgeListCache__', {value: [], writable: false});
 
 		// adgList format (each x in adgList): [v, [v1, v2, v3...]] = [label, [edgeVertexArray]]
 		// label can be used for marking visit info
@@ -88,6 +89,21 @@
 
 			_g[v2][1].push(v1);	
 			this.__e__++;		
+		}
+	};
+
+	$pt.__getEdgeList__ = function(){
+		var edges = this.__edgeListCache__;
+		if (edges && edges.length){return edges;}
+		else {
+			this.__adjacencyList__.forEach(function(x){
+				x && x[1] && x[1].length && 
+				x[1].forEach(function(e){
+					// push [u, v, w] if GraphW, else [u, v]
+					edges.push(e.length ? [x[0], e[0], e[1]] : [x[0], e]);
+				});
+			});
+			return edges;
 		}
 	};
 
