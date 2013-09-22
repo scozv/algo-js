@@ -48,7 +48,7 @@
 		return mst.reduce(function(acc, x){return acc + x[2];}, 0);
 	};
 
-	Graph.mstKruskal = function(graph){
+	Graph.mstKruskal = function(graph, k){
 		var g = graph.clone(),
 			edges = Sorting.quickSort(
 				g.__getEdgeList__(), 
@@ -56,17 +56,23 @@
 			mst = [],
 			u = 0,
 			v = 0,
-			frontier =  new UnionFind.QuickFind(g.n);
+			frontier =  new UnionFind.QuickFind(g.n),
+			space = -1;
 
-		edges.forEach(function(e){
+		edges.some(function(e) {
 			u = e[0];
 			v = e[1];
-			if (!frontier.connected(u, v)){
-				mst.push(e);
-				frontier.union(u, v);
+			if (!frontier.connected(u, v)) {
+				if (!k || frontier.count() > k) {
+					mst.push(e);
+					frontier.union(u, v);
+				} else {
+					space = e[2];
+					return true;
+				}
 			}
 		});
 
-		return mst.reduce(function(acc, x){return acc + x[2];}, 0);
+		return k ? space : mst.reduce(function(acc, x){return acc + x[2];}, 0);
 	};
 }(window.Graph = window.Graph || {}));
