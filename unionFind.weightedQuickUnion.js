@@ -25,7 +25,7 @@
 	};
 
 	$pt.connected = function(p, q){
-		return this._find(p) == this._find(q);
+		return this.find(p) == this.find(q);
 	};
 
 	$pt.union = function(p, q){

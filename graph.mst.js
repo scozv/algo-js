@@ -56,7 +56,7 @@
 			mst = [],
 			u = 0,
 			v = 0,
-			frontier =  new UnionFind.QuickFind(g.n),
+			frontier =  new UnionFind.WeightedQuickUnion(g.n),
 			space = -1;
 
 		edges.some(function(e) {
