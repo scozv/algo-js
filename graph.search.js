@@ -96,10 +96,10 @@
 
 		// [component number, max component size]
 		// return [connect.length, Math.Stats.max(connect.map(function(x){return x[1].length}))];
-		connect = connect.map(function(x){return x[1].length;});
+		connect = connect.map(function(x){return x[1].length;});		
 		console.log(Math.Stats.sum(connect));
 		return Sorting
-			.quickSort(connect, function(x, y){return y-x;})
+			.quickSort(connect, function(x, y){return y-x;}, true)
 			.slice(0, 10);
 	};
 

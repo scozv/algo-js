@@ -37,11 +37,11 @@
 		_quickSort(arr, j+1, r, compare);
 	};
 
-	Sorting.quickSort = function(arr, compare){
+	Sorting.quickSort = function(arr, compare, skipClone){
 		// default order by asc
 		compare = Sorting.__compareOrDefault__(compare);
 		
-		var arrCopy = arr.clone();
+		var arrCopy = skipClone === true ? arr : arr.clone();
 
 		_quickSort(arrCopy, 0, arrCopy.length-1, compare);
 
