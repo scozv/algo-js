@@ -167,7 +167,17 @@
 
 		var _g = this.__adjacencyList__;
 		return _g[v] && _g[v][1] && _g[v][1].length;
-	};	
+	};
+	
+	$pt.__labelAll__ = function(label){
+		if (label && (typeof label === 'string' || label === +label)) {
+			var _g = this.__adjacencyList__;
+			Math.range(1, this.n + 1).forEach(function(v) {
+				if (!_g[v]) {_g[v]=[v, []];}
+				_g[v][0] = label;
+			});
+		}
+	};
 
 	$pt.__labelAt__ = function(v, label){
 		/// <summary>marks the label to graph, v for its visited or not, 

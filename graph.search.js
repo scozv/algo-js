@@ -2,7 +2,7 @@
 	// using t.graph.js
 	// using t.queue.js
 
-	// TODO: labelAt (v, 'v' | 'm') for diff meaning, v: visited, m: marked
+	// labelAt (v, 'v' | 'm') for diff meaning, v: visited, m: marked
 	// or we can use -1 for initial label of vertex, then after, label 0 as marked, label t>0 as visited by some order
 
 	Graph.bfs = function(graph){

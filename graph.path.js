@@ -10,13 +10,11 @@
 			g = graph.clone(),
 			i = 0,
 			current;
-
-		Math.range(1, g.n+1).forEach(function(v){
-			// label each vertex
-			// -1 for init
-			// [0, ...] for FINAL shortest length from init s			
-			g.__labelAt__(v, -1);
-		});
+		
+		// label each vertex
+		// -1 for init
+		// [0, ...] for FINAL shortest length from init s
+		g.__labelAll__(-1);
 
 		// init for s
 		frontier.push([s, 0]);
