@@ -54,6 +54,7 @@
 	var $wpt = type.WeightedQuickUnion.prototype;
     
 	$wpt.find = function (p) {
+        p = Math.mod(p, this._id.length);
 		while (p !== this._id[p]) {
 			p = this._id[p];
 		}
