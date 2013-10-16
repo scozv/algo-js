@@ -135,31 +135,50 @@
 			head.push(-1);
 
 			while (!frontier.isEmpty()){
-
 				current = frontier.peek();
+                // if current has been in a component, we pop it and continue
+                if (g.__labelAt__(current) === -1) {
+                    frontier.pop();
+                    continue;
+                }
+                
 				if (current === head.peek()){
 					// that means we are on the top of dfs(v), we visit current from its parent
 					frontier.pop();
 					head.pop();
+					// assert this ?
+					if (component.isEmpty()) {
+						// console.warn('component.isEmpty while head.isNotEmpty');
+					} else if (current !== component.peek()) {
+						// console.warn(current, 'head.peek !== component.peek', component.peek());
+					}
 
 					// dfn or visited info
 					label = g.__labelAt__(current);
-					component.push(current);
 
 					if (low[current] === label) {
 						var c = [],		// temporary connect which will be a connect component
-							h,			// head of component stack
-							last = [label, label];
-
-						while (!component.isEmpty() && 
-							(h=component.peek(), true) &&
-							(frontier.isEmpty() || low[h] === last[0] || low[h] === last[1])) {
-							c.push(component.pop());
-							last[0] = g.__labelAt__(h);
-							last[1] = low[h];
+							h;			// each value in THIS component
+						
+						do {
+							h = component.pop();
+							c.push(h);
 							g.__labelAt__(h, -1);
-						}
-
+						} while (
+							// we reach the 1st item of head (outmost of recursion) OR
+							(head.peek() === -1 && !component.isEmpty()) ||
+							// we repeat until leading of connect equals component vettex again
+							// i.e. repeat until u = v
+							(!component.isEmpty() && (h = component.peek(), h !== current))
+						);
+                        
+                        if (!component.isEmpty() && (h = component.peek(), h === current)) {
+                            // push the leading of component
+                            h = component.pop();
+                            c.push(h);
+                            g.__labelAt__(h, -1);
+                        }
+						
 						connect.push([current, c]);
 					}
 					else {
@@ -171,7 +190,12 @@
 				}
 
 				head.push(current);
+				// components will be poped from stack like head until dfn = low
+				component.push(current);
 				low[current] = ++index[0];
+                if (low[current] > g.n) {
+                    debugger;
+                }
 				g.__labelAt__(current, low[current]);
 
 				if (g.__hasEdgesAt__(current)) {
