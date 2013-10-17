@@ -40,13 +40,29 @@
 		}
 
 		
-		return g.__adjacencyList__	
+		return g.__adjacencyList__
 			.map(function(v, i){return [i, v[0]];})
-			.filter(function(v){return v && v.length;})	;	
-
-		// return g.__adjacencyList__			
-		// 	.map(function(v, i){return String(i) + '(' + String(v[0]) + ')';})
-		// 	.filter(function(v){return v && v[0] && v[0].length;})
-		// 	.join(',');
+			.filter(function(v){return v && v.length;});
+	};
+	
+	Graph.tspHeldKarp = function(coordinates) {
+		// run TSP algorithm by Held-Karp
+		// vertex i in input corrdinates array is [x,y]
+		
+		var n = coordinates.length,
+			cost = [],
+			i, j;
+		
+		function distance(a, b) {
+			return Math.pow(a[0]-b[0], 2) + Math.pow(a[1]-b[1], 2);
+		}
+		
+		// build cost matrix c(i,j) for each (i, j) and i < j
+		for (i=0; i<n; i++) {
+			for (j=i+1; j<n; j++) {
+				cost[i*n + j] = distance(coordinates[i], coordinates[j]);
+			}
+		}
+		
 	};
 })(window.Graph = window.Graph || {});

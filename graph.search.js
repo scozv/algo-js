@@ -111,6 +111,8 @@
 			component = new T.Stack();
 
 		Math.range(1, g.n+1).forEach(function(v){
+			// label
+			// 0 as init, -1 as being SCC, else as dfs(v)
 			g.__labelAt__(v, 0);
 		});
 
@@ -136,7 +138,7 @@
 
 			while (!frontier.isEmpty()){
 				current = frontier.peek();
-                // if current has been in a component, we pop it and continue
+                // if current has been in a SCC (-1) or in a component (>0) or , we pop it and continue
                 if (g.__labelAt__(current) === -1) {
                     frontier.pop();
                     continue;
@@ -160,17 +162,17 @@
 						var c = [],		// temporary connect which will be a connect component
 							h;			// each value in THIS component
 						
-						do {
-							h = component.pop();
-							c.push(h);
-							g.__labelAt__(h, -1);
-						} while (
+						while (
 							// we reach the 1st item of head (outmost of recursion) OR
 							(head.peek() === -1 && !component.isEmpty()) ||
 							// we repeat until leading of connect equals component vettex again
 							// i.e. repeat until u = v
 							(!component.isEmpty() && (h = component.peek(), h !== current))
-						);
+						) {
+							h = component.pop();
+							c.push(h);
+							g.__labelAt__(h, -1);
+						}
                         
                         if (!component.isEmpty() && (h = component.peek(), h === current)) {
                             // push the leading of component
@@ -184,6 +186,7 @@
 					else {
 						// pay attention on h has poped before
 						low[head.peek()] = Math.min(low[head.peek()], low[current]);
+						g.__labelAt__(current, -1);
 					}
 
 					continue;
