@@ -139,7 +139,7 @@
 			while (!frontier.isEmpty()){
 				current = frontier.peek();
                 // if current has been in a SCC (-1) or in a component (>0) or , we pop it and continue
-                if (g.__labelAt__(current) === -1) {
+                if (g.__labelAt__(current) === -1 || low[current] === -1) {
                     frontier.pop();
                     continue;
                 }
@@ -186,7 +186,10 @@
 					else {
 						// pay attention on h has poped before
 						low[head.peek()] = Math.min(low[head.peek()], low[current]);
-						g.__labelAt__(current, -1);
+						// g.__labelAt__(current, -1);
+						// Attention! if current is poped from f and h, that means all of 
+						// its children have been poped too.
+						low[current] = -1;
 					}
 
 					continue;
