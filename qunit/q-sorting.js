@@ -39,6 +39,8 @@ test('Sorting, the basic function', function(){
 		arr.sort(function(x, y){return compare(fn(x), fn(y));});
 		return Sorting.isSorted(arr, compare);
 	};
+	
+	ok(!Sorting.isSorted([1, 2, 3, 0]), '[1, 2, 3, 0] is not sorted');
 
 	ok(testIsSorted(50, function(x){return x;}, function(x, y){return x-y;}), 'isSorte test for array of length 50, x=>x, x<y');
 	ok(testIsSorted(50, function(x){return x*x;}, function(x, y){return x-y;}), 'isSorte test for array of length 50, x=>x*x, x<y');

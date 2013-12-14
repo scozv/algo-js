@@ -7,7 +7,7 @@
 		compare = Sorting.__compareOrDefault__(compare);
 
 		var sorted = true, i;
-		for (i=0;i<arr.length-2;i++){
+		for (i=0;i<arr.length-1;i++){
 			if (compare(arr[i], arr[i+1]) > 0){
 				// console.log(arr[i], arr[i+1]);
 				sorted = false;
