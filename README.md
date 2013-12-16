@@ -18,8 +18,8 @@ Read [__wiki__] [6] page for details including API of this. However, the API doc
 
 ## Milestone
 When | What | Where
-:-------:|:---------|:-------:
- Year 2013    | - | -
+-------:|:---------|:-------:
+ 2013 &darr; | - | -
  Dec 12 | Migrating Algo.js from [Google Code] [4] | [`b39f7f7`](https://github.com/scotv/algo-js/commit/b39f7f78ab)
  Oct 18 | Proudly finish the implementation of iteration Tarjan algorithm on strongly connected components | [`4542b93`](https://github.com/scotv/algo-js/commit/4542b937d827)
  Sept 27 | Start to pay attention on JSLint | 
