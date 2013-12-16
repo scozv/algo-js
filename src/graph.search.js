@@ -246,6 +246,13 @@
 		while (!frontier.isEmpty()){
 
 			current = frontier.peek();
+			label = graph.__labelAt__(current);
+			if (label !== 'h' && label !== 'm' && typeof label === 'string') {
+				// current has been marked order OR has been in head (avoid cycle)
+				frontier.pop();
+				continue;
+			}
+			
 			if (current === head.peek()){
 				// that means we are on the top of dfs(v), we visit current from its parent
 
@@ -258,11 +265,12 @@
 			}
 
 			head.push(current);
+			graph.__labelAt__(current, 'h');
 
 			if (graph.__hasEdgesAt__(current)) {
 				graph.__edgesFrom__(current).forEach(function(v){
 					label = graph.__labelAt__(v);
-					if (typeof label !== 'string') {
+					if (label === 'm' || typeof label !== 'string') {
 						frontier.push(v);
 						// v has been add into frontier						
 						graph.__labelAt__(v, 'm');
