@@ -6,7 +6,21 @@ module.exports = function (grunt) {
 		'node-qunit': {
 			sorting: {
 				code: './qunit/q.js',
-				tests: './qunit/q-sorting.js' /*testFiles.map(function (n) {return "./tests/" + n;})*/ ,
+				tests: './qunit/q-sorting.js',
+				done: function (err, res) {
+					!err && publishResults("node", res, this.async());
+				}
+			}, 
+			all: {
+				code: './qunit/q.js',
+				tests: [
+					'q-x.math', 'q-x.math.vector',
+					'q-t.linkedlist', 'q-t.queue', 'q-t.stack', 'q-t.tree', 'q-t.unionfind',
+					'q-list', 'q-sorting',
+					'q-graph'
+				].map(function (n) {
+					return './qunit/' + n + '.js';
+				}),
 				done: function (err, res) {
 					!err && publishResults("node", res, this.async());
 				}
@@ -17,5 +31,5 @@ module.exports = function (grunt) {
 	grunt.loadNpmTasks('grunt-node-qunit');
 
 	// Default task(s).
-	grunt.registerTask('default', ['node-qunit:sorting']);
+	grunt.registerTask('default', ['node-qunit:all']);
 };
