@@ -1,0 +1,31 @@
+{
+  "name": "Algo",
+  "version": "3.1.4",
+  "description": "Implementation of some algorithms using JavaScript",
+  "main": "./qunit/q.js",
+  "dependencies": {},
+  "devDependencies": {
+    "grunt": "~0.4.2",
+    "grunt-contrib-jshint": "~0.6.3",
+    "grunt-contrib-nodeunit": "~0.2.0",
+    "grunt-contrib-uglify": "~0.2.2",
+    "grunt-node-qunit": "~2.0.2"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/scotv/algo-js.git"
+  },
+  "keywords": [
+    "algorithm",
+    "JavaScript"
+  ],
+  "author": "scott",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/scotv/algo-js/issues"
+  },
+  "homepage": "https://github.com/scotv/algo-js/wiki"
+}
