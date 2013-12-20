@@ -23,7 +23,7 @@
 		this.__e__ = 0;
 	};
 
-	$pt = type.Graph.prototype;
+	var $pt = type.Graph.prototype;
 	$pt.v = function(){
 		return this.__v__;
 	};

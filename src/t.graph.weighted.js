@@ -16,7 +16,7 @@
 
 	})(type.Graph);
 
-	$pt = type.GraphW.prototype;
+	var $pt = type.GraphW.prototype;
 
 	$pt.clone = function(){
 		var gh = new type.GraphW(this.n, this.__directed__);

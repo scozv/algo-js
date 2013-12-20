@@ -23,7 +23,7 @@
 		}
 	};
 
-	$t = _tree.prototype;
+	var $t = _tree.prototype;
 
 	$t.height = function(){
 			// The height of the root is the height of the tree.
@@ -70,7 +70,7 @@
 		return me;
 	})(_tree);
 
-	$bst = type.BinarySearchTree.prototype;
+	var $bst = type.BinarySearchTree.prototype;
 
 	$bst.search = function(elem){
 		// search elem in this tree, returns node which contains elem, or null if not exsits

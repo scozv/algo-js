@@ -107,7 +107,7 @@
 
 	})(_heap);
 
-	$minPt = type.MinHeap.prototype;
+	var $minPt = type.MinHeap.prototype;
 
 	$minPt.update = function(indexWhen, updateWhen, updateHow){
 		var heap = this,
