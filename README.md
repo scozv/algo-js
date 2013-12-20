@@ -1,5 +1,5 @@
 # Algo.js
-###### _Implementation of some algorithms in JavaScript_
+###### _Implementation of some algorithms using JavaScript_
 
 _Last updated on Dec, 16<sup>th</sup>, 2013_
 
