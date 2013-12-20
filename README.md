@@ -4,7 +4,11 @@
 _Last updated on Dec, 16<sup>th</sup>, 2013_
 
 ## Migration
-I have migrated this project from [Algo.js in Google Code] [4], with [__API__ page] [6] and [issue] [5]
+I have migrated this project from [Algo.js in Google Code] [4], with [__API__ page] [6] and [issue] [5].
+
+Due to default option of `git log` in github is no option, so please use command below to follow the full history of the codes which I have moved from root into `src/` during this migration:
+
+##### `git log --follow src/sorting.js`
 
 ## What
 This is a project containing implementation of some algorithms in `JavaScript`. I use [QUnit] [1] for unit test, and [Blanket.js] [2] for code coverage.
@@ -19,8 +23,8 @@ Read [__wiki__] [6] page for details including API of this. However, the API doc
 ## Milestone
 When | What | Where
 -------:|:---------|:-------:
- 2013 &darr; | - | -
- Dec 12 | Migrating Algo.js from [Google Code] [4] | [`b39f7f7`](https://github.com/scotv/algo-js/commit/b39f7f78ab)
+ 2013&darr; | - | -
+ Dec 12 | Start to migrate Algo.js from [Google Code] [4] | [`b39f7f7`](https://github.com/scotv/algo-js/commit/b39f7f78ab)
  Oct 18 | Proudly finish the implementation of iteration Tarjan algorithm on strongly connected components | [`4542b93`](https://github.com/scotv/algo-js/commit/4542b937d827)
  Sept 27 | Start to pay attention on JSLint | 
  Jul 12 | Add code coverage | [`600ee7d`](https://github.com/scotv/algo-js/commit/600ee7d899d2)
