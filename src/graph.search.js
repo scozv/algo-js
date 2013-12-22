@@ -97,10 +97,12 @@
 		// [component number, max component size]
 		// return [connect.length, Math.Stats.max(connect.map(function(x){return x[1].length}))];
 		connect = connect.map(function(x){return x[1].length;});		
-		console.log(Math.Stats.sum(connect));
-		return Sorting
+		console.log(connect.length, Math.Stats.sum(connect));
+		
+		// return [length of component, [top 100 componet size]]
+		return [connect.length, Sorting
 			.quickSort(connect, function(x, y){return y-x;}, true)
-			.slice(0, 10);
+			.slice(0, 100)];
 	};
 
 	Graph.sccTarjan = function(graph){
@@ -226,9 +228,11 @@
 
 		connect = connect.map(function(x){return x[1].length;});
 		console.log(Math.Stats.sum(connect));
-		return Sorting
-			.quickSort(connect, function(x, y){return y-x;})
-			.slice(0, 10);
+		
+		// return [length of component, [top 100 componet size]]
+		return [connect.length, Sorting
+			.quickSort(connect, function(x, y){return y-x;}, true)
+			.slice(0, 100)];
 	};
 
 	var tsearch = function(graph, i, n){

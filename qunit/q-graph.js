@@ -104,7 +104,7 @@ test('Graph algorithm', function(){
 
 	deepEqual(
 		Graph.sccKosaraju(g1),
-		[35, 7, 1, 1, 1, 1, 1, 1, 1, 1],
+		[10,[35,7,1,1,1,1,1,1,1,1]],
 		'scc of graph by Kosaraju');
 
 
