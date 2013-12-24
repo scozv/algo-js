@@ -15,7 +15,9 @@ Input and output files are compressed into archives by:
 
 Command for decompressing in `npm test` scripts is (see `package.json`):
 	
-	tar xjvf qunit/graph/scc.tar -C qunit/graph/
+	tar xjkvf qunit/graph/scc.tar -C qunit/graph/
+
+`k` in `tar xjkvf` means [keeping old file](http://www.gnu.org/software/tar/manual/html_node/Keep-Old-Files.html#SEC77).
 
 ## SCC Test
 The file named `scc??.i` or `scc??.o` is for SCC algorithm.

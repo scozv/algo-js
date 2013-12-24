@@ -13,7 +13,7 @@
 		"grunt-node-qunit": "~2.0.2"
 	},
 	"scripts": {
-		"test": "tar xjvf qunit/graph/scc.tar -C qunit/graph/ && grunt"
+		"test": "tar xjkvf qunit/graph/scc.tar -C qunit/graph/ && grunt"
 	},
 	"repository": {
 		"type": "git",

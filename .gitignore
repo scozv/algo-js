@@ -1,1 +1,5 @@
 node_modules
+
+# single input or output file
+*.i
+*.o
