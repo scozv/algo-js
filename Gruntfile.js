@@ -10,7 +10,14 @@ module.exports = function (grunt) {
 				done: function (err, res) {
 					!err && publishResults("node", res, this.async());
 				}
-			}, 
+			},
+			scc: {
+				code: './qunit/q.js',
+				tests: './qunit/n-graph.scc.js',
+				done: function (err, res) {
+					!err && publishResults("node", res, this.async());
+				}
+			},
 			all: {
 				code: './qunit/q.js',
 				tests: [
@@ -31,5 +38,5 @@ module.exports = function (grunt) {
 	grunt.loadNpmTasks('grunt-node-qunit');
 
 	// Default task(s).
-	grunt.registerTask('default', ['node-qunit:all']);
+	grunt.registerTask('default', ['node-qunit:all', 'node-qunit:scc']);
 };
