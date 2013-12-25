@@ -98,11 +98,24 @@
 		// return [connect.length, Math.Stats.max(connect.map(function(x){return x[1].length}))];
 		connect = connect.map(function(x){return x[1].length;});		
 		console.log(connect.length, Math.Stats.sum(connect));
-		
-		// return [length of component, [top 100 componet size]]
-		return [connect.length, Sorting
-			.quickSort(connect, function(x, y){return y-x;}, true)
-			.slice(0, 100)];
+        
+		 // return [
+		 //   length of component,
+		 //   [top 100 componet size],
+		 //   [top 100 distinct component size]
+		 // ]
+		var sortedSize = Sorting.quickSort(connect, function (x, y) {
+		    return y - x;
+		}, true),
+		    pre = -1;
+		return [
+		    connect.length,
+		    sortedSize.slice(0, 100),
+		    sortedSize.filter(function (x) {
+		        var same = (x === pre);
+		        pre = x;
+		        return !same;
+		    }).slice(0, 100)];
 	};
 
 	Graph.sccTarjan = function(graph){
@@ -229,10 +242,23 @@
 		connect = connect.map(function(x){return x[1].length;});
 		console.log(Math.Stats.sum(connect));
 		
-		// return [length of component, [top 100 componet size]]
-		return [connect.length, Sorting
-			.quickSort(connect, function(x, y){return y-x;}, true)
-			.slice(0, 100)];
+        // return [
+        //   length of component,
+        //   [top 100 componet size],
+        //   [top 100 distinct component size]
+        // ]
+        var sortedSize = Sorting.quickSort(connect, function (x, y) {
+                return y - x;
+            }, true), pre = -1;
+        
+        return [
+            connect.length,
+            sortedSize.slice(0, 100),
+            sortedSize.filter(function (x) {
+                var same = (x === pre);
+                pre = x;
+                return !same;
+            }).slice(0, 100)];
 	};
 
 	var tsearch = function(graph, i, n){

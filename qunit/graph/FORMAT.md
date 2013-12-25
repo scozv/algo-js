@@ -39,9 +39,15 @@ The format of SCC test output file is:
 
 	x,a,b,c,d,e
 
-* The number of SCC is exact `x`.
-* Each following number sperated by comma (,) is the size of a SCC.
-* The size of all SCC is __in descending order__.
-* if `x` grate than `100`, we __take the first `100`__ sizes, still in descending order.
+We have 3 segments of output.
+
+0. The number of SCC is exact `x`.
+0. Each following number sperated by comma (,) is the size of a SCC.
+    * The size of all SCC is __in descending order__.
+    * if `x` grate than `100`, we __take the first `100`__ sizes, still in descending order.
+0. Then, each following number is the __distinct__ number of size array, taking only top 100 in descending order.
+
+And, 
+
 * __No blankspace__ occurs between comma.
 * The last line of input file __is or is not__ empty line.

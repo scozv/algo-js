@@ -55,7 +55,7 @@ var fileReadingTest = function () {
 					var g = helper.buildGraph(data),
 						result = fs.readFileSync(output, 'UTF-8').replace('\r\n', ''),
 						flat = function (r) {
-							return r[0] + ',' + r[1].join(',');
+							return r[0] + ',' + r[1].join(',') + ',' + r[2].join(',');
 						};
 
 					// test it
