@@ -2,8 +2,10 @@
 	// using t.graph.js
 	// using t.queue.js
 
-	// labelAt (v, 'v' | 'm') for diff meaning, v: visited, m: marked
-	// or we can use -1 for initial label of vertex, then after, label 0 as marked, label t>0 as visited by some order
+	// labelAt for diff meaning
+	// topo: 0 for init, >0 for order, -1 for head
+	// search: 0 for init, 
+	// tarjan scc: 0 as init, -1 as being SCC, else as dfs(v)	
 
 	Graph.bfs = function(graph){
 		var g = graph.clone();
@@ -52,10 +54,13 @@
 		var g = graph.clone(),
 			result, 
 			i = 0,
-			n = [g.n]; 
+			n = [g.n];
+		
+		// 0 for init, >0 for order, -1 for head
+		g.__labelAll__(0);
 
 		Math.range(1, g.n+1).forEach(function(v){
-			if (typeof g.__labelAt__(v) !== 'string'){
+			if (g.__labelAt__(v) <= 0){
 				// unvisited or unmarked
 				i++;
 				tsearch(g, v, n);
@@ -94,28 +99,7 @@
 		rg = null;
 		g = null;
 
-		// [component number, max component size]
-		// return [connect.length, Math.Stats.max(connect.map(function(x){return x[1].length}))];
-		connect = connect.map(function(x){return x[1].length;});		
-		console.log(connect.length, Math.Stats.sum(connect));
-        
-		 // return [
-		 //   length of component,
-		 //   [top 100 componet size],
-		 //   [top 100 distinct component size]
-		 // ]
-		var sortedSize = Sorting.quickSort(connect, function (x, y) {
-		    return y - x;
-		}, true),
-		    pre = -1;
-		return [
-		    connect.length,
-		    sortedSize.slice(0, 100),
-		    sortedSize.filter(function (x) {
-		        var same = (x === pre);
-		        pre = x;
-		        return !same;
-		    }).slice(0, 100)];
+		return buildConnect(connect);
 	};
 
 	Graph.sccTarjan = function(graph){
@@ -239,26 +223,7 @@
 
 		g = null;
 
-		connect = connect.map(function(x){return x[1].length;});
-		console.log(Math.Stats.sum(connect));
-		
-        // return [
-        //   length of component,
-        //   [top 100 componet size],
-        //   [top 100 distinct component size]
-        // ]
-        var sortedSize = Sorting.quickSort(connect, function (x, y) {
-                return y - x;
-            }, true), pre = -1;
-        
-        return [
-            connect.length,
-            sortedSize.slice(0, 100),
-            sortedSize.filter(function (x) {
-                var same = (x === pre);
-                pre = x;
-                return !same;
-            }).slice(0, 100)];
+		return buildConnect(connect);
 	};
 
 	var tsearch = function(graph, i, n){
@@ -270,14 +235,14 @@
 			// n = graph.n;					// as topological order
 
 		frontier.push(i);
-		graph.__labelAt__(i, 'm');
+		// graph.__labelAt__(i, 'm');
 		head.push(-1);
 
 		while (!frontier.isEmpty()){
 
 			current = frontier.peek();
 			label = graph.__labelAt__(current);
-			if (label !== 'h' && label !== 'm' && typeof label === 'string') {
+			if (label > 0 /*label !== 'h' && label !== 'm' && typeof label === 'string'*/) {
 				// current has been marked order OR has been in head (avoid cycle)
 				frontier.pop();
 				continue;
@@ -287,7 +252,7 @@
 				// that means we are on the top of dfs(v), we visit current from its parent
 
 				// lable as topological order
-				graph.__labelAt__(current, String(n[0]--));
+				graph.__labelAt__(current, n[0]--);
 				frontier.pop();
 				head.pop();
 
@@ -295,15 +260,15 @@
 			}
 
 			head.push(current);
-			graph.__labelAt__(current, 'h');
+			graph.__labelAt__(current, -1);
 
 			if (graph.__hasEdgesAt__(current)) {
 				graph.__edgesFrom__(current).forEach(function(v){
 					label = graph.__labelAt__(v);
-					if (label === 'm' || typeof label !== 'string') {
+					if (label === 0 /*label === 'm' || typeof label !== 'string'*/) {
 						frontier.push(v);
 						// v has been add into frontier						
-						graph.__labelAt__(v, 'm');
+						// graph.__labelAt__(v, 'm');
 					}
 				});
 			} // end if
@@ -370,5 +335,30 @@
 			// reverse undirected graph is itself
 			return graph.clone();
 		}
+	};
+	
+	var buildConnect = function (connect) {
+		// return [
+		//   length of component,
+		//   [top 100 componet size],
+		//   [top 100 distinct component size]
+		// ]
+
+		connect = connect.map(function (x) {
+			return x[1].length;
+		});
+
+		var desc = function (x, y) {return y-x;},
+			sortedSize = Sorting.quickSort(connect, desc, true),
+			pre = -1;
+		
+		return [
+			connect.length,
+			sortedSize.slice(0, 100),
+			sortedSize.filter(function (x) {
+				var same = (x === pre);
+				pre = x;
+				return !same;
+			}).slice(0, 100)];
 	};
 })(window.Graph = window.Graph || {});

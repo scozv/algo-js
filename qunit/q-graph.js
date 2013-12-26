@@ -96,7 +96,15 @@ test('Graph algorithm', function(){
 	deepEqual(
 		Graph.topologicalSort(g2),
 		[1, 3, 2, 4], 'topological sort on [1, 3, 2, 4]');
-
+	
+	g2 = new T.Graph(3, true);
+	e2 = [[1, 2], [2, 3], [3, 1]];	
+	e2.forEach(function(x){g2.__pushEdge__(x[0], x[1])});
+	
+	deepEqual(
+		Graph.topologicalSort(g2),
+		[1, 2, 3], 'topological sort on [1, 2, 3]');
+	
 	deepEqual(
 		Graph.topologicalSort(g1), 
 		[11, 4, 28, 25, 5, 18, 37, 21, 2, 46, 15, 1, 8, 42, 35, 41, 16, 9, 49, 13, 27, 34, 3, 26, 20, 50, 23, 7, 29, 30, 45, 40, 43, 32, 19, 33, 14, 48, 31, 24, 38, 6, 44, 39, 36, 47, 17, 10, 12, 22], 

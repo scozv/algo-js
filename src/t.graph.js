@@ -170,7 +170,7 @@
 	};
 	
 	$pt.__labelAll__ = function(label){
-		if (label && (typeof label === 'string' || label === +label)) {
+		if (typeof label === 'string' || label === +label) {
 			var _g = this.__adjacencyList__;
 			Math.range(1, this.n + 1).forEach(function(v) {
 				if (!_g[v]) {_g[v]=[v, []];}
