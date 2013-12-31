@@ -3,7 +3,7 @@
 	// using t.queue.js
 
 	// labelAt for diff meaning
-	// topo: 0 for init, >0 for order, -1 for head
+	// topo: -1 for init, 0 for head, >0 for order
 	// search: -1 for init, 0 for being in frotiner, 1 for being visited
 	// tarjan scc: 0 as init, -1 as being SCC, else as dfs(v)
 
@@ -59,8 +59,7 @@
 			i = 0,
 			n = [g.n];
 		
-		// 0 for init, >0 for order, -1 for head
-		g.__labelAll__(0);
+		g.__labelAll__(-1);
 
 		Math.range(1, g.n+1).forEach(function(v){
 			if (g.__labelAt__(v) <= 0){
@@ -265,12 +264,12 @@
 			}
 
 			head.push(current);
-			graph.__labelAt__(current, -1);
+			graph.__labelAt__(current, 0);
 
 			if (graph.__hasEdgesAt__(current)) {
 				graph.__edgesFrom__(current).forEach(function(v){
 					label = graph.__labelAt__(v);
-					if (label === 0 /*label === 'm' || typeof label !== 'string'*/) {
+					if (label === -1 /*label === 'm' || typeof label !== 'string'*/) {
 						frontier.push(v);
 						// v has been add into frontier						
 						// graph.__labelAt__(v, 'm');
