@@ -5,7 +5,7 @@
 	// labelAt for diff meaning
 	// topo: -1 for init, 0 for head, >0 for order
 	// search: -1 for init, 0 for being in frotiner, 1 for being visited
-	// tarjan scc: 0 as init, -1 as being SCC, else as dfs(v)
+	// tarjan scc: -1 as init, 0 as being SCC, else as dfs(v)
 
 	Graph.bfs = function(graph){
 		var g = graph.clone();
@@ -112,15 +112,12 @@
 			connect = [],
 			low = [],
 			component = new T.Stack();
-
-		Math.range(1, g.n+1).forEach(function(v){
-			// label
-			// 0 as init, -1 as being SCC, else as dfs(v)
-			g.__labelAt__(v, 0);
-		});
+        
+        g.__labelAll__(-1);
 
 		Math.range(1, g.n+1).forEach(function(i){
-			if (g.__labelAt__(i) == -1) {
+			if (g.__labelAt__(i) === 0) {
+                // has been marked SCC
 				return;
 			}
 
@@ -141,8 +138,8 @@
 
 			while (!frontier.isEmpty()){
 				current = frontier.peek();
-                // if current has been in a SCC (-1) or in a component (>0) or , we pop it and continue
-                if (g.__labelAt__(current) === -1 || low[current] === -1) {
+                // if current has been in a SCC (0) or in a component (>0) or , we pop it and continue
+                if (g.__labelAt__(current) === 0 || low[current] === -1) {
                     frontier.pop();
                     continue;
                 }
@@ -174,14 +171,14 @@
 						) {
 							h = component.pop();
 							c.push(h);
-							g.__labelAt__(h, -1);
+							g.__labelAt__(h, 0);
 						}
                         
                         if (!component.isEmpty() && (h = component.peek(), h === current)) {
                             // push the leading of component
                             h = component.pop();
                             c.push(h);
-                            g.__labelAt__(h, -1);
+                            g.__labelAt__(h, 0);
                         }
 						
 						connect.push([current, c]);
@@ -210,7 +207,7 @@
 				if (g.__hasEdgesAt__(current)) {
 					g.__edgesFrom__(current).forEach(function(v){
 						label = g.__labelAt__(v);
-						if (label > -1) {
+						if (label !== 0) {
 							// not visited yet
 							if (label > 0) {
 								// marked
