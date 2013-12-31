@@ -4,11 +4,12 @@
 
 	// labelAt for diff meaning
 	// topo: 0 for init, >0 for order, -1 for head
-	// search: 0 for init, 
-	// tarjan scc: 0 as init, -1 as being SCC, else as dfs(v)	
+	// search: -1 for init, 0 for being in frotiner, 1 for being visited
+	// tarjan scc: 0 as init, -1 as being SCC, else as dfs(v)
 
 	Graph.bfs = function(graph){
 		var g = graph.clone();
+        g.__labelAll__(-1);
 		var result = search(g, new T.Queue(), 1);
 		g = null;
 
@@ -17,6 +18,7 @@
 
 	Graph.dfs = function(graph){
 		var g = graph.clone();
+        g.__labelAll__(-1);
 		var result = search(g, new T.Stack(), 1);
 		g = null;
 
@@ -28,14 +30,15 @@
 			throw new Error(T.ERROR.INVALID_GRAPH_ACTION);
 		}
 
-		var g = graph.clone();
-
-		var connect = [],	// [x] where x = [head, [following vertex]]
+		var g = graph.clone(),
+            connect = [],	// [x] where x = [head, [following vertex]]
 			label;
+        
+        g.__labelAll__(-1);
 
 		Math.range(1, g.n+1).forEach(function(v){
 			label = g.__labelAt__(v);
-			if (label !== 'v'){
+			if (label < 1 /*label !== 'v'*/){
 				connect.push([v, search(g, new T.Stack(), v)]);
 			}
 		});
@@ -88,10 +91,12 @@
 			rg = reverse(graph),	// reversed graph
 			g = graph.clone(),		// clone one
 			connect = [];			// connectivity array
-
+        
+        g.__labelAll__(-1);
+        
 		Graph.topologicalSort(rg).forEach(function(v){
 			label = g.__labelAt__(v);
-			if (typeof label !== 'string'){
+			if (label < 1 /*typeof label !== 'string'*/){
 				connect.push([v, search(g, new T.Stack(), v)]);
 			}			
 		});
@@ -294,7 +299,7 @@
 			label;
 
 		frontierIn(i);
-		graph.__labelAt__(i, 'm');
+		graph.__labelAt__(i, 0);
 		while (!frontier.isEmpty()){
 			current = frontierOut();
 			
@@ -302,15 +307,15 @@
 			if (graph.__hasEdgesAt__(current)) {
 				graph.__edgesFrom__(current).forEach(function(v){
 					label = graph.__labelAt__(v);
-					if (label !== 'm' && label !== 'v') {
+					if (label < 0 /*label !== 'm' && !== 'v'*/) {
 						frontierIn(v);
 						// v has been add into frontier						
-						graph.__labelAt__(v, 'm');
+						graph.__labelAt__(v, 0);
 					}
 				});
 			}
 			// visit current
-			graph.__labelAt__(current, 'v');
+			graph.__labelAt__(current, 1);
 			order.push(current);
 		}
 
