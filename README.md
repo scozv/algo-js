@@ -2,6 +2,8 @@
 
 # Algo.js
 ###### _Implementation of some algorithms using JavaScript_
+## Wiki and API
+Read new [__wiki__] [6] page for details including API of this.
 
 ## Migration
 I have migrated this project from [Algo.js in Google Code] [4], with [__API__ page] [6] and [issue] [5].
@@ -17,12 +19,11 @@ I try to introduce some OOP into this project, and recently, I am learning funct
 
 This project is not the best implementation, but I am taking it easier to use.
 
-## Wiki and API
-Read [__wiki__] [6] page for details including API of this. However, the API docs are slower than the codes, which you can browse from repo directly.
-
 ## Milestone
 When | What | Where
 :-------|:---------|:-------:
+ 2014&darr; | - | -
+ Jun, 14 | Start to migrate API docs to project wiki page | [API page] [6]
  2013&darr; | - | -
  Dec,20 | Introduce Continuous Integration by [drone.io] [7]| [`e03180d`](https://github.com/scotv/algo-js/commit/e03180df15)
  Dec,12 | Start to migrate Algo.js from [Google Code] [4] | [`b39f7f7`](https://github.com/scotv/algo-js/commit/b39f7f78ab)
@@ -37,5 +38,5 @@ When | What | Where
 [3]: http://www.ecmascript.org/  "ECMA-262"
 [4]: https://code.google.com/p/algo-js "Algo.js"
 [5]: https://github.com/scotv/algo-js/issues "Issues"
-[6]: https://github.com/scotv/algo-js/wiki "Wiki"
+[6]: http://scotv.github.io/algo-wiki	 "Wiki"
 [7]: https://drone.io/scotv "drone.io"
