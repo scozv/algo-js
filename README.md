@@ -38,5 +38,5 @@ When | What | Where
 [3]: http://www.ecmascript.org/  "ECMA-262"
 [4]: https://code.google.com/p/algo-js "Algo.js"
 [5]: https://github.com/scotv/algo-js/issues "Issues"
-[6]: http://scotv.github.io/algo-wiki	 "Wiki"
+[6]: http://scotv.github.io/algo-wiki "Wiki"
 [7]: https://drone.io/scotv "drone.io"
