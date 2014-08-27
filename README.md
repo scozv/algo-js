@@ -23,6 +23,7 @@ This project is not the best implementation, but I am taking it easier to use.
 When | What | Where
 :-------|:---------|:-------:
  2014&darr; | - | -
+ Aug, 27 | An initial PDF document of API writed in LaTeX has been released | [Releases](https://github.com/scotv/algo-wiki/releases)
  Jun, 14 | Start to migrate API docs to project wiki page | [API page] [6]
  2013&darr; | - | -
  Dec,20 | Introduce Continuous Integration by [drone.io] [7]| [`e03180d`](https://github.com/scotv/algo-js/commit/e03180df15)
