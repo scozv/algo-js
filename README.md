@@ -19,6 +19,13 @@ I try to introduce some OOP into this project, and recently, I am learning funct
 
 This project is not the best implementation, but I am taking it easier to use.
 
+## CI Scripts
+```bash
+npm -d install
+npm install -g grunt-cli
+npm test
+```
+
 ## Milestone
 When | What | Where
 :-------|:---------|:-------:
