@@ -32,11 +32,25 @@ module.exports = function (grunt) {
 					!err && publishResults("node", res, this.async());
 				}
 			}
+		}, 
+		
+		// must name as 'mochacov'
+		'mochacov': {
+			options: {
+					require : ['./qunit/q.js'],
+					reporter: 'spec',
+					log: true,
+					harmony: true				
+				},
+			all : ['qunit/q-x.math.js']
 		}
 	});
 
 	grunt.loadNpmTasks('grunt-node-qunit');
+	// must load it
+	grunt.loadNpmTasks('grunt-mocha-cov');
 
 	// Default task(s).
 	grunt.registerTask('default', ['node-qunit:all', 'node-qunit:scc']);
+	grunt.registerTask('test', ['mochacov:all']);
 };

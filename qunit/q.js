@@ -21,3 +21,12 @@ require('../src/sorting.quickSort.js');
 require('../src/graph.cut.js');
 require('../src/graph.search.js');
 require('../src/graph.path.js');
+
+var should = require('should');
+
+test = (message, fn) => describe(message, fn);
+
+strictEqual = (actual, expected, message) => it(message || 'N/A', ()=>should(actual).equal(expected));
+deepEqual = (actual, expected, message) => it(message || 'N/A', ()=>should(actual).eql(expected));
+ok = (actual, message) => it(message || 'N/A', ()=>(actual).should.be.ok);
+throws = (fn, message) => it(message || 'N/A', ()=>(fn).should.throw());
