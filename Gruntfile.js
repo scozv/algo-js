@@ -42,7 +42,7 @@ module.exports = function (grunt) {
 					log: true,
 					harmony: true				
 				},
-			all : ['qunit/q-x.math.js']
+			all : ['qunit/q-*.js']
 		}
 	});
 

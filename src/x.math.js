@@ -1,9 +1,7 @@
 (function(Math, undefined){
 
 	// i.e. $mod(-1, 4) = 3
-	Math.mod = function(i, n){
-		return (i & 0x7FFFFFFF) % n;
-	};
+	Math.mod = (i, n) => (i & 0x7FFFFFFF) % n;
 
 	Math.range = function(start, end, step){
 		// gets a range [start, end) with step
