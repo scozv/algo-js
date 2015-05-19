@@ -42,7 +42,7 @@ module.exports = function (grunt) {
 					log: true,
 					harmony: true				
 				},
-			all: ['qunit/q-*.js'],
+			all: ['qunit/q-*.js', 'qunit/n-graph.scc.js'],
 			scc: ['qunit/n-graph.scc.js']
 		}
 	});
@@ -52,7 +52,7 @@ module.exports = function (grunt) {
 	grunt.loadNpmTasks('grunt-mocha-cov');
 
 	// Default task(s).
-	grunt.registerTask('default', ['node-qunit:all', 'node-qunit:scc']);
+	// grunt.registerTask('default', ['node-qunit:all', 'node-qunit:scc']);
 	grunt.registerTask('testscc', ['mochacov:scc']);
-	grunt.registerTask('test', ['mochacov:all']);
+	grunt.registerTask('default', ['mochacov:all']);
 };
