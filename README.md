@@ -1,16 +1,15 @@
 [![Build Status](https://drone.io/github.com/scotv/algo-js/status.png)](https://drone.io/github.com/scotv/algo-js/latest)
 
 # Algo.js
-###### _Implementation of some algorithms using JavaScript_
+###### _Implementation of some algorithms using JavaScript with Harmony_
 ## Wiki and API
 Read new [__wiki__] [6] page for details including API of this.
 
-## Migration
-I have migrated this project from [Algo.js in Google Code] [4], with [__API__ page] [6] and [issue] [5].
+## Harmony
+I don't like returning value with `return`, so I enable `harmony` option of `nodejs` by default.
+Currently, only `Firefox 22.0+` supports arrow functions ([MDN] [8]).
 
-Due to default option of `git log` in github is no option, so please use command below to follow the full history of the codes which I have moved from root into `src/` during this migration:
-
-##### `git log --follow src/sorting.js`
+##### `nodejs --harmony`
 
 ## What
 This is a project containing implementation of some algorithms in `JavaScript`. I use [QUnit] [1] for unit test, [Blanket.js] [2] for code coverage, and [drone.io] [7] for CI.
@@ -23,12 +22,22 @@ This project is not the best implementation, but I am taking it easier to use.
 ```bash
 npm -d install
 npm install -g grunt-cli
+npm install -g mocha
 npm test
 ```
+
+## Migration
+I have migrated this project from [Algo.js in Google Code] [4], with [__API__ page] [6] and [issue] [5].
+
+Due to default option of `git log` in github is no option, so please use command below to follow the full history of the codes which I have moved from root into `src/` during this migration:
+
+##### `git log --follow src/sorting.js`
 
 ## Milestone
 When | What | Where
 :-------|:---------|:-------:
+ 2015&darr; | - | -
+ May, 16 | Start to replace `return` with Array functions in JavaScript | 
  2014&darr; | - | -
  Aug, 27 | An initial PDF document of API writed in LaTeX has been released | [Releases](https://github.com/scotv/algo-wiki/releases)
  Jun, 14 | Start to migrate API docs to project wiki page | [API page] [6]
@@ -48,3 +57,4 @@ When | What | Where
 [5]: https://github.com/scotv/algo-js/issues "Issues"
 [6]: http://scotv.github.io/algo-wiki "Wiki"
 [7]: https://drone.io/scotv "drone.io"
+[8]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions#Browser_compatibility "Arrow functions"
