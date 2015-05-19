@@ -1,4 +1,4 @@
-test('Graph constructor and properties', function(){
+test('Graph constructor and properties, Part I', function(){
 	throws(function(){new T.Graph();}, 'error should be thrown when build graph without indicating n');
 	throws(function(){new T.GraphW();}, 'error should be thrown when build weighted graph without indicating n');
 
@@ -21,8 +21,20 @@ test('Graph constructor and properties', function(){
 	g1.__pushEdge__(2, 4, true);
 	deepEqual(g1.__adjacencyList__[2], [2, [4]], 'a edge (u, v) has been pushed into a undirected graph');
 	deepEqual(g1.__adjacencyList__[4], [4, [2]], 'a edge (v, u) has been pushed into a undirected graph too');
+});
 
+test('Graph constructor and properties, Part II', function(){
+	throws(function(){new T.Graph();}, 'error should be thrown when build graph without indicating n');
+	throws(function(){new T.GraphW();}, 'error should be thrown when build weighted graph without indicating n');
+
+	var g1 = new T.Graph(10);
+	g1.n = 13;
+	g1 = new T.Graph(10, 1);
+	var g2 = new T.Graph(10, true);	
+	g1.__pushEdge__(1, 3);
+	g1.__pushEdge__(2, 4, true);
 	g1.__pushEdge__(2, 7);
+	
 	deepEqual(g1.__edgesFrom__(7), [], '__edgesFrom__(7)');
 	deepEqual(g1.__edgesFrom__(1), [3], '__edgesFrom__(1)');
 	deepEqual(g1.__edgesFrom__(2), [4, 7], '__edgesFrom__(2)');
