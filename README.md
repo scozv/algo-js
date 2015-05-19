@@ -5,12 +5,9 @@
 ## Wiki and API
 Read new [__wiki__] [6] page for details including API of this.
 
-## Migration
-I have migrated this project from [Algo.js in Google Code] [4], with [__API__ page] [6] and [issue] [5].
-
-Due to default option of `git log` in github is no option, so please use command below to follow the full history of the codes which I have moved from root into `src/` during this migration:
-
-##### `git log --follow src/sorting.js`
+## Attention
+This branch `qunit` will be left as it was.
+A new branch `harmony` with Arrow functions enabled has been introduced, and will be replace the `master`.
 
 ## What
 This is a project containing implementation of some algorithms in `JavaScript`. I use [QUnit] [1] for unit test, [Blanket.js] [2] for code coverage, and [drone.io] [7] for CI.
@@ -25,6 +22,13 @@ npm -d install
 npm install -g grunt-cli
 npm test
 ```
+
+## Migration
+I have migrated this project from [Algo.js in Google Code] [4], with [__API__ page] [6] and [issue] [5].
+
+Due to default option of `git log` in github is no option, so please use command below to follow the full history of the codes which I have moved from root into `src/` during this migration:
+
+##### `git log --follow src/sorting.js`
 
 ## Milestone
 When | What | Where
