@@ -32,40 +32,38 @@ var helper = {
 	},
 	inputPath: './qunit/graph/',
 	outputPath: './qunit/graph/',
-	inputFiles: ['00', '01', '02', '03', '04', '05', '06', '07', '08'],
+	inputFiles: ['00', '01', '02', '03', '04', '05', '06', '07', '08'].map(x=>'scc'+x),
 	toString: function () {}
 };
 
-var fileReadingTest = function () {
-	helper.inputFiles.forEach(function (name) {
-		var input = helper.inputPath + 'scc' + name + '.i',
-			output = helper.outputPath + 'scc' + name + '.o',
-			fs = require('fs');
-
-		/*		*/
-
-		asyncTest("asynchronous test on file " + name, function () {
-			expect(2);
-
-			fs.readFile(input, 'UTF-8', function (err, data) {
+test('SCC tests on reading file', ()=>{
+	helper.inputFiles.forEach(function (fileName) {
+		it('SCC test on file named ' + fileName, function(done){
+			var input = helper.inputPath + fileName + '.i',
+				output = helper.outputPath + fileName + '.o',
+				fs = require('fs'),
+				assert = require('assert');
+			
+			fs.readFile(input, 'UTF-8', (err, data)=>{
 				if (err) {
 					console.log('reading error (details below): ');
 					throw new Error(err);
 				} else {
 					var g = helper.buildGraph(data),
-						result = fs.readFileSync(output, 'UTF-8').replace('\r\n', ''),
-						flat = function (r) {
-							return r[0] + ',' + r[1].join(',') + ',' + r[2].join(',');
-						};
+					result = fs.readFileSync(output, 'UTF-8').replace('\r\n', ''),
+					flat = function (r) {
+						var t = r[0] + ',' + r[1].join(',') + ',' + r[2].join(',');
+						return t;
+					};
 
 					// test it
-					deepEqual(flat(Graph.sccKosaraju(g)), result, 'Kosaraju SCC on file: ' + name);
-					deepEqual(flat(Graph.sccTarjan(g)), result, 'Tarjan SCC on file: ' + name);
-					start();
+					assert.equal(result, flat(Graph.sccKosaraju(g)), 'Kosaraju SCC');
+					assert.equal(result, flat(Graph.sccTarjan(g)), 'Tarjan SCC');
 				}
+				
+				// async done
+				done();
 			});
 		});
 	});
-};
-
-fileReadingTest();
+});
