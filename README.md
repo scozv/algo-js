@@ -12,11 +12,8 @@ Currently, only `Firefox 22.0+` supports arrow functions ([MDN] [8]).
 ##### `nodejs --harmony`
 
 ## What
-This is a project containing implementation of some algorithms in `JavaScript`. I use [QUnit] [1] for unit test, [Blanket.js] [2] for code coverage, and [drone.io] [7] for CI.
-
-I try to introduce some OOP into this project, and recently, I am learning functional programming like `Scala`, so that I also try to introduce the functional conception. So we will see `.map()`, `.forEach()`, etc. Fortunately, we have some iteration methods for Array in [ECMA-262, Edition 5] [3].
-
-This project is not the best implementation, but I am taking it easier to use.
+This is a project containing implementation of some algorithms in `JavaScript` with arrow functions enabled. 
+I use [Mocha] [1] for unit test, [grunt-mocha-cov] [2] for code coverage, and [drone.io] [7] for CI.
 
 ## CI Scripts
 ```bash
@@ -37,7 +34,7 @@ Due to default option of `git log` in github is no option, so please use command
 When | What | Where
 :-------|:---------|:-------:
  2015&darr; | - | -
- May, 16 | Start to replace `return` with Array functions in JavaScript | 
+ May, 16 | Start to replace `return` with Arrow functions in JavaScript | 
  2014&darr; | - | -
  Aug, 27 | An initial PDF document of API writed in LaTeX has been released | [Releases](https://github.com/scotv/algo-wiki/releases)
  Jun, 14 | Start to migrate API docs to project wiki page | [API page] [6]
@@ -50,8 +47,8 @@ When | What | Where
  May,23 | Start unit test | [`dad30d6`](https://github.com/scotv/algo-js/commit/dad30d64ad70)
  May,23 | Switch SVN to Git | [`3b0c92e`](https://github.com/scotv/algo-js/commit/3b0c92e3b173)
 
-[1]: http://qunitjs.com/ "QUnit.js"
-[2]: http://blanketjs.org/ "Blanket.js"
+[1]: http://mochajs.org/ "Mocha.js"
+[2]: https://www.npmjs.com/package/grunt-mocha-cov/ "Grunt Mocha Test Coverage"
 [3]: http://www.ecmascript.org/  "ECMA-262"
 [4]: https://code.google.com/p/algo-js "Algo.js"
 [5]: https://github.com/scotv/algo-js/issues "Issues"
