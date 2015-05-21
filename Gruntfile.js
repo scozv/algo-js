@@ -17,15 +17,28 @@ module.exports = function (grunt) {
 			it:1,deepEqual:1,ok:1,throws:1,
 			T:1,Sorting:1,Graph:1,List:1,UnionFind:1,
 			// maybe global var leak
-			result:1,l:1,subCapacity:1}
-		testFiles = [];
+			result:1,l:1,subCapacity:1},
+		testPath = 'qunit/',
+		testFiles = [
+			'q-x.math','q-x.math.vector',
+			'q-t.linkedlist','q-t.queue','q-t.stack','q-t.tree','q-t.unionfind',
+			'q-graph','q-list','q-sorting'
+			/*,'n-graph.scc'*/
+		];
 
 	// build es6transpiler mapping rule
 	sourceFiles.forEach(function(file){
 		es6transpilerMapping['es5.'+file+'.js'] = sourcePath + file +'.js';
 	});
 	es6transpilerMapping['es5.q.js'] = 'qunit/q.js';
-	console.log(es6transpilerMapping);
+	es6transpilerMapping['es5.n-graph.scc.js'] = 'qunit/n-graph.scc.js';
+
+	// build uglify test files
+	var uglifyTestFiles = ['qunit/_uglify.header.js'];
+	testFiles.forEach(function(file){
+		uglifyTestFiles.push(testPath+file+'.js');
+	});
+	uglifyTestFiles.push('es5.n-graph.scc.js');
 
 	// Project configuration.
 	grunt.initConfig({
@@ -85,10 +98,7 @@ module.exports = function (grunt) {
 			},
 			test: {
 				files: {
-					'qunit/test.js': [
-						'qunit/_uglify.header.js',
-						'qunit/q-sorting.js'
-					]
+					'qunit/test.js': uglifyTestFiles
 				}
 			}
 		},
