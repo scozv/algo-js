@@ -13,7 +13,7 @@ Currently, only `Firefox 22.0+` supports arrow functions ([MDN] [8]).
 
 ## What
 This is a project containing implementation of some algorithms in `JavaScript` with arrow functions enabled. 
-I use [Mocha] [1] for unit test, [grunt-mocha-cov] [2] for code coverage, and [drone.io] [7] for CI.
+I use [Mocha] [1] for unit test, [Blanketjs] [2] for code coverage, and [drone.io] [7] for CI.
 
 ## CI Scripts
 ```bash
@@ -48,7 +48,7 @@ When | What | Where
  May,23 | Switch SVN to Git | [`3b0c92e`](https://github.com/scotv/algo-js/commit/3b0c92e3b173)
 
 [1]: http://mochajs.org/ "Mocha.js"
-[2]: https://www.npmjs.com/package/grunt-mocha-cov/ "Grunt Mocha Test Coverage"
+[2]: http://blanketjs.org/ "Blanket.js"
 [3]: http://www.ecmascript.org/  "ECMA-262"
 [4]: https://code.google.com/p/algo-js "Algo.js"
 [5]: https://github.com/scotv/algo-js/issues "Issues"
