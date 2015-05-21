@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/scotv/algo-js.svg?branch=master)](https://travis-ci.org/scotv/algo-js.svg?branch=master)
+[![Build Status](https://travis-ci.org/scotv/algo-js.svg?branch=master)](https://travis-ci.org/scotv/algo-js)
 
 # Algo.js
 ###### _Implementation of some algorithms using JavaScript with Harmony_
@@ -14,14 +14,6 @@ Currently, only `Firefox 22.0+` supports arrow functions ([MDN] [8]).
 ## What
 This is a project containing implementation of some algorithms in `JavaScript` with arrow functions enabled. 
 I use [Mocha] [1] for unit test, [Blanketjs] [2] for code coverage, and [Travis CI] [7] for CI.
-
-## CI Scripts
-```bash
-npm -d install
-npm install -g grunt-cli
-npm install -g mocha
-npm test
-```
 
 ## Migration
 I have migrated this project from [Algo.js in Google Code] [4], with [__API__ page] [6] and [issue] [5].
@@ -47,6 +39,21 @@ When | What | Where
  Jul,12 | Add code coverage | [`600ee7d`](https://github.com/scotv/algo-js/commit/600ee7d899d2)
  May,23 | Start unit test | [`dad30d6`](https://github.com/scotv/algo-js/commit/dad30d64ad70)
  May,23 | Switch SVN to Git | [`3b0c92e`](https://github.com/scotv/algo-js/commit/3b0c92e3b173)
+
+## CI Scripts
+### drone.io
+```bash
+# drone.io doesn't support Nodejs 0.12 right now
+curl -sL https://deb.nodesource.com/setup_0.12 | sudo bash -
+sudo apt-get install -y nodejs
+nodejs --version
+npm -d install
+npm install -g grunt-cli
+npm install -g mocha
+npm test
+```
+### Travis CI
+see `.travis.yml` file
 
 [1]: http://mochajs.org/ "Mocha.js"
 [2]: http://blanketjs.org/ "Blanket.js"
