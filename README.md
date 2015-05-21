@@ -1,4 +1,4 @@
-[![Build Status](https://drone.io/github.com/scotv/algo-js/status.png)](https://drone.io/github.com/scotv/algo-js/latest)
+[![Build Status](https://travis-ci.org/scotv/algo-js.svg?branch=master)](https://travis-ci.org/scotv/algo-js.svg?branch=master)
 
 # Algo.js
 ###### _Implementation of some algorithms using JavaScript with Harmony_
