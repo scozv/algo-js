@@ -93,7 +93,15 @@ module.exports = function (grunt) {
 				options: {
 					compress: {drop_console: 1, conditionals: 0},
 					beautify: true,
-					mangle: false
+					mangle: false,
+					banner: [
+						'/*',
+						'<%= pkg.name %>',
+						'v<%= pkg.version %>',
+						'<%= grunt.template.today("yyyy-mm-dd") %>',
+						'This file is uglified from many sources, for only coverage purpose',
+						'*/',
+						'\r\n'].join('\r\n')
 				}
 			},
 			test: {
