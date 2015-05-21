@@ -28,9 +28,6 @@ Only test SCC algorithm
 ##### `grunt testcov`
 Will test all unit tests, and run coverage. The coverage result will be generated as `./coverage.html`.
 
-### Browser with Blanket Coverage
-Opening `./qunit.html` in Firefox will display the qunit test and coverage result.
-
 ## Migration
 I have migrated this project from [Algo.js in Google Code] [4], with [__API__ page] [6] and [issue] [5].
 
