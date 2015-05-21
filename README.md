@@ -13,7 +13,7 @@ Currently, only `Firefox 22.0+` supports arrow functions ([MDN] [8]).
 
 ## What
 This is a project containing implementation of some algorithms in `JavaScript` with arrow functions enabled. 
-I use [Mocha] [1] for unit test, [Blanketjs] [2] for code coverage, and [drone.io] [7] for CI.
+I use [Mocha] [1] for unit test, [Blanketjs] [2] for code coverage, and [Travis CI] [7] for CI.
 
 ## CI Scripts
 ```bash
@@ -34,6 +34,7 @@ Due to default option of `git log` in github is no option, so please use command
 When | What | Where
 :-------|:---------|:-------:
  2015&darr; | - | -
+ May, 21 | Transfer CI from drone.io to Travis CI, cause drone.io [doesn't support Nodejs 0.12](https://github.com/drone/drone/issues/931) right now |
  May, 16 | Start to replace `return` with Arrow functions in JavaScript | 
  2014&darr; | - | -
  Aug, 27 | An initial PDF document of API writed in LaTeX has been released | [Releases](https://github.com/scotv/algo-wiki/releases)
@@ -53,5 +54,5 @@ When | What | Where
 [4]: https://code.google.com/p/algo-js "Algo.js"
 [5]: https://github.com/scotv/algo-js/issues "Issues"
 [6]: http://scotv.github.io/algo-wiki "Wiki"
-[7]: https://drone.io/scotv "drone.io"
+[7]: https://travis-ci.org/ "Travis CI"
 [8]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions#Browser_compatibility "Arrow functions"
