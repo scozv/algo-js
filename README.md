@@ -6,8 +6,9 @@
 Read new [__wiki__] [6] page for details including API of this.
 
 ## Attention
-This branch `qunit` will be left as it was.
-A new branch `harmony` with Arrow functions enabled has been introduced, and will be replace the `master`.
+##### this branch has been frozen
+> This branch `qunit` will be left as it was.
+> A new branch `harmony` with Arrow functions enabled has been introduced, and has been merged into `master`.
 
 ## What
 This is a project containing implementation of some algorithms in `JavaScript`. I use [QUnit] [1] for unit test, [Blanket.js] [2] for code coverage, and [drone.io] [7] for CI.
@@ -16,12 +17,16 @@ I try to introduce some OOP into this project, and recently, I am learning funct
 
 This project is not the best implementation, but I am taking it easier to use.
 
-## CI Scripts
-```bash
-npm -d install
-npm install -g grunt-cli
-npm test
-```
+## Test and Coverage
+### Node
+##### `npm test`
+The default `grunt` task has been configured in the `Gruntfile.js` and `package.json`.
+
+However, coverage task has not been setup in Node.
+
+### Browser with Blanket Coverage
+Opening `./qunit.html` in Firefox will display the qunit test and coverage result.
+
 
 ## Migration
 I have migrated this project from [Algo.js in Google Code] [4], with [__API__ page] [6] and [issue] [5].
@@ -44,6 +49,13 @@ When | What | Where
  Jul,12 | Add code coverage | [`600ee7d`](https://github.com/scotv/algo-js/commit/600ee7d899d2)
  May,23 | Start unit test | [`dad30d6`](https://github.com/scotv/algo-js/commit/dad30d64ad70)
  May,23 | Switch SVN to Git | [`3b0c92e`](https://github.com/scotv/algo-js/commit/3b0c92e3b173)
+ 
+## CI Scripts
+```bash
+npm -d install
+npm install -g grunt-cli
+npm test
+```
 
 [1]: http://qunitjs.com/ "QUnit.js"
 [2]: http://blanketjs.org/ "Blanket.js"
