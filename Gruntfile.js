@@ -91,7 +91,7 @@ module.exports = function (grunt) {
 					'deploy/algo.js': sourceFiles.map(function(file){return 'es5.'+file+'.js';})
 				},
 				options: {
-					compress: false,
+					compress: {drop_console: 1, conditionals: 0},
 					beautify: true,
 					mangle: false
 				}
