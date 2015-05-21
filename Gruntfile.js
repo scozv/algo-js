@@ -18,7 +18,7 @@ module.exports = function (grunt) {
 			T:1,Sorting:1,Graph:1,List:1,UnionFind:1,
 			// maybe global var leak
 			result:1,l:1,subCapacity:1},
-		testPath = 'qunit/',
+		testPath = 'test/',
 		testFiles = [
 			'q-x.math','q-x.math.vector',
 			'q-t.linkedlist','q-t.queue','q-t.stack','q-t.tree','q-t.unionfind',
@@ -30,11 +30,11 @@ module.exports = function (grunt) {
 	sourceFiles.forEach(function(file){
 		es6transpilerMapping['es5.'+file+'.js'] = sourcePath + file +'.js';
 	});
-	es6transpilerMapping['es5.q.js'] = 'qunit/q.js';
-	es6transpilerMapping['es5.n-graph.scc.js'] = 'qunit/n-graph.scc.js';
+	es6transpilerMapping['es5.q.js'] = testPath + 'q.js';
+	es6transpilerMapping['es5.n-graph.scc.js'] = testPath + 'n-graph.scc.js';
 
 	// build uglify test files
-	var uglifyTestFiles = ['qunit/_uglify.header.js'];
+	var uglifyTestFiles = [testPath + '_uglify.header.js'];
 	testFiles.forEach(function(file){
 		uglifyTestFiles.push(testPath+file+'.js');
 	});
@@ -43,36 +43,6 @@ module.exports = function (grunt) {
 	// Project configuration.
 	grunt.initConfig({
 		pkg: grunt.file.readJSON('package.json'),
-		'node-qunit': {
-			sorting: {
-				code: './qunit/q.js',
-				tests: './qunit/q-sorting.js',
-				done: function (err, res) {
-					!err && publishResults("node", res, this.async());
-				}
-			},
-			scc: {
-				code: './qunit/q.js',
-				tests: './qunit/n-graph.scc.js',
-				done: function (err, res) {
-					!err && publishResults("node", res, this.async());
-				}
-			},
-			all: {
-				code: './qunit/q.js',
-				tests: [
-					'q-x.math', 'q-x.math.vector',
-					'q-t.linkedlist', 'q-t.queue', 'q-t.stack', 'q-t.tree', 'q-t.unionfind',
-					'q-list', 'q-sorting',
-					'q-graph'
-				].map(function (n) {
-					return './qunit/' + n + '.js';
-				}),
-				done: function (err, res) {
-					!err && publishResults("node", res, this.async());
-				}
-			}
-		},
 
 		// uglify does support es6 (harmony) right now
 		'es6transpiler': {
@@ -106,7 +76,7 @@ module.exports = function (grunt) {
 			},
 			test: {
 				files: {
-					'qunit/test.js': uglifyTestFiles
+					'test/test.js': uglifyTestFiles
 				}
 			}
 		},
@@ -114,19 +84,19 @@ module.exports = function (grunt) {
 		// must name as 'mochacov'
 		'mochacov': {
 			options: {
-					require : ['./qunit/q.js'],
+					require : ['<%= pkg.main %>'],
 					reporter: 'spec',
 					log: true,
 					harmony: true				
 				},
-			all: ['qunit/q-*.js', 'qunit/n-graph.scc.js'],
-			scc: ['qunit/n-graph.scc.js'],
+			all: [testPath + 'q-*.js', testPath + 'n-graph.scc.js'],
+			scc: [testPath + 'n-graph.scc.js'],
 			cov: {
 				options: {
 					reporter: 'html-cov',
 					output: 'coverage.html'
 				},
-				src: ['qunit/test.js']
+				src: [testPath + 'test.js']
 			}
 		}
 	});
@@ -136,7 +106,6 @@ module.exports = function (grunt) {
 	grunt.loadNpmTasks('grunt-mocha-cov');
 
 	// Default task(s).
-	// grunt.registerTask('default', ['node-qunit:all', 'node-qunit:scc']);
 	grunt.registerTask('testscc', ['mochacov:scc']);
 	grunt.registerTask('default', ['mochacov:all']);
 	grunt.registerTask('testcov', ['es6transpiler','uglify:src','uglify:test','mochacov:cov'])

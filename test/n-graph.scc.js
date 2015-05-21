@@ -30,8 +30,8 @@ var helper = {
 
 		return graph;
 	},
-	inputPath: './qunit/graph/',
-	outputPath: './qunit/graph/',
+	inputPath: './test/graph/',
+	outputPath: './test/graph/',
 	inputFiles: ['00', '01', '02', '03', '04', '05', '06', '07', '08'].map(x=>'scc'+x),
 	toString: function () {}
 };

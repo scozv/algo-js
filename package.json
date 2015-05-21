@@ -3,7 +3,7 @@
   "private": true,
   "version": "3.1.4",
   "description": "Implementation of some algorithms using JavaScript",
-  "main": "./qunit/q.js",
+  "main": "./test/q.js",
   "dependencies": {},
   "devDependencies": {
     "grunt": "~0.4.2",
@@ -16,13 +16,13 @@
   },
   "scripts": {
     "blanket": {
-      "pattern": "//^((?!/node_modules/)(?!/qunit/).)*$/",
+      "pattern": "//^((?!/node_modules/)(?!/test/).)*$/",
       "data-cover-never": ["test.js", "deploy/test.js"],
       "data-cover-flags": {
         "branchTracking": true
       }
     },
-    "test": "tar xjkvf qunit/graph/scc.tar -C qunit/graph/ --overwrite && grunt"
+    "test": "tar xjkvf test/graph/scc.tar -C test/graph/ --overwrite && grunt"
   },
   "repository": {
     "type": "git",

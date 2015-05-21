@@ -15,6 +15,22 @@ Currently, only `Firefox 22.0+` supports arrow functions ([MDN] [8]).
 This is a project containing implementation of some algorithms in `JavaScript` with arrow functions enabled. 
 I use [Mocha] [1] for unit test, [Blanketjs] [2] for code coverage, and [drone.io] [7] for CI.
 
+## Test and Coverage
+##### `npm test`
+The default `grunt` task has been configured in the `Gruntfile.js` and `package.json`.
+
+##### `grunt default`
+Will test all unit tests
+
+##### `grunt testscc`
+Only test SCC algorithm
+
+##### `grunt testcov`
+Will test all unit tests, and run coverage. The coverage result will be generated as `./coverage.html`.
+
+### Browser with Blanket Coverage
+Opening `./qunit.html` in Firefox will display the qunit test and coverage result.
+
 ## Migration
 I have migrated this project from [Algo.js in Google Code] [4], with [__API__ page] [6] and [issue] [5].
 
