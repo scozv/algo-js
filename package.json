@@ -22,7 +22,7 @@
         "branchTracking": true
       }
     },
-    "test": "rm qunit/graph/*.{i,o} && tar xjkvf qunit/graph/scc.tar -C qunit/graph/ && grunt"
+    "test": "tar xjkvf qunit/graph/scc.tar -C qunit/graph/ --overwrite && grunt"
   },
   "repository": {
     "type": "git",
