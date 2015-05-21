@@ -3,3 +3,11 @@ node_modules
 # single input or output file
 *.i
 *.o
+
+# uglify, coverage temporary files
+coverage*
+/deploy/
+test.js
+
+# es6-transpiler temporary files
+es5.*

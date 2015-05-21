@@ -32,7 +32,45 @@ module.exports = function (grunt) {
 					!err && publishResults("node", res, this.async());
 				}
 			}
-		}, 
+		},
+
+		'es6transpiler': {
+	        dist: {
+	            files: {
+	                'es5.x.math.js': 'src/x.math.js',
+	                'es5.q.js': 'qunit/q.js'
+	            },
+	            options: {
+	            	"environments": ["node", "browser"],
+	            	globals: {window: true, test: true, describe: true, strictEqual: true, it: true, deepEqual: true, ok: true, throws: true}
+	            }
+	        }
+		},
+
+		'uglify': {
+			src: {
+				files: {
+					'deploy/algo.js': [
+						'es5.x.math.js',
+						'src/x.array.js', 
+						'src/sorting*.js'
+					]
+				},
+				options: {
+					compress: false,
+					beautify: true,
+					mangle: false
+				}
+			},
+			test: {
+				files: {
+					'qunit/test.js': [
+						'qunit/_uglify.header.js',
+						'qunit/q-sorting.js'
+					]
+				}
+			}
+		},
 		
 		// must name as 'mochacov'
 		'mochacov': {
@@ -43,16 +81,24 @@ module.exports = function (grunt) {
 					harmony: true				
 				},
 			all: ['qunit/q-*.js', 'qunit/n-graph.scc.js'],
-			scc: ['qunit/n-graph.scc.js']
+			scc: ['qunit/n-graph.scc.js'],
+			cov: {
+				options: {
+					reporter: 'html-cov',
+					output: 'coverage.html'
+				},
+				src: ['qunit/test.js']
+			}
 		}
 	});
 
-	grunt.loadNpmTasks('grunt-node-qunit');
-	// must load it
+	grunt.loadNpmTasks('grunt-es6-transpiler');
+	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-mocha-cov');
 
 	// Default task(s).
 	// grunt.registerTask('default', ['node-qunit:all', 'node-qunit:scc']);
 	grunt.registerTask('testscc', ['mochacov:scc']);
 	grunt.registerTask('default', ['mochacov:all']);
+	grunt.registerTask('testcov', ['es6transpiler','uglify:src','uglify:test','mochacov:cov'])
 };
