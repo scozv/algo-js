@@ -14,7 +14,7 @@
 	},
 	"scripts": {
 		"test": 
-			"rm qunit/graph/*.{i,o} && tar xjkvf qunit/graph/scc.tar -C qunit/graph/ && grunt"
+			"tar xjkvf qunit/graph/scc.tar -C qunit/graph/ --overwrite && grunt"
 	},
 	"repository": {
 		"type": "git",
