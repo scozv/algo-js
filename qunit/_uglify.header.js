@@ -1,0 +1,1 @@
+var algo=require('../deploy/algo');
