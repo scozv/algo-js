@@ -28,13 +28,6 @@ Only test SCC algorithm
 ##### `grunt testcov`
 Will test all unit tests, and run coverage. The coverage result will be generated as `./coverage.html`.
 
-## Migration
-I have migrated this project from [Algo.js in Google Code] [4], with [__API__ page] [6] and [issue] [5].
-
-Due to default option of `git log` in github is no option, so please use command below to follow the full history of the codes which I have moved from root into `src/` during this migration:
-
-##### `git log --follow src/sorting.js`
-
 ## Milestone
 When | What | Where
 :-------|:---------|:-------:
@@ -71,6 +64,12 @@ node_js:
   - "0.12"
 script: 'npm i -g grunt-cli mocha && npm test'
 ```
+## Migration
+I have migrated this project from [Algo.js in Google Code] [4], with [__API__ page] [6] and [issue] [5].
+
+Due to default option of `git log` in github is no option, so please use command below to follow the full history of the codes which I have moved from root into `src/` during this migration:
+
+##### `git log --follow src/sorting.js`
 
 [1]: http://mochajs.org/ "Mocha.js"
 [2]: http://blanketjs.org/ "Blanket.js"
