@@ -1,5 +1,32 @@
 module.exports = function (grunt) {
 
+	var sourcePath = 'src/',
+		sourceFiles = [
+			'x.array','x.math','x.math.stats','x.math.vector',
+			't','t.linkedlist','t.queue','t.stack','t.tree','t.unionfind','t.heap',
+			't.graph','t.graph.weighted',
+			'list','hash',
+			'sorting','sorting.mergeSort','sorting.quickSort',
+			'graph.cut','graph.mst','graph.mst.kruskal','graph.search',
+			'graph.path','graph.path.bellmanFord','graph.path.floydWarshall',
+			'dynamic.knapsack'
+		],
+		es6transpilerMapping = {},
+		es6transpilerGlobal = {
+			window:1,test:1,describe:1,strictEqual:1,
+			it:1,deepEqual:1,ok:1,throws:1,
+			T:1,Sorting:1,Graph:1,List:1,UnionFind:1,
+			// maybe global var leak
+			result:1,l:1,subCapacity:1}
+		testFiles = [];
+
+	// build es6transpiler mapping rule
+	sourceFiles.forEach(function(file){
+		es6transpilerMapping['es5.'+file+'.js'] = sourcePath + file +'.js';
+	});
+	es6transpilerMapping['es5.q.js'] = 'qunit/q.js';
+	console.log(es6transpilerMapping);
+
 	// Project configuration.
 	grunt.initConfig({
 		pkg: grunt.file.readJSON('package.json'),
@@ -34,15 +61,13 @@ module.exports = function (grunt) {
 			}
 		},
 
+		// uglify does support es6 (harmony) right now
 		'es6transpiler': {
 	        dist: {
-	            files: {
-	                'es5.x.math.js': 'src/x.math.js',
-	                'es5.q.js': 'qunit/q.js'
-	            },
+	            files: es6transpilerMapping,
 	            options: {
 	            	"environments": ["node", "browser"],
-	            	globals: {window: true, test: true, describe: true, strictEqual: true, it: true, deepEqual: true, ok: true, throws: true}
+	            	globals: es6transpilerGlobal
 	            }
 	        }
 		},
@@ -50,11 +75,7 @@ module.exports = function (grunt) {
 		'uglify': {
 			src: {
 				files: {
-					'deploy/algo.js': [
-						'es5.x.math.js',
-						'src/x.array.js', 
-						'src/sorting*.js'
-					]
+					'deploy/algo.js': sourceFiles.map(function(file){return 'es5.'+file+'.js';})
 				},
 				options: {
 					compress: false,
