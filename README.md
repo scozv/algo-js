@@ -2,6 +2,9 @@
 
 # Algo.js
 ###### _Implementation of some algorithms using JavaScript with Harmony_
+This is a project containing implementation of some algorithms in `JavaScript` with arrow functions enabled. 
+I use [Mocha] [1] for unit test, [Blanketjs] [2] for code coverage, and [drone.io] [7] for CI.
+
 ## Wiki and API
 Read new [__wiki__] [6] page for details including API of this.
 
@@ -10,10 +13,6 @@ I don't like returning value with `return`, so I enable `harmony` option of `nod
 Currently, only `Firefox 22.0+` supports arrow functions ([MDN] [8]).
 
 ##### `nodejs --harmony`
-
-## What
-This is a project containing implementation of some algorithms in `JavaScript` with arrow functions enabled. 
-I use [Mocha] [1] for unit test, [Blanketjs] [2] for code coverage, and [drone.io] [7] for CI.
 
 ## Test and Coverage
 ##### `npm test`
