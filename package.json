@@ -14,15 +14,17 @@
     "grunt-mocha-cov": "^0.4.0",
     "should": "^6.0.1"
   },
-  "scripts": {
+  "scripts": {    
+    "test": "tar xjkvf test/graph/scc.tar -C test/graph/ --overwrite && grunt"
+  },
+  "config": {
     "blanket": {
       "pattern": "//^((?!/node_modules/)(?!/test/).)*$/",
       "data-cover-never": ["test.js", "deploy/test.js"],
       "data-cover-flags": {
         "branchTracking": true
       }
-    },
-    "test": "tar xjkvf test/graph/scc.tar -C test/graph/ --overwrite && grunt"
+    }
   },
   "repository": {
     "type": "git",

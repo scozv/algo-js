@@ -1,3 +1,11 @@
+test('Array basic extensions', function(){
+	deepEqual([1, 2, 3, 4].zip(['A','B','C','D']), [[1,'A'],[2,'B'],[3,'C'],[4,'D']], 'Array zip same size')
+	deepEqual([1, 2, 3, 4].zip(['A','B','C','D','E']), [[1,'A'],[2,'B'],[3,'C'],[4,'D']], 'Array zip different size')
+	deepEqual([1, 2, 3].zip(['A','B','C','D']), [[1,'A'],[2,'B'],[3,'C']], 'Array zip different size')
+	deepEqual([].zip(['A','B','C','D']), [], 'Array zip different size')
+	deepEqual(['A','B','C','D'].zip([]), [], 'Array zip different size')
+});
+
 test('Math basic extensions', function(){
 	// strictEqual(Math.mod(0, 0), 0 % 0, '0 mod 0 == NaN');
 	strictEqual(Math.mod(17, 4), 17 % 4, '17 mod 4 == 1');
