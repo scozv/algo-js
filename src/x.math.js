@@ -4,9 +4,18 @@
 	// i.e. $mod(-1, 4) = 3
 	Math.mod = (i, n) => (i & 0x7FFFFFFF) % n;
 
-  Math.equals = (x, y) => x && y && 
-    parseFloat(x) && parseFloat(y) && 
-    Math.abs(parseFloat(x) - parseFloat(y)) < Math.EPSILON;
+  Math.equals = function(x, y){
+    var eq = false;
+
+    if (Array.isArray(x) && Array.isArray(y)) {
+      eq = x.length === y.length && 
+        Array.zip(x, y).every(item => Math.equals(item[0], item[1]));
+    } else if (!isNaN(parseFloat(x)) && !isNaN(parseFloat(y))) {
+      eq = Math.abs(parseFloat(x) - parseFloat(y)) < Math.EPSILON;
+    } else {eq = false;}
+
+    return eq;
+  }; 
 
 	Math.range = function(start, end, step){
 		// gets a range [start, end) with step

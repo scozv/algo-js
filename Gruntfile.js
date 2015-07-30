@@ -28,20 +28,20 @@ module.exports = function (grunt) {
 
 	// build es6transpiler mapping rule
 	sourceFiles.forEach(function(file){
-		es6transpilerMapping['es5.'+file+'.js'] = sourcePath + file +'.js';
+		es6transpilerMapping['deploy/es5.'+file+'.js'] = sourcePath + file +'.js';
 	});
 
   testFiles.forEach(function(file){
-    es6transpilerMapping['es5.'+file+'.js'] = testPath + file +'.js';
+    es6transpilerMapping['deploy/es5.'+file+'.js'] = testPath + file +'.js';
   });
 
 	// build uglify test files
   var uglifySourceFiles = 
-    sourceFiles.map(function(file){return 'es5.'+file+'.js';});
+    sourceFiles.map(function(file){return 'deploy/es5.'+file+'.js';});
 
 	var uglifyTestFiles = [testPath + '_uglify.header.js'];
 	testFiles.forEach(function(file){
-		uglifyTestFiles.push('es5.'+file+'.js');
+		uglifyTestFiles.push('deploy/es5.'+file+'.js');
 	});
 
 	// Project configuration.

@@ -1,9 +1,45 @@
 test('Array basic extensions', function(){
-	deepEqual([1, 2, 3, 4].zip(['A','B','C','D']), [[1,'A'],[2,'B'],[3,'C'],[4,'D']], 'Array zip same size')
-	deepEqual([1, 2, 3, 4].zip(['A','B','C','D','E']), [[1,'A'],[2,'B'],[3,'C'],[4,'D']], 'Array zip different size')
-	deepEqual([1, 2, 3].zip(['A','B','C','D']), [[1,'A'],[2,'B'],[3,'C']], 'Array zip different size')
-	deepEqual([].zip(['A','B','C','D']), [], 'Array zip different size')
-	deepEqual(['A','B','C','D'].zip([]), [], 'Array zip different size')
+	deepEqual([1, 2, 3, 4].zip(['A','B','C','D']), [[1,'A'],[2,'B'],[3,'C'],[4,'D']], 'Array zip same size');
+	deepEqual([1, 2, 3, 4].zip(['A','B','C','D','E']), [[1,'A'],[2,'B'],[3,'C'],[4,'D']], 'Array zip different size');
+	deepEqual([1, 2, 3].zip(['A','B','C','D']), [[1,'A'],[2,'B'],[3,'C']], 'Array zip different size');
+	deepEqual([].zip(['A','B','C','D']), [], 'Array zip different size');
+	deepEqual(['A','B','C','D'].zip([]), [], 'Array zip different size');
+
+  var arrEquals = (x, y) => Array.isArray(x) && Array.isArray(y) &&
+    x.length === y.length &&
+    x.zip(y).every(item => Math.equals(item[0], item[1]));
+
+  var norm = function(arr){
+    var sum = Math.Stats.sum(arr),
+      result = [];
+
+    for (var i=0;i<arr.length;i++){
+      result.push(arr[i]/sum);
+    }
+
+    return result;
+  };
+
+  (function(n, repeat){
+
+    var testNormalize = function(){
+      var length = Math.randomInteger(10, n),
+        randomArray = Sorting.__randomUniqueArray__(length),
+        norm1 = Math.Stats.normalize(randomArray),
+        norm2 = norm(randomArray);
+
+      console.log(norm1);
+      return {
+        length: length, 
+        result: Math.equals(norm1, norm2) && arrEquals(norm1, norm2)};
+    };
+
+
+    Math.range(repeat).forEach(function(){
+      var test = testNormalize();
+      ok(test.result, 'Array normalized with length: ' + test.length);
+    });
+  })(100, 5);
 });
 
 test('Math basic extensions', function(){
