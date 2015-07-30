@@ -32,6 +32,8 @@
 			return Math.sqrt(Stats.var(arr));
 		};
 
+    Stats.normalize = arr => arr.map(x=>x/Stats.sum(arr));
+
 		Stats.linearLeastSquare = function(arr1, arr2, fn){
 			// require(arr1.length == arr2.length)
 			if (fn && typeof fn === 'function'){

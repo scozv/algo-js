@@ -20,7 +20,7 @@ module.exports = function (grunt) {
 			result:1,l:1,subCapacity:1},
 		testPath = 'test/',
 		testFiles = [
-			'q-x.math','q-x.math.vector',
+			/*'q-x.math',*/'q-x.math.vector',
 			'q-t.linkedlist','q-t.queue','q-t.stack','q-t.tree','q-t.unionfind',
 			'q-graph','q-list','q-sorting'
 			/*,'n-graph.scc'*/
@@ -31,6 +31,7 @@ module.exports = function (grunt) {
 		es6transpilerMapping['es5.'+file+'.js'] = sourcePath + file +'.js';
 	});
 	es6transpilerMapping['es5.q.js'] = testPath + 'q.js';
+  es6transpilerMapping['es5.q-x.math.js'] = testPath + 'q-x.math.js';
 	es6transpilerMapping['es5.n-graph.scc.js'] = testPath + 'n-graph.scc.js';
 
 	// build uglify test files
@@ -38,7 +39,8 @@ module.exports = function (grunt) {
 	testFiles.forEach(function(file){
 		uglifyTestFiles.push(testPath+file+'.js');
 	});
-	uglifyTestFiles.push('es5.n-graph.scc.js');
+  uglifyTestFiles.push('es5.q-x.math.js');  
+	uglifyTestFiles.push('es5.n-graph.scc.js');  
 
 	// Project configuration.
 	grunt.initConfig({

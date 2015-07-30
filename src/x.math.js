@@ -1,7 +1,12 @@
 (function(Math, undefined){
+  Math.EPSILON = Math.abs(1e-29);
 
 	// i.e. $mod(-1, 4) = 3
 	Math.mod = (i, n) => (i & 0x7FFFFFFF) % n;
+
+  Math.equals = (x, y) => x && y && 
+    parseFloat(x) && parseFloat(y) && 
+    Math.abs(parseFloat(x) - parseFloat(y)) < Math.EPSILON;
 
 	Math.range = function(start, end, step){
 		// gets a range [start, end) with step
