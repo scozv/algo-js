@@ -8,7 +8,7 @@ test('Tree, BST', function(){
 		(bst1.search(5) === null) && 
 		(bst1.rSearch(5) === null)), 'basic properties of BST');
 
-	var bst1 = new T.BinarySearchTree();
+	bst1 = new T.BinarySearchTree();
 	var arr = Sorting.__randomUniqueArray__(29);
 	arr.forEach(function(x){
 		bst1.insert(x);
@@ -18,8 +18,8 @@ test('Tree, BST', function(){
 		return node && node.elem === x;
 	}), 'insert and search from [0, 29)');
 
-	var bst1 = new T.BinarySearchTree();
-	var arr = Sorting.__randomUniqueArray__(29);
+	bst1 = new T.BinarySearchTree();
+	arr = Sorting.__randomUniqueArray__(29);
 	arr.forEach(function(x){
 		bst1.rInsert(x);
 	});

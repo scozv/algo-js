@@ -20,27 +20,29 @@ module.exports = function (grunt) {
 			result:1,l:1,subCapacity:1},
 		testPath = 'test/',
 		testFiles = [
-			/*'q-x.math',*/'q-x.math.vector',
+			'q', 'q-x.math', 'q-x.math.vector',
 			'q-t.linkedlist','q-t.queue','q-t.stack','q-t.tree','q-t.unionfind',
-			'q-graph','q-list','q-sorting'
-			/*,'n-graph.scc'*/
+			'q-graph','q-list','q-sorting',
+			'n-graph.scc'
 		];
 
 	// build es6transpiler mapping rule
 	sourceFiles.forEach(function(file){
 		es6transpilerMapping['es5.'+file+'.js'] = sourcePath + file +'.js';
 	});
-	es6transpilerMapping['es5.q.js'] = testPath + 'q.js';
-  es6transpilerMapping['es5.q-x.math.js'] = testPath + 'q-x.math.js';
-	es6transpilerMapping['es5.n-graph.scc.js'] = testPath + 'n-graph.scc.js';
+
+  testFiles.forEach(function(file){
+    es6transpilerMapping['es5.'+file+'.js'] = testPath + file +'.js';
+  });
 
 	// build uglify test files
+  var uglifySourceFiles = 
+    sourceFiles.map(function(file){return 'es5.'+file+'.js';});
+
 	var uglifyTestFiles = [testPath + '_uglify.header.js'];
 	testFiles.forEach(function(file){
-		uglifyTestFiles.push(testPath+file+'.js');
+		uglifyTestFiles.push('es5.'+file+'.js');
 	});
-  uglifyTestFiles.push('es5.q-x.math.js');  
-	uglifyTestFiles.push('es5.n-graph.scc.js');  
 
 	// Project configuration.
 	grunt.initConfig({
@@ -60,7 +62,7 @@ module.exports = function (grunt) {
 		'uglify': {
 			src: {
 				files: {
-					'deploy/algo.js': sourceFiles.map(function(file){return 'es5.'+file+'.js';})
+					'deploy/algo.js': uglifySourceFiles
 				},
 				options: {
 					compress: {drop_console: 1, conditionals: 0},

@@ -128,7 +128,7 @@ test('Graph algorithm', function(){
 		'scc of graph by Kosaraju');
 
 
-	var g2 = new T.Graph(64);
+	g2 = new T.Graph(64);
 	// test case from https://class.coursera.org/algo-004/forum/thread?thread_id=563
 	[[1, [34,36,49,7,2,9,10,43,40,15,48,17,44,52,57,63]],
 	[2, [33,38,46,49,19,20,53,22,23,58,21,59,28,30,32]],
