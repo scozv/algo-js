@@ -28,7 +28,6 @@ test('Array basic extensions', function(){
         norm1 = Math.Stats.normalize(randomArray),
         norm2 = norm(randomArray);
 
-      console.log(norm1);
       return {
         length: length, 
         result: Math.equals(norm1, norm2) && arrEquals(norm1, norm2)};
