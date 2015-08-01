@@ -1,34 +1,25 @@
 [![Build Status](https://drone.io/github.com/scotv/algo-js/status.png)](https://drone.io/github.com/scotv/algo-js/latest)
 
 # Algo.js
-###### _Version: 2.71828182845_
+###### [简体中文](https://github.com/scotv/algo-js/blob/master/DUWO.md)
+###### _Version: 2.718281828459_
 ###### _Implementation of some algorithms using JavaScript with Harmony_
 
-## Abstract || 摘要
+## Abstract
 This is a project containing implementation of some fudamental algorithms in `JavaScript` with arrow functions enabled. 
 I use [Mocha] [1] for unit test, [Blanketjs] [2] for code coverage, and [drone.io] [7] for CI.
 
-这是一个用`JavaScript`写的基础算法包，包含基本数据结构、线性算法、树和图。
-目前已经借助[Mocha] [1]、[Blanketjs] [2]和[drone.io] [7]平台，搭建了单元测试、代码覆盖率的持续集成。
-
-## Docs || 文档
+## Docs
 Read new [__Docs__] [6] page for details including API of this.
 
-完整的API文档可以访问[该页面] [6]。目前API文档还是英文。
-
-## Harmony || ES6
+## Harmony
 I don't like returning value with `return`, so I enable `harmony` option of `nodejs` by default.
 Currently, only `Firefox 22.0+` supports arrow functions ([MDN] [8]).
 
-我喜欢用`lambda`表达函数——`Scala !`——所以，我默认开启了`nodejs`的`harmony`选项。
-需要注意的是，浏览器方面，目前只有`Firefox 22.0+` 支持`arrow functions`（[MDN] [8]）。
-
 ##### `nodejs --harmony`
 
-## CI Scripts || 初始环境配置脚本
+## CI Scripts
 Use following scripts to initialize your environments.
-
-使用如下脚本配置初始环境。
 
 ### drone.io
 ```bash
@@ -48,12 +39,9 @@ node_js:
 script: 'npm i -g grunt-cli mocha && npm test'
 ```
 
-## Test and Coverage || 测试和代码覆盖命令
+## Test and Coverage
 Use following commands to run tests or coverage.
 The result of converge will be located `converage.html`
-
-使用如下的命令，执行单元测试和代码覆盖。
-代码覆盖率的结果会输出到`converage.html`文件中。
 
 ##### `npm test`
 The default `grunt` task has been configured in the `Gruntfile.js` and `package.json`.
@@ -67,11 +55,8 @@ Only test SCC algorithm
 ##### `grunt testcov`
 Will test all unit tests, and run coverage. The coverage result will be generated as `./coverage.html`.
 
-## Milestone || 历史
+## Milestone
 Use following command to list the history tags.
-
-使用如下命令查看历史的重大版本信息.
-
 ##### git tag -n
 
 When | What | Where
@@ -93,10 +78,8 @@ When | What | Where
  May,23 | Start unit test | [`dad30d6`](https://github.com/scotv/algo-js/commit/dad30d64ad70)
  May,23 | Switch SVN to Git | [`3b0c92e`](https://github.com/scotv/algo-js/commit/3b0c92e3b173)
 
-## Migration || 迁移
+## Migration
 I have migrated this project from [Algo.js in Google Code] [4], with [__API__ page] [6] and [issue] [5].
-
-项目最初托管在[Google Code] [4]上面。
 
 Due to default option of `git log` in github is no option, 
 so please use command below to follow the full history of the codes 
