@@ -2,7 +2,7 @@
 
 # Algo.js
 ####### [简体中文](https://github.com/scotv/algo-js/blob/master/DUWO.md)
-####### _Version: 2.7182818284590_
+####### _Version: 2.718281828459_
 ####### _Implementation of some algorithms using JavaScript with Harmony_
 
 ## Abstract

@@ -1,7 +1,7 @@
 [![Build Status](https://drone.io/github.com/scotv/algo-js/status.png)](https://drone.io/github.com/scotv/algo-js/latest)
 
 # Algo.js
-####### _版本: 2.7182818284590_
+####### _版本: 2.718281828459_
 ####### _使用带箭头的`JavaScript`实现的基础算法包_
 
 ## 摘要
