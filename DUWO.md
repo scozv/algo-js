@@ -70,21 +70,21 @@ script: 'npm i -g grunt-cli mocha && npm test'
 时间 | 说明 | 参考源
 :-------|:---------|:-------:
  2015&darr; | - | -
- 八月, 01 | 引入新的版本编号方式 |
- 八月, 01 | 引入强联通图的大文件测试 | [测试文件] [11]
- 五月, 21 | 将`nodejs 0.12`设为drone.io的默认环境 |
- 五月, 16 | 逐步用`ES6`的箭头来表达函数 | 
+ 八月，01 | 引入新的版本编号方式 |
+ 八月，01 | 引入强联通图的大文件测试 | [测试文件] [11]
+ 五月，21 | 将`nodejs 0.12`设为drone.io的默认环境 |
+ 五月，16 | 逐步用`ES6`的箭头来表达函数 | 
  2014&darr; | - | -
- 八月, 27 | 基于`LaTeX`编译的第一份PDF文档发布 | [发布页面] [10]
- 六月, 14 | 逐步用`gitbook`重写API文档 | [API文档页面] [6]
+ 八月，27 | 基于`LaTeX`编译的第一份PDF文档发布 | [发布页面] [10]
+ 六月，14 | 逐步用`gitbook`重写API文档 | [API文档页面] [6]
  2013&darr; | - | -
- 十二月,20 | 引入持续集成 [drone.io] [7]| [`e03180d`](https://github.com/scotv/algo-js/commit/e03180df15)
- 十二月,12 | 逐步将该项目从[Google Code] [4]迁移过来 | [`b39f7f7`](https://github.com/scotv/algo-js/commit/b39f7f78ab)
- 十月,18 | 自豪地实现了迭代版本的Tarjan强联通算法 | [`4542b93`](https://github.com/scotv/algo-js/commit/4542b937d827)和[解释][9]
- 九月,27 | 开始留意JSLint | 
- 七月,12 | 引入代码覆盖率测试 | [`600ee7d`](https://github.com/scotv/algo-js/commit/600ee7d899d2)
- 五月,23 | 引入单元测试 | [`dad30d6`](https://github.com/scotv/algo-js/commit/dad30d64ad70)
- 五月,23 | 从SVN到GIT | [`3b0c92e`](https://github.com/scotv/algo-js/commit/3b0c92e3b173)
+ 十二月，20 | 引入持续集成 [drone.io] [7]| [`e03180d`](https://github.com/scotv/algo-js/commit/e03180df15)
+ 十二月，12 | 逐步将该项目从[Google Code] [4]迁移过来 | [`b39f7f7`](https://github.com/scotv/algo-js/commit/b39f7f78ab)
+ 十月，18 | 自豪地实现了迭代版本的Tarjan强联通算法 | [`4542b93`](https://github.com/scotv/algo-js/commit/4542b937d827)和[解释][9]
+ 九月，27 | 开始留意JSLint | 
+ 七月，12 | 引入代码覆盖率测试 | [`600ee7d`](https://github.com/scotv/algo-js/commit/600ee7d899d2)
+ 五月，23 | 引入单元测试 | [`dad30d6`](https://github.com/scotv/algo-js/commit/dad30d64ad70)
+ 五月，23 | 从SVN到GIT | [`3b0c92e`](https://github.com/scotv/algo-js/commit/3b0c92e3b173)
 
 ## 迁移
 
