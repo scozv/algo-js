@@ -1,6 +1,7 @@
 [![Build Status](https://drone.io/github.com/scotv/algo-js/status.png)](https://drone.io/github.com/scotv/algo-js/latest)
 
 # Algo.js
+###### _Version: 2.71828182845_
 ###### _Implementation of some algorithms using JavaScript with Harmony_
 
 ## Abstract || 摘要
@@ -67,9 +68,17 @@ Only test SCC algorithm
 Will test all unit tests, and run coverage. The coverage result will be generated as `./coverage.html`.
 
 ## Milestone || 历史
+Use following command to list the history tags.
+
+使用如下命令查看历史的重大版本信息.
+
+##### git tag -n
+
 When | What | Where
 :-------|:---------|:-------:
  2015&darr; | - | -
+ Aug, 01 | introduce new tag version naming system |
+ Aug, 01 | introduce big test file for SCC algorithm |
  May, 21 | drone.io with `nodejs 0.12` |
  May, 16 | Start to replace `return` with Arrow functions in JavaScript | 
  2014&darr; | - | -
