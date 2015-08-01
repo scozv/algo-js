@@ -1,8 +1,8 @@
 [![Build Status](https://drone.io/github.com/scotv/algo-js/status.png)](https://drone.io/github.com/scotv/algo-js/latest)
 
 # Algo.js
-###### _版本: 2.718281828459_
-###### _使用带箭头的`JavaScript`实现的基础算法包_
+####### _版本: 2.7182818284590_
+####### _使用带箭头的`JavaScript`实现的基础算法包_
 
 ## 摘要
 
@@ -12,7 +12,7 @@
 
 ## 文档
 
-完整的API文档可以访问[该页面] [6]，而基于`LaTeX`编译的PDF文档，可参考[LaTeX发布页面] [10]
+完整的API文档可以访问[该页面] [6]，而基于`LaTeX`编译的PDF文档，可参考[LaTeX发布页面] [10]。
 当前只有英文的API文档。
 
 ## ES6
@@ -75,8 +75,8 @@ script: 'npm i -g grunt-cli mocha && npm test'
  五月, 21 | 将`nodejs 0.12`设为drone.io的默认环境 |
  五月, 16 | 逐步用`ES6`的箭头来表达函数 | 
  2014&darr; | - | -
- 八月, 27 | 基于`LaTeX`编译的第一份PDF文档发布 | [Releases] [10]
- 六月, 14 | 逐步用`gitbook`重写API文档 | [API page] [6]
+ 八月, 27 | 基于`LaTeX`编译的第一份PDF文档发布 | [发布页面] [10]
+ 六月, 14 | 逐步用`gitbook`重写API文档 | [API文档页面] [6]
  2013&darr; | - | -
  十二月,20 | 引入持续集成 [drone.io] [7]| [`e03180d`](https://github.com/scotv/algo-js/commit/e03180df15)
  十二月,12 | 逐步将该项目从[Google Code] [4]迁移过来 | [`b39f7f7`](https://github.com/scotv/algo-js/commit/b39f7f78ab)
@@ -86,7 +86,7 @@ script: 'npm i -g grunt-cli mocha && npm test'
  五月,23 | 引入单元测试 | [`dad30d6`](https://github.com/scotv/algo-js/commit/dad30d64ad70)
  五月,23 | 从SVN到GIT | [`3b0c92e`](https://github.com/scotv/algo-js/commit/3b0c92e3b173)
 
-## Migration || 迁移
+## 迁移
 
 项目最初托管在[Google Code] [4]上面。
 

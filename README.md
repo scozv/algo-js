@@ -1,9 +1,9 @@
 [![Build Status](https://drone.io/github.com/scotv/algo-js/status.png)](https://drone.io/github.com/scotv/algo-js/latest)
 
 # Algo.js
-###### [简体中文](https://github.com/scotv/algo-js/blob/master/DUWO.md)
-###### _Version: 2.718281828459_
-###### _Implementation of some algorithms using JavaScript with Harmony_
+####### [简体中文](https://github.com/scotv/algo-js/blob/master/DUWO.md)
+####### _Version: 2.7182818284590_
+####### _Implementation of some algorithms using JavaScript with Harmony_
 
 ## Abstract
 This is a project containing implementation of some fudamental algorithms in `JavaScript` with arrow functions enabled. 
