@@ -1,7 +1,7 @@
 {
   "name": "Algo.js",
   "private": true,
-  "version": "2.7182818284590",
+  "version": "2",
   "description": "Implementation of some algorithms using JavaScript",
   "main": "./test/q.js",
   "dependencies": {},
