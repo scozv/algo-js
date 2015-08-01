@@ -63,7 +63,7 @@ script: 'npm i -g grunt-cli mocha && npm test'
 
 ## 历史版本
 
-使用如下命令查看历史的重大版本信息.
+使用如下命令查看历史的重大版本信息。
 
 ##### git tag -n
 
