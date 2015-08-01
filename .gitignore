@@ -3,6 +3,7 @@ node_modules*
 # single input or output file
 *.i
 *.o
+*.7z
 
 # uglify, coverage temporary files
 coverage*
