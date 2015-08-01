@@ -32,17 +32,20 @@ var helper = {
 	},
 	inputPath: './test/graph/',
 	outputPath: './test/graph/',
-	inputFiles: ['00', '01', '02', '03', '04', '05', '06', '07', '08', '99'].map(x=>'scc'+x),
+	inputFiles: ['00', '01', '02', '03', '04', '05', '06', '07', '08', '99'],
+  bigFiles: ['99'],
 	toString: function () {}
 };
 
 test('SCC tests on reading file', ()=>{
-	helper.inputFiles.forEach(function (fileName) {
-		it('SCC test on file named ' + fileName, function(done){
-			var input = helper.inputPath + fileName + '.i',
-				output = helper.outputPath + fileName + '.o',
+	helper.inputFiles.forEach(function (fileIndex) {
+		it('SCC test on file named ' + fileIndex, function(done){
+			var input = helper.inputPath + 'scc' + fileIndex + '.i',
+				output = helper.outputPath + 'scc' + fileIndex + '.o',
 				fs = require('fs'),
 				assert = require('assert');
+
+      if (helper.bigFiles.some(i => i===fileIndex)) {this.timeout(1<<16);}
 			
 			fs.readFile(input, 'UTF-8', (err, data)=>{
 				if (err) {

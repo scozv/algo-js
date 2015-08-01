@@ -113,5 +113,5 @@ module.exports = function (grunt) {
 	grunt.registerTask('testscc', ['mochacov:scc']);
 	// grunt.registerTask('default', ['mochacov:all']);
 	grunt.registerTask('testcov', ['es6transpiler','uglify:src','uglify:test','mochacov:cov']);
-	grunt.registerTask('default', ['es6transpiler','uglify:src','uglify:test','mochacov:cov', 'mochacov:scc', 'mochacov:all']);
+	grunt.registerTask('default', ['es6transpiler','uglify:src','uglify:test','mochacov:cov', 'mochacov:all']);
 };

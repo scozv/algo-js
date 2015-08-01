@@ -15,7 +15,8 @@
     "should": "^7.0.2"
   },
   "scripts": {    
-    "test": "tar xjkvf test/graph/scc.tar -C test/graph/ --overwrite && grunt"
+    "test": "tar xjkvf test/graph/scc.tar -C test/graph/ --overwrite && grunt",
+    "start": "wget -P test/graph/ https://github.com/scotv/algo-js/releases/download/v3.1.4/scc99.7z && 7z e test/graph/scc99.7z -otest/graph/ -aoa"
   },
   "config": {
     "blanket": {
