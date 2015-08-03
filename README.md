@@ -62,7 +62,7 @@ Use following command to list the history tags.
 When | What | Where
 :-------|:---------|:-------:
  2015&darr; | - | -
- Aug, 03 | publish API page in Chinese | [API page] [6]
+ Aug, 03 | publish API page in `zh-cn` | [API page] [6]
  Aug, 01 | introduce new tag version naming system |
  Aug, 01 | introduce big test file for SCC algorithm |
  May, 21 | drone.io with `nodejs 0.12` |
