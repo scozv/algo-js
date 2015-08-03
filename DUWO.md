@@ -13,7 +13,6 @@
 ## 文档
 
 完整的API文档可以访问[该页面] [6]，而基于`LaTeX`编译的PDF文档，可参考[LaTeX发布页面] [10]。
-当前只有英文的API文档。
 
 ## ES6
 
@@ -70,6 +69,7 @@ script: 'npm i -g grunt-cli mocha && npm test'
 时间 | 说明 | 参考源
 :-------|:---------|:-------:
  2015&darr; | - | -
+ 八月，03 | 发布中文接口文档 | [文档页面] [6]
  八月，01 | 引入新的版本编号方式 |
  八月，01 | 引入强联通图的大文件测试 | [测试文件] [11]
  五月，21 | 将`nodejs 0.12`设为drone.io的默认环境 |
@@ -95,7 +95,7 @@ script: 'npm i -g grunt-cli mocha && npm test'
 [3]: http://www.ecmascript.org/  "ECMA-262"
 [4]: https://code.google.com/p/algo-js "Algo.js"
 [5]: https://github.com/scotv/algo-js/issues "Issues"
-[6]: http://scotv.github.io/algo-wiki "Wiki"
+[6]: http://scotv.github.io/algo-wiki/zh-cn/index.html "Wiki"
 [7]: https://drone.io/github.com/scotv/algo-js "drone.io"
 [8]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions#Browser_compatibility "Arrow functions"
 [9]: http://scotv.github.io/algo/2013/11/10/how-to-write-iterative-tarjan-scc-algorithm-part-zero 'Iterative Tarjan'

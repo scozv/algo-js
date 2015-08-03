@@ -62,6 +62,7 @@ Use following command to list the history tags.
 When | What | Where
 :-------|:---------|:-------:
  2015&darr; | - | -
+ Aug, 03 | publish API page in Chinese | [API page] [6]
  Aug, 01 | introduce new tag version naming system |
  Aug, 01 | introduce big test file for SCC algorithm |
  May, 21 | drone.io with `nodejs 0.12` |
@@ -92,6 +93,6 @@ which I have moved from root into `src/` during this migration:
 [3]: http://www.ecmascript.org/  "ECMA-262"
 [4]: https://code.google.com/p/algo-js "Algo.js"
 [5]: https://github.com/scotv/algo-js/issues "Issues"
-[6]: http://scotv.github.io/algo-wiki "Wiki"
+[6]: http://scotv.github.io/algo-wiki/en/index.html "Wiki"
 [7]: https://drone.io/github.com/scotv/algo-js "drone.io"
 [8]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions#Browser_compatibility "Arrow functions"
