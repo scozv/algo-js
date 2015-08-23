@@ -48,6 +48,13 @@ test('Array query extension', function(){
   deepEqual([1].take(2), [1], 'Take 2 from one-elem array');
   deepEqual([1,2].take(1), [1], 'Take 1 from multi-elem array');
   deepEqual([1,3,5,8].take(3), [1,3,5], 'Take 3 from multi-elem array');
+
+  deepEqual([].skip(0), [], 'Skip 0 from empty array');
+  deepEqual([1, 3].skip(0), [1, 3], 'Skip 0 from non-empth array');
+  deepEqual([1].skip(1), [], 'Skip 1 from array');
+  deepEqual([1].skip(2), [], 'Skip 2 from one-elem array');
+  deepEqual([1,2].skip(1), [2], 'Skip 1 from multi-elem array');
+  deepEqual([1,3,5,8].skip(3), [8], 'Skip 3 from multi-elem array');
 });
 
 test('Math basic extensions', function(){

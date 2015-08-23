@@ -35,6 +35,15 @@
     return result;
   };
 
+  $pt.skip = function(n){
+    var result = [];
+    for (var i=n;i<this.length;i++){
+      result.push(this[i]);
+    }
+
+    return result;
+  };
+
 	// static member
 	Array.zip = function(arr1, arr2){
 		var arr = [],
