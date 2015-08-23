@@ -38,6 +38,8 @@ module.exports = function (grunt) {
 	// build uglify test files
   var uglifySourceFiles = 
     sourceFiles.map(function(file){return 'deploy/es5.'+file+'.js';});
+  var extensionSourceFiles =
+    sourceFiles.filter(function(f){return /^x\./.test(f);}).map(function(file){return 'deploy/es5.'+file+'.js';});
 
 	var uglifyTestFiles = [testPath + '_uglify.header.js'];
 	testFiles.forEach(function(file){
@@ -59,6 +61,9 @@ module.exports = function (grunt) {
 	        }
 		},
 
+    /*
+    * uglify:src, all source of algojs
+    * uglify:x, only deploy the extension of Js*/
 		'uglify': {
 			src: {
 				files: {
@@ -78,6 +83,23 @@ module.exports = function (grunt) {
 						'\r\n'].join('\r\n')
 				}
 			},
+      x: {
+        files: {
+          'deploy/algox.js': extensionSourceFiles
+        },
+        options: {
+          compress: {drop_console: 1, conditionals: 0},
+          mangle: true,
+          banner: [
+            '/*',
+            '<%= pkg.name %>',
+            'v<%= pkg.version %>',
+            '<%= grunt.template.today("yyyy-mm-dd") %>',
+            '<%= pkg.homepage %>',
+            '*/',
+            '\r\n'].join('\r\n')
+        }
+      },
 			test: {
 				files: {
 					'test/test.js': uglifyTestFiles
@@ -113,5 +135,6 @@ module.exports = function (grunt) {
 	grunt.registerTask('testscc', ['mochacov:scc']);
 	// grunt.registerTask('default', ['mochacov:all']);
 	grunt.registerTask('testcov', ['es6transpiler','uglify:src','uglify:test','mochacov:cov']);
+  grunt.registerTask('deployx', ['es6transpiler','uglify:src','uglify:test','uglify:x', 'mochacov:all']);
 	grunt.registerTask('default', ['es6transpiler','uglify:src','uglify:test','mochacov:cov', 'mochacov:all']);
 };
