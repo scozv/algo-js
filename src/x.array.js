@@ -26,6 +26,15 @@
 		return Array.zip(this, that);
 	};
 
+  $pt.take = function(n){
+    var result = [];
+    for (var i=0;i<this.length&&i<n;i++){
+      result.push(this[i]);
+    }
+
+    return result;
+  };
+
 	// static member
 	Array.zip = function(arr1, arr2){
 		var arr = [],

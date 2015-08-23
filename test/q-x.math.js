@@ -41,6 +41,15 @@ test('Array basic extensions', function(){
   })(100, 5);
 });
 
+test('Array query extension', function(){
+  deepEqual([].take(0), [], 'Take 0 from empty array');
+  deepEqual([1, 3].take(0), [], 'Take 0 from non-empth array');
+  deepEqual([1].take(1), [1], 'Take 1 from array');
+  deepEqual([1].take(2), [1], 'Take 2 from one-elem array');
+  deepEqual([1,2].take(1), [1], 'Take 1 from multi-elem array');
+  deepEqual([1,3,5,8].take(3), [1,3,5], 'Take 3 from multi-elem array');
+});
+
 test('Math basic extensions', function(){
 	// strictEqual(Math.mod(0, 0), 0 % 0, '0 mod 0 == NaN');
 	strictEqual(Math.mod(17, 4), 17 % 4, '17 mod 4 == 1');
