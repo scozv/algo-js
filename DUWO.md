@@ -17,7 +17,7 @@
 ## ES6
 
 我喜欢用`lambda`来表达函数——`Scala !`——所以，我默认开启了`nodejs`的`harmony`选项。
-需要注意的是，浏览器方面，目前只有`Firefox 22.0+` 支持箭头函数（[MDN] [8]）。
+需要注意的是，浏览器方面，目前只有`Firefox 22.0+` 和 `Chrome 45+`支持箭头函数（[MDN] [8]）。
 
 ##### `nodejs --harmony`
 

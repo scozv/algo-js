@@ -14,7 +14,7 @@ Read new [__Docs__] [6] page for details including API of this.
 
 ## Harmony
 I don't like returning value with `return`, so I enable `harmony` option of `nodejs` by default.
-Currently, only `Firefox 22.0+` supports arrow functions ([MDN] [8]).
+Currently, only `Firefox 22.0+` and `Chrome 45+` supports arrow functions ([MDN] [8]).
 
 ##### `nodejs --harmony`
 
