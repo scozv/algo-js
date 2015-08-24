@@ -58,9 +58,33 @@ test('Array query extension', function(){
 });
 
 test('Math basic extensions', function(){
-	// strictEqual(Math.mod(0, 0), 0 % 0, '0 mod 0 == NaN');
-	strictEqual(Math.mod(17, 4), 17 % 4, '17 mod 4 == 1');
-	strictEqual(Math.mod(-25, 4), 3, '-25 mod 4 == 3 (-25 == -7 * 4 + 3)');
+  // for any i = a * n + b
+  // * b \in [0, n)
+  // Math.abs(i-b) % n === 0
+  var checkMod = (i, n, b) => Math.equals(n, 0) ? isNaN(b) : 
+    b >= 0 && b < n && Math.equals(Math.abs(i-b) % n, 0);
+	ok(checkMod(0, 0, NaN), '0 mod 0 == NaN');
+  ok(checkMod(3, 0, NaN), '3 mod 0 == NaN');
+  ok(checkMod(0, 3, 0), '0 mod 3 == 0');
+  ok(checkMod(0, 16, 0), '0 mod 16 == 0');
+  ok(checkMod(4, 3, 1), '4 mod 3 == 1');
+  ok(checkMod(4, 2, 0), '4 mod 2 == 0');
+  ok(checkMod(-0, 0, NaN), '-0 mod 0 == NaN');
+  ok(checkMod(-3, 0, NaN), '-3 mod 0 == NaN');
+  ok(checkMod(-0, 3, 0), '-0 mod 3 == 0');
+  ok(checkMod(-0, 16, 0), '-0 mod 16 == 0');
+  ok(checkMod(-4, 3, 2), '-4 mod 3 == 2');
+  ok(checkMod(-4, 2, 0), '-4 mod 2 == 0');
+  Math.range(31, 274412817, 17314347).forEach(function(x, k){
+    var i = Math.randomInteger(k, x),
+      n = Math.randomInteger(k, x),
+      b1 = Math.mod(i, n),
+      b2 = Math.mod(-i, n);
+      ok(checkMod(i, n, b1), 'i = a * n + b, where i, n, b is ' + [i, n, b1].join(', '));
+      ok(checkMod(-i, n, b2), 'i = a * n + b, where i, n, b is ' + [-i, n, b2].join(', '));
+  });
+
+
 	throws(function(){
 		Math.range();
 	}, 'range should have at least one args');

@@ -1,8 +1,11 @@
 (function(Math, undefined){
   Math.EPSILON = Math.abs(1e-29);
 
-	// i.e. $mod(-1, 4) = 3
-	Math.mod = (i, n) => (i & 0x7FFFFFFF) % n;
+	// for any i = a * n + b
+  // * b \in [0, n)
+  // Math.abs(i-b) % n === 0
+	Math.mod = (i, n) => Math.equals(n, 0) ? NaN :
+    i>=0 ? (i % n) : Math.mod(i + Math.ceil((0-i) / n) * n, n);
 
   Math.equals = function(x, y){
     var eq = false;
