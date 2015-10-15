@@ -8,7 +8,7 @@
 	// clone: () => arr
 
 	// static members:
-	// Array.zip: (arr1, arr2) => arr3 
+	// Array.zip: (arr1, arr2) => arr3
 
 	$pt.foldl = function(fn, acc){
 		throw new Error('use Array.reduce instead');
@@ -43,6 +43,34 @@
 
     return result;
   };
+
+	// update or insert item of array, array will be changed
+	$pt.upsert = function(item, where, how){
+		return this.update(item, where, how, true);
+	};
+
+	// update item of array, array will be changed
+	$pt.update = function(item, where, how, upsert){
+		var itemKey = (where && where(item)) || item,
+			updated = false;
+			/// insert = insert && true;
+
+		// find the item in array by where-function
+		for (var i=0;i<this.length;i++) {
+			var x = this[i];
+			if (where(x)===itemKey) {
+				// find it and update it
+				updated = true;
+				this[i] = how(x, item);
+			}
+		};
+
+		if (! updated && upsert) {
+			this.push(item);
+		}
+
+		return this;
+	};
 
 	// static member
 	Array.zip = function(arr1, arr2){

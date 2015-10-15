@@ -29,7 +29,7 @@ test('Array basic extensions', function(){
         norm2 = norm(randomArray);
 
       return {
-        length: length, 
+        length: length,
         result: Math.equals(norm1, norm2) && arrEquals(norm1, norm2)};
     };
 
@@ -57,11 +57,31 @@ test('Array query extension', function(){
   deepEqual([1,3,5,8].skip(3), [8], 'Skip 3 from multi-elem array');
 });
 
+test('Array update or upsert', function(){
+	var arr = [],
+		how = (a, b) => ({_id: a._id, age: a.age+b.age}),
+		find = (array, key) => array.filter(x=>x._id === key)[0];
+
+	arr = [{_id: 1, age: 10},{_id: 4, age: 5},{_id: -1, age: 3},{_id: 9, age: 2}];
+	arr
+	.update({_id: 4, age: 7}, x=>x._id, how)
+	.upsert({_id: -1, age: 1}, x=>x._id, how)
+	.update({_id: 7, age: 7}, x=>x._id, how)
+	.upsert({_id: 7, age: 1}, x=>x._id, how);
+
+	deepEqual(arr.length, 5, 'Upsert may insert');
+	deepEqual(find(arr, 1).age, 10, 'Upsert nothing if not found');
+	deepEqual(find(arr, 4).age, 12, 'Update _id: 4');
+	deepEqual(find(arr, -1).age, 4, 'Upsert _id: -1 equivalent to update when found');
+	deepEqual(find(arr, 9).age, 2, 'Upsert nothing if not found');
+	deepEqual(find(arr, 7).age, 1, 'Upsert may insert while update only update');
+});
+
 test('Math basic extensions', function(){
   // for any i = a * n + b
   // * b \in [0, n)
   // Math.abs(i-b) % n === 0
-  var checkMod = (i, n, b) => Math.equals(n, 0) ? isNaN(b) : 
+  var checkMod = (i, n, b) => Math.equals(n, 0) ? isNaN(b) :
     b >= 0 && b < n && Math.equals(Math.abs(i-b) % n, 0);
 	ok(checkMod(0, 0, NaN), '0 mod 0 == NaN');
   ok(checkMod(3, 0, NaN), '3 mod 0 == NaN');
@@ -115,4 +135,4 @@ test('Math.stats', function(){
 	ok(Math.equals(lls(a1, f(-2.31, 3.12))[0], (-2.31)), 'y=-2.31x+3.12');
 	ok(Math.equals(lls(a1, f1(2), Math.log)[0], (2)), 'y=x^2, with ln()');
 	ok(Math.equals(lls(a1, f1(-3.141501), Math.log)[0], (-3.141501)), 'y=x^-3.141501, with ln()');
-}); 
+});
