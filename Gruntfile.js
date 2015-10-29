@@ -111,19 +111,14 @@ module.exports = function (grunt) {
 		'mochacov': {
 			options: {
 					require : ['<%= pkg.main %>'],
-					reporter: 'spec',
+					reporter: 'html-cov',
+					output: 'coverage.html',
 					log: true,
 					harmony: true				
 				},
 			all: [testPath + 'q-*.js', testPath + 'n-graph.scc.js'],
 			scc: [testPath + 'n-graph.scc.js'],
-			cov: {
-				options: {
-					reporter: 'html-cov',
-					output: 'coverage.html'
-				},
-				src: [testPath + 'test.js']
-			}
+			cov: [testPath + 'test.js']
 		}
 	});
 
@@ -135,6 +130,6 @@ module.exports = function (grunt) {
 	grunt.registerTask('testscc', ['mochacov:scc']);
 	// grunt.registerTask('default', ['mochacov:all']);
 	grunt.registerTask('testcov', ['es6transpiler','uglify:src','uglify:test','mochacov:cov']);
-  grunt.registerTask('deployx', ['es6transpiler','uglify:src','uglify:test','uglify:x', 'mochacov:all']);
+	grunt.registerTask('deployx', ['es6transpiler','uglify:src','uglify:test','uglify:x']);
 	grunt.registerTask('default', ['es6transpiler','uglify:src','uglify:test','mochacov:cov', 'mochacov:all']);
 };
