@@ -6,13 +6,13 @@
   "main": "./test/q.js",
   "dependencies": {},
   "devDependencies": {
-    "grunt": "~0.4.2",
-    "grunt-contrib-jshint": "~0.11.2",
-    "grunt-contrib-nodeunit": "~0.4.1",
-    "grunt-contrib-uglify": "^0.9.1",
+    "grunt": "~1.0.1",
+    "grunt-contrib-jshint": "~1.0.0",
+    "grunt-contrib-nodeunit": "~1.0.0",
+    "grunt-contrib-uglify": "^1.0.1",
     "grunt-es6-transpiler": "^1.0.2",
     "grunt-mocha-cov": "^0.4.0",
-    "should": "^7.0.2"
+    "should": "^8.4.0"
   },
   "scripts": {    
     "test": "tar xjkvf test/graph/scc.tar -C test/graph/ --overwrite && grunt",
