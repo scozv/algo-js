@@ -1,16 +1,9 @@
+import ERROR from './ERROR'
+import TRAVERSAL from './TRAVERSAL'
+
 import LinkedList from './LinkedList'
-
-const error = {
-  INVALID_EMPTY_COL_ACTION: 'invalid action on an empty collection',
-  INVALID_NUMERIC_VALUE: 'invalid numeric value has been passed',
-  INVALID_GRAPH_ACTION: 'invalid action on this graph, check it is directed or not'
-};
-
-const traversal = {
-  PRE_ORDER: 0,
-  IN_ORDER: 1,
-  POST_ORDER: 2
-};
+import Queue from './Queue'
+import Stack from './Stack'
 
 function __x__(d, b) {
   // inspired from http://www.typescriptlang.org/Playground/
@@ -24,9 +17,11 @@ function __x__(d, b) {
 }
 
 export default {
-  ERROR: error,
-  TRAVERSAL: traversal,
+  ERROR: ERROR,
+  TRAVERSAL: TRAVERSAL,
   "__x__": __x__,
 
-  LinkedList: LinkedList
+  LinkedList: LinkedList,
+  Queue: Queue,
+  Stack: Stack
 };

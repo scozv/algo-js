@@ -1,46 +1,49 @@
-(function (type, undefined) {
-  type.Queue = function () {
-    this.__innerList__ = new T.LinkedList();
+import LinkedList from './LinkedList'
+import ERROR from './ERROR'
+
+class Queue {
+  constructor(){
+    this.__innerList__ = new LinkedList();
   };
 
-  type.Queue.prototype = {
-    isEmpty: function () {
-      return this.__innerList__.isEmpty();
-    },
+  get isEmpty() {
+    return this.__innerList__.isEmpty;
+  }
 
-    enqueue: function (item) {
-      this.__innerList__.push(item);
-    },
+  enqueue(item) {
+    this.__innerList__.push(item);
+  }
 
-    peek: function () {
-      if (this.__innerList__.isEmpty()) {
-        throw new Error(T.ERROR.INVALID_EMPTY_COL_ACTION);
-      }
-
-      return this.__innerList__.__header__.next.elem;
-    },
-
-    dequeue: function () {
-      var item = this.peek(),
-        _lst = this.__innerList__;
-      _lst.__removeNext__(_lst.__header__);
-      return item;
-    },
-
-    size: function () {
-      return this.__innerList__.size();
-    },
-
-    forEach: function (fn) {
-      this.__innerList__.forEach(fn);
-    },
-
-    map: function (fn) {
-      return this.__innerList__.map(fn);
-    },
-
-    toArray: function () {
-      return this.__innerList__.toArray();
+  peek() {
+    if (this.__innerList__.isEmpty) {
+      throw new Error(ERROR.INVALID_EMPTY_COL_ACTION);
     }
-  };
-}(window.T = window.T || {}));
+
+    return this.__innerList__.__header__.next.elem;
+  }
+
+  dequeue() {
+    var item = this.peek(),
+      _lst = this.__innerList__;
+    _lst.__removeNext__(_lst.__header__);
+    return item;
+  }
+
+  get size() {
+    return this.__innerList__.size;
+  }
+
+  forEach(fn) {
+    this.__innerList__.forEach(fn);
+  }
+
+  map(fn) {
+    return this.__innerList__.map(fn);
+  }
+
+  toArray() {
+    return this.__innerList__.toArray();
+  }
+}
+
+export default Queue;
