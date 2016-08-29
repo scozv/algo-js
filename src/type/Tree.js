@@ -1,7 +1,12 @@
-(function (type, undefined) {
-  var _node = function (elem) {
+import ERROR from './ERROR'
+import TRAVERSAL from './TRAVERSAL'
+import {__compareOrDefault__} from '../sorting/internal'
+import Stack from './Stack'
+
+class _node {
+  constructor(elem) {
     this.elem = elem;
-    // The height of a node is the length of the longest downward path to a leaf from that node. 
+    // The height of a node is the length of the longest downward path to a leaf from that node.
     // The depth of a node is the length of the path to its root (i.e., its root path)
     // The root node has depth zero, leaf nodes have height zero
     this.height = 0;
@@ -10,43 +15,38 @@
     // in binary tree, the length of this.children is 2
     // that is [leftChildAddress, righChildAddress]
     this.children = [];
-  };
+  }
+}
 
-  var _tree = function (degree) {
+class _tree {
+  constructor(degree) {
     if (isNaN(degree = +degree)) {
-      throw new Error(T.ERROR.INVALID_NUMERIC_VALUE);
+      throw new Error(ERROR.INVALID_NUMERIC_VALUE);
     } else {
       this.__root__ = null;
       this.__count__ = 0;
       // the degree of this tree must >= max{eachNode.children.length}
       Object.defineProperty(this, '__degree__', {writable: false, value: degree});
     }
-  };
+  }
 
-  var $t = _tree.prototype;
-
-  $t.height = function () {
+  get height() {
     // The height of the root is the height of the tree.
     // an empty tree (tree with no nodes, if such are allowed) has depth and height -1.
-    if (this.__root__) {
-      return this.__root__.height;
-    }
-    else {
-      return -1;
-    }
-  };
+    return (this.__root__) ? this.__root__.height : -1;
+  }
 
-  $t.degree = function () {
+  get degree() {
     return this.__degree__;
-  };
+  }
 
-  $t.size = function () {
+  get size() {
     return this.__count__;
-  };
+  }
 
   // ***** private members *****
 
-  $t.__insertBelowAt__ = function (elem, node, index) {
+  __insertBelowAt__(elem, node, index) {
     var child = new _node(elem);
 
     if (node) {
@@ -60,31 +60,23 @@
     this.__count__++;
 
     return node;
-  };
+  }
+}
 
-  type.BinarySearchTree = (function (_super) {
-    T.__x__(me, _super);
+export class BinarySearchTree extends _tree {
+  constructor(compare) {
+    super(2);
 
-    function me(compare) {
-      _super.call(this, 2);
-      Object.defineProperty(
-        this,
-        '__compare__',
-        {writable: false, value: Sorting.__compareOrDefault__(compare)});
-    }
+    this.__compare__ = __compareOrDefault__(compare);
+  }
 
-    return me;
-  })(_tree);
-
-  var $bst = type.BinarySearchTree.prototype;
-
-  $bst.search = function (elem) {
+  search(elem) {
     // search elem in this tree, returns node which contains elem, or null if not exsits
     var parent = this.__searchParent__(elem),
       cp = this.__compare__;
 
     // notice each of two paths of if-else
-    // if the value we return is null, means we cannot find elem, 
+    // if the value we return is null, means we cannot find elem,
     // otherwise, the returned node is what we look for
     if (!parent) {
       return this.__root__;
@@ -92,9 +84,9 @@
     else {
       return parent.children[cp(elem, parent.elem) < 0 ? 0 : 1]
     }
-  };
+  }
 
-  $bst.rSearch = function (elem) {
+  rSearch(elem) {
     // recursive version of search
     var cp = this.__compare__;
 
@@ -110,10 +102,10 @@
     };
 
     return f0(this.__root__);
-  };
+  }
 
-  $bst.__searchParent__ = function (elem) {
-    // gets the parent, one of whose children contains elem, so if 
+  __searchParent__(elem) {
+    // gets the parent, one of whose children contains elem, so if
     // p is null -> root is null OR root.elem == elem
     // p.children[0 : 1] is null, we can insert elem under parent[0:1]
     // p.children[0 : 1] is not null, that means p.children[0 : 1] === elem (elem has been there)
@@ -128,9 +120,9 @@
     }
 
     return parent;
-  };
+  }
 
-  $bst.__childOfParent__ = function (elem, parent) {
+  __childOfParent__(elem, parent) {
     // get a valid child of paraent, and the child.elem === elem
 
     var cp = this.__compare__,
@@ -139,9 +131,9 @@
     return c !== 0 && cp(elem, parent.children[i].elem) === 0 &&
       parent.children[i];
 
-  };
+  }
 
-  $bst.insert = function (elem) {
+  insert(elem) {
     // inserts elem under BST order, no duplication
 
     if (!this.__root__) {
@@ -156,9 +148,9 @@
     if (parent && !parent.children[i = (cp(elem, parent.elem) < 0 ? 0 : 1)]) {
       parent.children[i] = new _node(elem);
     }
-  };
+  }
 
-  $bst.rInsert = function (elem) {
+  rInsert(elem) {
     // recursive version of insert
     var cp = this.__compare__;
 
@@ -179,9 +171,9 @@
     this.__root__ ?
       f0(this.__root__) :
       this.__root__ = new _node(elem);
-  };
+  }
 
-  $bst.forEach = function (TRAVERSAL, fn) {
+  forEach(traversal, fn) {
     fn = fn && (typeof fn === 'function') ? fn : function (x) {
       return x;
     };
@@ -192,11 +184,11 @@
     // inspired from http://www.geeksforgeeks.org/iterative-preorder-traversal/
     var pre = function (node) {
       if (node) {
-        var frontier = new T.Stack(),
+        var frontier = new Stack(),
           current;
 
         frontier.push(node);
-        while (!frontier.isEmpty()) {
+        while (!frontier.isEmpty) {
           current = frontier.pop();
           fn(current.elem);
           current.children[1] ? frontier.push(current.children[1]) : null;
@@ -209,10 +201,10 @@
     // inspired from http://www.geeksforgeeks.org/inorder-tree-traversal-without-recursion/
     var ino = function (node) {
       if (node) {
-        var frontier = new T.Stack(),
+        var frontier = new Stack(),
           current = node;
 
-        while (current || !frontier.isEmpty()) {
+        while (current || !frontier.isEmpty) {
           if (current) {
             frontier.push(current);
             current = current.children[0];
@@ -229,7 +221,7 @@
     // inspired from http://www.geeksforgeeks.org/iterative-postorder-traversal-using-stack/
     var pos = function (node) {
       if (node) {
-        var frontier = new T.Stack(),
+        var frontier = new Stack(),
           current = node;
 
         do {
@@ -243,7 +235,7 @@
           current = frontier.pop();
           // If the popped item has a right child and the right child is not
           // processed yet, then make sure right child is processed before root
-          if (current.children[1] && !frontier.isEmpty() &&
+          if (current.children[1] && !frontier.isEmpty &&
             cp(frontier.peek().elem, current.children[1].elem) === 0) {
             frontier.pop();
             frontier.push(current);
@@ -253,15 +245,15 @@
             current = null;
           }
 
-        } while (!frontier.isEmpty())
+        } while (!frontier.isEmpty)
       }
     };
 
-    switch (TRAVERSAL) {
-      case T.TRAVERSAL.PRE_ORDER:
+    switch (traversal) {
+      case TRAVERSAL.PRE_ORDER:
         pre(this.__root__);
         break;
-      case T.TRAVERSAL.POST_ORDER:
+      case TRAVERSAL.POST_ORDER:
         pos(this.__root__);
         break;
       default:
@@ -269,9 +261,9 @@
         break;
     }
 
-  };
+  }
 
-  $bst.rForEach = function (TRAVERSAL, fn) {
+  rForEach(traversal, fn) {
     fn = fn && (typeof fn === 'function') ? fn : function (x) {
       return x;
     };
@@ -303,48 +295,48 @@
       }
     };
 
-    switch (TRAVERSAL) {
-      case T.TRAVERSAL.PRE_ORDER:
+    switch (traversal) {
+      case TRAVERSAL.PRE_ORDER:
         pre(this.__root__);
         break;
-      case T.TRAVERSAL.POST_ORDER:
+      case TRAVERSAL.POST_ORDER:
         pos(this.__root__);
         break;
       default:
         ino(this.__root__);
         break;
     }
-  };
+  }
 
-  $bst.map = function (TRAVERSAL, fn) {
+  map(traversal, fn) {
     fn = fn && (typeof fn === 'function') ? fn : function (x) {
       return x;
     };
 
     var arr = [];
     this.forEach(
-      TRAVERSAL,
+      traversal,
       function (x) {
         arr.push(fn(x));
       }
     );
 
     return arr;
-  };
+  }
 
-  $bst.rMap = function (TRAVERSAL, fn) {
+  rMap(traversal, fn) {
     fn = fn && (typeof fn === 'function') ? fn : function (x) {
       return x;
     };
 
     var arr = [];
     this.rForEach(
-      TRAVERSAL,
+      traversal,
       function (x) {
         arr.push(fn(x));
       }
     );
 
     return arr;
-  };
-}(window.T = window.T || {}));
+  }
+}

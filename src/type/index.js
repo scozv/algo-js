@@ -5,6 +5,7 @@ import LinkedList from './LinkedList'
 import Queue from './Queue'
 import Stack from './Stack'
 import {MinHeap, MaxHeap} from './Heap'
+import {BinarySearchTree} from './Tree'
 
 function __x__(d, b) {
   // inspired from http://www.typescriptlang.org/Playground/
@@ -25,4 +26,5 @@ export default {
   Stack,
   MinHeap,
   MaxHeap,
+  BinarySearchTree,
 };
