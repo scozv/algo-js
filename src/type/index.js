@@ -1,31 +1,32 @@
-(function (type, undefined) {
-  var error = {};
+import LinkedList from './LinkedList'
 
-  Object.defineProperties(error, {
-    'INVALID_EMPTY_COL_ACTION': {writable: false, value: 'invalid action on an empty collection'},
-    'INVALID_NUMERIC_VALUE': {writable: false, value: 'invalid numeric value has been passed'},
-    'INVALID_GRAPH_ACTION': {writable: false, value: 'invalid action on this graph, check it is directed or not'}
-  });
+const error = {
+  INVALID_EMPTY_COL_ACTION: 'invalid action on an empty collection',
+  INVALID_NUMERIC_VALUE: 'invalid numeric value has been passed',
+  INVALID_GRAPH_ACTION: 'invalid action on this graph, check it is directed or not'
+};
 
-  type.ERROR = error;
+const traversal = {
+  PRE_ORDER: 0,
+  IN_ORDER: 1,
+  POST_ORDER: 2
+};
 
-  var traversal = {};
-  Object.defineProperties(traversal, {
-    'PRE_ORDER': {writable: false, value: 0},
-    'IN_ORDER': {writable: false, value: 1},
-    'POST_ORDER': {writable: false, value: 2}
-  });
+function __x__(d, b) {
+  // inspired from http://www.typescriptlang.org/Playground/
+  for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+  function __() {
+    this.constructor = d;
+  }
 
-  type.TRAVERSAL = traversal;
+  __.prototype = b.prototype;
+  d.prototype = new __();
+}
 
-  type.__x__ = function (d, b) {
-    // inspired from http://www.typescriptlang.org/Playground/
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() {
-      this.constructor = d;
-    }
+export default {
+  ERROR: error,
+  TRAVERSAL: traversal,
+  "__x__": __x__,
 
-    __.prototype = b.prototype;
-    d.prototype = new __();
-  };
-})(window.T = window.T || {});	
+  LinkedList: LinkedList
+};

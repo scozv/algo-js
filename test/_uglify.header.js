@@ -1,1 +1,1 @@
-var algo = require('../deploy/algo');
+var algo = require('../bundle').default;

@@ -22,7 +22,7 @@
       "pattern": "//^((?!/node_modules/)(?!/test/).)*$/",
       "data-cover-never": [
         "test.js",
-        "deploy/test.js"
+        "bundle.js"
       ],
       "data-cover-flags": {
         "branchTracking": true
