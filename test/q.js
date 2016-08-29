@@ -1,16 +1,16 @@
 window = global;
 
-require('../src/t.js')
+require('../src/index.js')
 require('../src/x.array.js');
 require('../src/x.math.js');
-require('../src/t.linkedlist.js');
-require('../src/t.stack.js');
-require('../src/t.queue.js');
-require('../src/t.tree.js');
-require('../src/t.heap.js');
-require('../src/t.graph.js');
-require('../src/t.graph.weighted.js');
-require('../src/t.unionfind.js');
+require('../src/LinkedList.js');
+require('../src/Stack.js');
+require('../src/Queue.js');
+require('../src/Tree.js');
+require('../src/Heap.js');
+require('../src/Graph.js');
+require('../src/WeightedGraph.js');
+require('../src/UnionFind.js');
 require('../src/x.math.stats.js');
 require('../src/x.math.vector.js');
 

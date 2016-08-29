@@ -1,6 +1,6 @@
 (function (Graph, undefined) {
-  // using t.graph.js
-  // using t.queue.js
+  // using Graph.js
+  // using Queue.js
 
   // labelAt for diff meaning
   // topo: -1 for init, 0 for head, >0 for order

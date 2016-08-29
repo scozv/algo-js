@@ -3,7 +3,6 @@ node_modules*
 ### Self
 *.js.map
 .tscache/
-*.js
 !bundle.js
 !test/*.js
 !webpack.config.js
