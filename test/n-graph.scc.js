@@ -1,5 +1,11 @@
-// unit test for SCC algorithm, 
-// by reading big input using file system of Node.js
+require('./q');
+
+var algo = require('../bundle').default;
+var T = algo.type;
+var Sorting = algo.sorting;
+var Graph = T.Graph;
+var graph = algo.graph;
+var should = require('should');
 
 var helper = {
   buildGraph: function (input) {
@@ -64,8 +70,8 @@ test('SCC tests on reading file', () => {
     };
 
     // test it
-    assert.equal(result, flat(Graph.sccKosaraju(g)), 'Kosaraju SCC');
-    assert.equal(result, flat(Graph.sccTarjan(g)), 'Tarjan SCC');
+    assert.equal(result, flat(graph.sccKosaraju(g)), 'Kosaraju SCC');
+    assert.equal(result, flat(graph.sccTarjan(g)), 'Tarjan SCC');
   }
 
     // async done

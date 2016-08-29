@@ -125,7 +125,7 @@ export const sccTarjan = function (graph) {
 
   g.__labelAll__(-1);
 
-  Math.range(1, g.n + 1).forEach(function (i) {
+  math.range(1, g.n + 1).forEach(function (i) {
     if (g.__labelAt__(i) === 0) {
       // has been marked SCC
       return;

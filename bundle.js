@@ -55,15 +55,15 @@ module.exports =
 
 	var _type2 = _interopRequireDefault(_type);
 
-	var _sorting = __webpack_require__(12);
+	var _sorting = __webpack_require__(21);
 
 	var _sorting2 = _interopRequireDefault(_sorting);
 
-	var _linear = __webpack_require__(9);
+	var _linear = __webpack_require__(10);
 
 	var _linear2 = _interopRequireDefault(_linear);
 
-	var _math = __webpack_require__(16);
+	var _math = __webpack_require__(15);
 
 	var _math2 = _interopRequireDefault(_math);
 
@@ -113,15 +113,15 @@ module.exports =
 
 	var _Heap = __webpack_require__(7);
 
-	var _Tree = __webpack_require__(11);
+	var _Tree = __webpack_require__(13);
 
-	var _UnionFind = __webpack_require__(17);
+	var _UnionFind = __webpack_require__(14);
 
-	var _Graph = __webpack_require__(22);
+	var _Graph = __webpack_require__(19);
 
 	var _Graph2 = _interopRequireDefault(_Graph);
 
-	var _WeightedGraph = __webpack_require__(23);
+	var _WeightedGraph = __webpack_require__(20);
 
 	var _WeightedGraph2 = _interopRequireDefault(_WeightedGraph);
 
@@ -564,7 +564,7 @@ module.exports =
 
 	var _internal = __webpack_require__(8);
 
-	var _linear = __webpack_require__(9);
+	var _linear = __webpack_require__(10);
 
 	var _linear2 = _interopRequireDefault(_linear);
 
@@ -736,7 +736,7 @@ module.exports =
 	exports.__compareOrDefault__ = __compareOrDefault__;
 	exports.__randomUniqueArray__ = __randomUniqueArray__;
 
-	var _array = __webpack_require__(10);
+	var _array = __webpack_require__(9);
 
 	var _array2 = _interopRequireDefault(_array);
 
@@ -770,31 +770,6 @@ module.exports =
 
 /***/ },
 /* 9 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _array = __webpack_require__(10);
-
-	var _array2 = _interopRequireDefault(_array);
-
-	var _list = __webpack_require__(18);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	exports.default = {
-	  array: _array2.default,
-	  validPopStackSeries: _list.validPopStackSeries,
-	  medianMaintenence: _list.medianMaintenence,
-	  minimumWeightedCompletion: _list.minimumWeightedCompletion
-	};
-
-/***/ },
-/* 10 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -877,7 +852,196 @@ module.exports =
 	};
 
 /***/ },
+/* 10 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _array = __webpack_require__(9);
+
+	var _array2 = _interopRequireDefault(_array);
+
+	var _list = __webpack_require__(11);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	exports.default = {
+	  array: _array2.default,
+	  validPopStackSeries: _list.validPopStackSeries,
+	  medianMaintenence: _list.medianMaintenence,
+	  minimumWeightedCompletion: _list.minimumWeightedCompletion
+	};
+
+/***/ },
 /* 11 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.minimumWeightedCompletion = exports.medianMaintenence = exports.validPopStackSeries = undefined;
+
+	var _quickSort = __webpack_require__(12);
+
+	var _quickSort2 = _interopRequireDefault(_quickSort);
+
+	var _Stack = __webpack_require__(6);
+
+	var _Stack2 = _interopRequireDefault(_Stack);
+
+	var _Heap = __webpack_require__(7);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var validPopStackSeries = exports.validPopStackSeries = function validPopStackSeries(pushArray, popArray) {
+	  // if we push [1, 2, 3, 4] one by one,
+	  // can we get the series [2, 3, 4, 1] by poping after certain push?
+	  var st = new _Stack2.default(),
+	      j = 0;
+	  pushArray.forEach(function (x) {
+	    st.push(x);
+	    while (!st.isEmpty && st.peek() == popArray[j]) {
+	      st.pop();
+	      j++;
+	    }
+	  });
+
+	  return st.isEmpty;
+	};
+
+	var medianMaintenence = exports.medianMaintenence = function medianMaintenence(arr) {
+	  // [MaxHeap, max], media ,[min, MinHeap]
+
+	  var min = new _Heap.MinHeap(),
+	      max = new _Heap.MaxHeap(),
+	      media = [];
+
+	  arr.forEach(function (x) {
+	    if (min.size === max.size) {
+	      if (!max.isEmpty && x > max.peek()) {
+	        min.push(x);
+	        max.push(min.pop());
+	      } else {
+	        max.push(x);
+	      }
+	    } else {
+	      // we always keep max.size - min.size \in [0, 1]
+	      if (x > max.peek()) {
+	        min.push(x);
+	      } else {
+	        max.push(x);
+	        min.push(max.pop());
+	      }
+	    }
+
+	    media.push(max.peek());
+	  });
+
+	  return media;
+	};
+
+	var minimumWeightedCompletion = exports.minimumWeightedCompletion = function minimumWeightedCompletion(arr, fn) {
+	  // for each x in arr, x[0], x[1] = weight, length
+	  fn = fn || function (x, y) {
+	    return y[0] / y[1] - x[0] / x[1];
+	  };
+
+	  var c = 0,
+	      s = 0;
+	  (0, _quickSort2.default)(arr, fn).forEach(function (x) {
+	    c += x[1];
+	    s += x[0] * c;
+	  });
+
+	  return s;
+	};
+
+/***/ },
+/* 12 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = quickSort;
+
+	var _internal = __webpack_require__(8);
+
+	var _array = __webpack_require__(9);
+
+	var _array2 = _interopRequireDefault(_array);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+	function _partition(arr, l, r, compare) {
+	  var i = l,
+	      j = r + 1;
+
+	  while (true) {
+	    while (compare(arr[++i], arr[l]) < 0) {
+	      if (i == r) {
+	        break;
+	      }
+	    }
+
+	    while (compare(arr[l], arr[--j]) < 0) {
+	      if (j == l) {
+	        break;
+	      }
+	    }
+
+	    if (i >= j) {
+	      break;
+	    }
+	    _array2.default.swap(arr, i, j);
+	  }
+
+	  _array2.default.swap(arr, l, j);
+	  return j;
+	}
+
+	function _quickSort(arr, l, r, compare) {
+	  /// <summary>quick sort the arr, during the range from index l to r, inclusive.</summary>
+
+	  // base case
+	  if (r >= arr.length) {
+	    r = arr.length - 1;
+	  }
+
+	  if (l >= r) {
+	    return;
+	  }
+
+	  var j = _partition(arr, l, r, compare);
+
+	  // recursive calls
+	  _quickSort(arr, l, j - 1, compare);
+	  _quickSort(arr, j + 1, r, compare);
+	}
+
+	function quickSort(arr, compare, skipClone) {
+	  // default order by asc
+	  compare = (0, _internal.__compareOrDefault__)(compare);
+
+	  var arrCopy = skipClone === true ? arr : [].concat(_toConsumableArray(arr));
+
+	  _quickSort(arrCopy, 0, arrCopy.length - 1, compare);
+
+	  return arrCopy;
+	}
+
+/***/ },
+/* 13 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1264,426 +1428,7 @@ module.exports =
 	}(_tree);
 
 /***/ },
-/* 12 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _heapSort = __webpack_require__(13);
-
-	var _heapSort2 = _interopRequireDefault(_heapSort);
-
-	var _quickSort = __webpack_require__(14);
-
-	var _quickSort2 = _interopRequireDefault(_quickSort);
-
-	var _mergeSort = __webpack_require__(15);
-
-	var _internal = __webpack_require__(8);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function isSorted(arr, compare) {
-	  // default order by asc
-	  /*
-	   * inspired by http://enterprisejquery.com/2010/10/how-good-c-habits-can-encourage-bad-javascript-habits-part-1/
-	   */
-	  compare = (0, _internal.__compareOrDefault__)(compare);
-
-	  var sorted = true,
-	      i;
-	  for (i = 0; i < arr.length - 1; i++) {
-	    if (compare(arr[i], arr[i + 1]) > 0) {
-	      // console.log(arr[i], arr[i+1]);
-	      sorted = false;
-	      break;
-	    }
-	  }
-
-	  return sorted;
-	}
-
-	function binarySearch(arr, x, low, high) {
-	  low = low || 0;
-	  high = high || arr.length - 1;
-
-	  var mid = -1;
-
-	  while (low <= high) {
-	    mid = low + (high - low >> 1);
-	    if (arr[mid] === x) {
-	      return mid;
-	    } else if (arr[mid] < x) {
-	      low = mid + 1;
-	    } else {
-	      high = mid - 1;
-	    }
-	  }
-
-	  return -1;
-	}
-
-	exports.default = {
-	  __randomUniqueArray__: _internal.__randomUniqueArray__,
-	  isSorted: isSorted,
-	  binarySearch: binarySearch,
-	  heapSort: _heapSort2.default,
-	  quickSort: _quickSort2.default,
-	  mergeSort: _mergeSort.mergeSort,
-	  mergeSortBU: _mergeSort.mergeSortBU
-	};
-
-/***/ },
-/* 13 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.default = heapSort;
-
-	var _Heap = __webpack_require__(7);
-
-	function heapSort(arr, option) {
-	  option = option || {
-	    'order': 'ASC'
-	  };
-
-	  var heap;
-
-	  switch (option.order) {
-	    case 'ASC':
-	    case 'asc':
-	      heap = new _Heap.MinHeap();
-	      break;
-	    case 'DESC':
-	    case 'desc':
-	      heap = new _Heap.MaxHeap();
-	      break;
-	    default:
-	      throw new Error('invalid order option, use one of ASC | DESC');
-	  }
-
-	  // push x into heap
-	  arr.forEach(function (x) {
-	    heap.push(x);
-	  });
-
-	  return heap.__toArray__();
-	}
-
-/***/ },
 /* 14 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.default = quickSort;
-
-	var _internal = __webpack_require__(8);
-
-	var _array = __webpack_require__(10);
-
-	var _array2 = _interopRequireDefault(_array);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
-	function _partition(arr, l, r, compare) {
-	  var i = l,
-	      j = r + 1;
-
-	  while (true) {
-	    while (compare(arr[++i], arr[l]) < 0) {
-	      if (i == r) {
-	        break;
-	      }
-	    }
-
-	    while (compare(arr[l], arr[--j]) < 0) {
-	      if (j == l) {
-	        break;
-	      }
-	    }
-
-	    if (i >= j) {
-	      break;
-	    }
-	    _array2.default.swap(arr, i, j);
-	  }
-
-	  _array2.default.swap(arr, l, j);
-	  return j;
-	}
-
-	function _quickSort(arr, l, r, compare) {
-	  /// <summary>quick sort the arr, during the range from index l to r, inclusive.</summary>
-
-	  // base case
-	  if (r >= arr.length) {
-	    r = arr.length - 1;
-	  }
-
-	  if (l >= r) {
-	    return;
-	  }
-
-	  var j = _partition(arr, l, r, compare);
-
-	  // recursive calls
-	  _quickSort(arr, l, j - 1, compare);
-	  _quickSort(arr, j + 1, r, compare);
-	}
-
-	function quickSort(arr, compare, skipClone) {
-	  // default order by asc
-	  compare = (0, _internal.__compareOrDefault__)(compare);
-
-	  var arrCopy = skipClone === true ? arr : [].concat(_toConsumableArray(arr));
-
-	  _quickSort(arrCopy, 0, arrCopy.length - 1, compare);
-
-	  return arrCopy;
-	}
-
-/***/ },
-/* 15 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.mergeSort = mergeSort;
-	exports.mergeSortBU = mergeSortBU;
-
-	var _internal = __webpack_require__(8);
-
-	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
-	function _deepCloneTo(arr, to, l, r) {
-	  // copy arr to to deeply from l to r inclusively
-	  // require arr.length  = to.length;
-
-	  r = r % arr.length;
-
-	  for (var i = l; i <= r; i++) {
-	    to[i] = arr[i];
-	  }
-	}
-
-	function _merge(arr, aux, l, mid, r, compare) {
-	  // required sorted(arr, l, mid);
-	  // required sorted(arr, mid+1, r);
-	  // require arr.length = aux.length;
-
-	  _deepCloneTo(arr, aux, l, r);
-	  var i = l,
-	      j = mid + 1,
-	      k = l;
-	  for (; k <= r; k++) {
-	    if (i > mid) {
-	      arr[k] = aux[j++];
-	    } else if (j > r) {
-	      arr[k] = aux[i++];
-	    } else if (compare(aux[i], aux[j]) > 0) {
-	      // inversions += (mid - i + 1);
-	      arr[k] = aux[j++];
-	    } else {
-	      arr[k] = aux[i++];
-	    }
-	  }
-	}
-
-	function _mergeSort(arr, aux, l, r, compare) {
-	  if (l < r) {
-	    var mid = l + (r - l >> 1);
-	    _mergeSort(arr, aux, l, mid, compare);
-	    _mergeSort(arr, aux, mid + 1, r, compare);
-	    _merge(arr, aux, l, mid, r, compare);
-	  }
-	}
-
-	function mergeSort(arr, compare) {
-	  // default order by asc
-	  compare = (0, _internal.__compareOrDefault__)(compare);
-
-	  var copy = [].concat(_toConsumableArray(arr));
-	  var aux = [];
-
-	  // inversions = 0;
-
-	  _mergeSort(copy, aux, 0, copy.length - 1, compare);
-
-	  // console.log('# of inversions: ' + inversions);
-
-	  return copy;
-	}
-
-	function mergeSortBU(arr, compare) {
-	  // default order by asc
-	  compare = (0, _internal.__compareOrDefault__)(compare);
-
-	  var copy = [].concat(_toConsumableArray(arr));
-	  var aux = [];
-	  var n = arr.length,
-	      sz = 1,
-	      lo = 0;
-	  for (sz = 1; sz < n; sz <<= 1) {
-	    for (lo = 0; lo < n - sz; lo += sz << 1) {
-	      _merge(copy, aux, lo, lo + sz - 1, Math.min(lo + sz + sz - 1, n - 1), compare);
-	    }
-	  }
-
-	  return copy;
-	}
-
-/***/ },
-/* 16 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _array = __webpack_require__(10);
-
-	var _array2 = _interopRequireDefault(_array);
-
-	var _Stats = __webpack_require__(19);
-
-	var _Stats2 = _interopRequireDefault(_Stats);
-
-	var _Point = __webpack_require__(20);
-
-	var _Point2 = _interopRequireDefault(_Point);
-
-	var _Vector = __webpack_require__(21);
-
-	var _Vector2 = _interopRequireDefault(_Vector);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var EPSILON = Math.abs(1e-29);
-
-	var mod = function mod(i, n) {
-	  return equals(n, 0) ? NaN : i >= 0 ? i % n : mod(i + Math.ceil((0 - i) / n) * n, n);
-	};
-
-	function equals(x, y) {
-	  var eq = false;
-
-	  if (Array.isArray(x) && Array.isArray(y)) {
-	    eq = x.length === y.length && _array2.default.zip(x, y).every(function (item) {
-	      return equals(item[0], item[1]);
-	    });
-	  } else if (!isNaN(parseFloat(x)) && !isNaN(parseFloat(y))) {
-	    eq = Math.abs(parseFloat(x) - parseFloat(y)) < EPSILON;
-	  } else {
-	    eq = false;
-	  }
-
-	  return eq;
-	}
-
-	function range(start, end, step) {
-	  // gets a range [start, end) with step
-	  var arr = [],
-	      i;
-
-	  if (arguments.length == 0) {
-	    throw new Error('at least one argument.');
-	  }
-
-	  for (i = 0; i < arguments.length; i++) {
-	    if (+arguments[i] !== arguments[i]) {
-	      throw new Error('all of arguments should be number.');
-	    }
-	  }
-
-	  if (arguments.length == 1) {
-	    end = arguments[0];
-	    start = 0;
-	    step = 1;
-	  } else if (arguments.length == 2) {
-	    start = arguments[0];
-	    end = arguments[1];
-	    step = 1;
-	  } else {
-	    start = arguments[0];
-	    end = arguments[1];
-	    step = arguments[2];
-	  }
-
-	  if (isNaN(start = +start) || isNaN(end = +end) || isNaN(step = +step)) {
-	    throw new Error('invalid number as parameter');
-	  }
-
-	  for (i = start; i < end; i += step) {
-	    arr.push(i);
-	  }
-
-	  return arr;
-	}
-
-	function randomInteger(a, b) {
-	  // return a random integer in [a=0, b]
-	  var swap = 0;
-	  if (arguments.length === 0) {
-	    throw new Error('at least one parameter');
-	  } else if (arguments.length === 1) {
-	    b = a;
-	    a = 0;
-	  }
-
-	  if (isNaN(a = +a) || isNaN(b = +b)) {
-	    throw new Error('invalid number as parameter');
-	  }
-
-	  if (a > b) {
-	    swap = a;
-	    a = b;
-	    b = swap;
-	  }
-
-	  return Math.floor(Math.random() * (b - a + 1)) + a;
-	}
-
-	function __timer__(fn) {
-	  // stopwatch
-	  var start = new Date().getTime();
-	  fn();
-	  var end = new Date().getTime();
-	  return end - start;
-	}
-
-	exports.default = {
-	  EPSILON: EPSILON,
-	  mod: mod,
-	  equals: equals,
-	  range: range,
-	  randomInteger: randomInteger,
-	  __timer__: __timer__,
-	  Stats: _Stats2.default,
-	  Point: _Point2.default,
-	  Vector: _Vector2.default
-	};
-
-/***/ },
-/* 17 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1695,7 +1440,7 @@ module.exports =
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _math = __webpack_require__(16);
+	var _math = __webpack_require__(15);
 
 	var _math2 = _interopRequireDefault(_math);
 
@@ -1807,7 +1552,7 @@ module.exports =
 	}(QuickFind);
 
 /***/ },
-/* 18 */
+/* 15 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1815,85 +1560,132 @@ module.exports =
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.minimumWeightedCompletion = exports.medianMaintenence = exports.validPopStackSeries = undefined;
 
-	var _quickSort = __webpack_require__(14);
+	var _array = __webpack_require__(9);
 
-	var _quickSort2 = _interopRequireDefault(_quickSort);
+	var _array2 = _interopRequireDefault(_array);
 
-	var _Stack = __webpack_require__(6);
+	var _Stats = __webpack_require__(16);
 
-	var _Stack2 = _interopRequireDefault(_Stack);
+	var _Stats2 = _interopRequireDefault(_Stats);
 
-	var _Heap = __webpack_require__(7);
+	var _Point = __webpack_require__(17);
+
+	var _Point2 = _interopRequireDefault(_Point);
+
+	var _Vector = __webpack_require__(18);
+
+	var _Vector2 = _interopRequireDefault(_Vector);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var validPopStackSeries = exports.validPopStackSeries = function validPopStackSeries(pushArray, popArray) {
-	  // if we push [1, 2, 3, 4] one by one,
-	  // can we get the series [2, 3, 4, 1] by poping after certain push?
-	  var st = new _Stack2.default(),
-	      j = 0;
-	  pushArray.forEach(function (x) {
-	    st.push(x);
-	    while (!st.isEmpty && st.peek() == popArray[j]) {
-	      st.pop();
-	      j++;
-	    }
-	  });
+	var EPSILON = Math.abs(1e-29);
 
-	  return st.isEmpty;
+	var mod = function mod(i, n) {
+	  return equals(n, 0) ? NaN : i >= 0 ? i % n : mod(i + Math.ceil((0 - i) / n) * n, n);
 	};
 
-	var medianMaintenence = exports.medianMaintenence = function medianMaintenence(arr) {
-	  // [MaxHeap, max], media ,[min, MinHeap]
+	function equals(x, y) {
+	  var eq = false;
 
-	  var min = new _Heap.MinHeap(),
-	      max = new _Heap.MaxHeap(),
-	      media = [];
+	  if (Array.isArray(x) && Array.isArray(y)) {
+	    eq = x.length === y.length && _array2.default.zip(x, y).every(function (item) {
+	      return equals(item[0], item[1]);
+	    });
+	  } else if (!isNaN(parseFloat(x)) && !isNaN(parseFloat(y))) {
+	    eq = Math.abs(parseFloat(x) - parseFloat(y)) < EPSILON;
+	  } else {
+	    eq = false;
+	  }
 
-	  arr.forEach(function (x) {
-	    if (min.size === max.size) {
-	      if (!max.isEmpty && x > max.peek()) {
-	        min.push(x);
-	        max.push(min.pop());
-	      } else {
-	        max.push(x);
-	      }
-	    } else {
-	      // we always keep max.size - min.size \in [0, 1]
-	      if (x > max.peek()) {
-	        min.push(x);
-	      } else {
-	        max.push(x);
-	        min.push(max.pop());
-	      }
+	  return eq;
+	}
+
+	function range(start, end, step) {
+	  // gets a range [start, end) with step
+	  var arr = [],
+	      i;
+
+	  if (arguments.length == 0) {
+	    throw new Error('at least one argument.');
+	  }
+
+	  for (i = 0; i < arguments.length; i++) {
+	    if (+arguments[i] !== arguments[i]) {
+	      throw new Error('all of arguments should be number.');
 	    }
+	  }
 
-	    media.push(max.peek());
-	  });
+	  if (arguments.length == 1) {
+	    end = arguments[0];
+	    start = 0;
+	    step = 1;
+	  } else if (arguments.length == 2) {
+	    start = arguments[0];
+	    end = arguments[1];
+	    step = 1;
+	  } else {
+	    start = arguments[0];
+	    end = arguments[1];
+	    step = arguments[2];
+	  }
 
-	  return media;
-	};
+	  if (isNaN(start = +start) || isNaN(end = +end) || isNaN(step = +step)) {
+	    throw new Error('invalid number as parameter');
+	  }
 
-	var minimumWeightedCompletion = exports.minimumWeightedCompletion = function minimumWeightedCompletion(arr, fn) {
-	  // for each x in arr, x[0], x[1] = weight, length
-	  fn = fn || function (x, y) {
-	    return y[0] / y[1] - x[0] / x[1];
-	  };
+	  for (i = start; i < end; i += step) {
+	    arr.push(i);
+	  }
 
-	  var c = 0,
-	      s = 0;
-	  (0, _quickSort2.default)(arr, fn).forEach(function (x) {
-	    c += x[1];
-	    s += x[0] * c;
-	  });
+	  return arr;
+	}
 
-	  return s;
+	function randomInteger(a, b) {
+	  // return a random integer in [a=0, b]
+	  var swap = 0;
+	  if (arguments.length === 0) {
+	    throw new Error('at least one parameter');
+	  } else if (arguments.length === 1) {
+	    b = a;
+	    a = 0;
+	  }
+
+	  if (isNaN(a = +a) || isNaN(b = +b)) {
+	    throw new Error('invalid number as parameter');
+	  }
+
+	  if (a > b) {
+	    swap = a;
+	    a = b;
+	    b = swap;
+	  }
+
+	  return Math.floor(Math.random() * (b - a + 1)) + a;
+	}
+
+	function __timer__(fn) {
+	  // stopwatch
+	  var start = new Date().getTime();
+	  fn();
+	  var end = new Date().getTime();
+	  return end - start;
+	}
+
+	exports.default = {
+	  EPSILON: EPSILON,
+	  mod: mod,
+	  equals: equals,
+	  range: range,
+	  randomInteger: randomInteger,
+	  __timer__: __timer__,
+	  Stats: _Stats2.default,
+	  Point: _Point2.default,
+	  Vector: _Vector2.default
 	};
 
 /***/ },
-/* 19 */
+/* 16 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -1982,7 +1774,7 @@ module.exports =
 	};
 
 /***/ },
-/* 20 */
+/* 17 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1993,7 +1785,7 @@ module.exports =
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _Vector = __webpack_require__(21);
+	var _Vector = __webpack_require__(18);
 
 	var _Vector2 = _interopRequireDefault(_Vector);
 
@@ -2033,7 +1825,7 @@ module.exports =
 	exports.default = Point;
 
 /***/ },
-/* 21 */
+/* 18 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2051,11 +1843,11 @@ module.exports =
 	// Vector class and its members
 
 
-	var _array = __webpack_require__(10);
+	var _array = __webpack_require__(9);
 
 	var _array2 = _interopRequireDefault(_array);
 
-	var _Point = __webpack_require__(20);
+	var _Point = __webpack_require__(17);
 
 	var _Point2 = _interopRequireDefault(_Point);
 
@@ -2143,7 +1935,7 @@ module.exports =
 	exports.default = Vector;
 
 /***/ },
-/* 22 */
+/* 19 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2158,7 +1950,7 @@ module.exports =
 
 	var _ERROR2 = _interopRequireDefault(_ERROR);
 
-	var _math = __webpack_require__(16);
+	var _math = __webpack_require__(15);
 
 	var _math2 = _interopRequireDefault(_math);
 
@@ -2427,7 +2219,7 @@ module.exports =
 	exports.default = Graph;
 
 /***/ },
-/* 23 */
+/* 20 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2438,7 +2230,7 @@ module.exports =
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _Graph2 = __webpack_require__(22);
+	var _Graph2 = __webpack_require__(19);
 
 	var _Graph3 = _interopRequireDefault(_Graph2);
 
@@ -2566,6 +2358,214 @@ module.exports =
 	exports.default = GraphW;
 
 /***/ },
+/* 21 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _heapSort = __webpack_require__(22);
+
+	var _heapSort2 = _interopRequireDefault(_heapSort);
+
+	var _quickSort = __webpack_require__(12);
+
+	var _quickSort2 = _interopRequireDefault(_quickSort);
+
+	var _mergeSort = __webpack_require__(23);
+
+	var _internal = __webpack_require__(8);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function isSorted(arr, compare) {
+	  // default order by asc
+	  /*
+	   * inspired by http://enterprisejquery.com/2010/10/how-good-c-habits-can-encourage-bad-javascript-habits-part-1/
+	   */
+	  compare = (0, _internal.__compareOrDefault__)(compare);
+
+	  var sorted = true,
+	      i;
+	  for (i = 0; i < arr.length - 1; i++) {
+	    if (compare(arr[i], arr[i + 1]) > 0) {
+	      // console.log(arr[i], arr[i+1]);
+	      sorted = false;
+	      break;
+	    }
+	  }
+
+	  return sorted;
+	}
+
+	function binarySearch(arr, x, low, high) {
+	  low = low || 0;
+	  high = high || arr.length - 1;
+
+	  var mid = -1;
+
+	  while (low <= high) {
+	    mid = low + (high - low >> 1);
+	    if (arr[mid] === x) {
+	      return mid;
+	    } else if (arr[mid] < x) {
+	      low = mid + 1;
+	    } else {
+	      high = mid - 1;
+	    }
+	  }
+
+	  return -1;
+	}
+
+	exports.default = {
+	  __randomUniqueArray__: _internal.__randomUniqueArray__,
+	  isSorted: isSorted,
+	  binarySearch: binarySearch,
+	  heapSort: _heapSort2.default,
+	  quickSort: _quickSort2.default,
+	  mergeSort: _mergeSort.mergeSort,
+	  mergeSortBU: _mergeSort.mergeSortBU
+	};
+
+/***/ },
+/* 22 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = heapSort;
+
+	var _Heap = __webpack_require__(7);
+
+	function heapSort(arr, option) {
+	  option = option || {
+	    'order': 'ASC'
+	  };
+
+	  var heap;
+
+	  switch (option.order) {
+	    case 'ASC':
+	    case 'asc':
+	      heap = new _Heap.MinHeap();
+	      break;
+	    case 'DESC':
+	    case 'desc':
+	      heap = new _Heap.MaxHeap();
+	      break;
+	    default:
+	      throw new Error('invalid order option, use one of ASC | DESC');
+	  }
+
+	  // push x into heap
+	  arr.forEach(function (x) {
+	    heap.push(x);
+	  });
+
+	  return heap.__toArray__();
+	}
+
+/***/ },
+/* 23 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.mergeSort = mergeSort;
+	exports.mergeSortBU = mergeSortBU;
+
+	var _internal = __webpack_require__(8);
+
+	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+	function _deepCloneTo(arr, to, l, r) {
+	  // copy arr to to deeply from l to r inclusively
+	  // require arr.length  = to.length;
+
+	  r = r % arr.length;
+
+	  for (var i = l; i <= r; i++) {
+	    to[i] = arr[i];
+	  }
+	}
+
+	function _merge(arr, aux, l, mid, r, compare) {
+	  // required sorted(arr, l, mid);
+	  // required sorted(arr, mid+1, r);
+	  // require arr.length = aux.length;
+
+	  _deepCloneTo(arr, aux, l, r);
+	  var i = l,
+	      j = mid + 1,
+	      k = l;
+	  for (; k <= r; k++) {
+	    if (i > mid) {
+	      arr[k] = aux[j++];
+	    } else if (j > r) {
+	      arr[k] = aux[i++];
+	    } else if (compare(aux[i], aux[j]) > 0) {
+	      // inversions += (mid - i + 1);
+	      arr[k] = aux[j++];
+	    } else {
+	      arr[k] = aux[i++];
+	    }
+	  }
+	}
+
+	function _mergeSort(arr, aux, l, r, compare) {
+	  if (l < r) {
+	    var mid = l + (r - l >> 1);
+	    _mergeSort(arr, aux, l, mid, compare);
+	    _mergeSort(arr, aux, mid + 1, r, compare);
+	    _merge(arr, aux, l, mid, r, compare);
+	  }
+	}
+
+	function mergeSort(arr, compare) {
+	  // default order by asc
+	  compare = (0, _internal.__compareOrDefault__)(compare);
+
+	  var copy = [].concat(_toConsumableArray(arr));
+	  var aux = [];
+
+	  // inversions = 0;
+
+	  _mergeSort(copy, aux, 0, copy.length - 1, compare);
+
+	  // console.log('# of inversions: ' + inversions);
+
+	  return copy;
+	}
+
+	function mergeSortBU(arr, compare) {
+	  // default order by asc
+	  compare = (0, _internal.__compareOrDefault__)(compare);
+
+	  var copy = [].concat(_toConsumableArray(arr));
+	  var aux = [];
+	  var n = arr.length,
+	      sz = 1,
+	      lo = 0;
+	  for (sz = 1; sz < n; sz <<= 1) {
+	    for (lo = 0; lo < n - sz; lo += sz << 1) {
+	      _merge(copy, aux, lo, lo + sz - 1, Math.min(lo + sz + sz - 1, n - 1), compare);
+	    }
+	  }
+
+	  return copy;
+	}
+
+/***/ },
 /* 24 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -2608,7 +2608,7 @@ module.exports =
 	});
 	exports.mergeVertex = exports.minimumCut = exports.multiMinimumCut = undefined;
 
-	var _math = __webpack_require__(16);
+	var _math = __webpack_require__(15);
 
 	var _math2 = _interopRequireDefault(_math);
 
@@ -2717,9 +2717,9 @@ module.exports =
 
 	var _Heap = __webpack_require__(7);
 
-	var _UnionFind = __webpack_require__(17);
+	var _UnionFind = __webpack_require__(14);
 
-	var _quickSort = __webpack_require__(14);
+	var _quickSort = __webpack_require__(12);
 
 	var _quickSort2 = _interopRequireDefault(_quickSort);
 
@@ -2913,7 +2913,7 @@ module.exports =
 
 	var _Queue2 = _interopRequireDefault(_Queue);
 
-	var _Graph = __webpack_require__(22);
+	var _Graph = __webpack_require__(19);
 
 	var _Graph2 = _interopRequireDefault(_Graph);
 
@@ -2921,11 +2921,11 @@ module.exports =
 
 	var _ERROR2 = _interopRequireDefault(_ERROR);
 
-	var _math = __webpack_require__(16);
+	var _math = __webpack_require__(15);
 
 	var _math2 = _interopRequireDefault(_math);
 
-	var _quickSort = __webpack_require__(14);
+	var _quickSort = __webpack_require__(12);
 
 	var _quickSort2 = _interopRequireDefault(_quickSort);
 
@@ -3052,7 +3052,7 @@ module.exports =
 
 	  g.__labelAll__(-1);
 
-	  Math.range(1, g.n + 1).forEach(function (i) {
+	  _math2.default.range(1, g.n + 1).forEach(function (i) {
 	    if (g.__labelAt__(i) === 0) {
 	      // has been marked SCC
 	      return;
