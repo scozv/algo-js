@@ -2,7 +2,7 @@ window = global;
 
 // require('../src/index.js')
 // require('../src/x.array.js');
-// require('../src/x.math.js');
+// require('../src/index.js');
 // require('../src/LinkedList.js');
 // require('../src/Stack.js');
 // require('../src/Queue.js');

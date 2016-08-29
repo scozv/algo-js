@@ -63,12 +63,17 @@ module.exports =
 
 	var _linear2 = _interopRequireDefault(_linear);
 
+	var _math = __webpack_require__(16);
+
+	var _math2 = _interopRequireDefault(_math);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	exports.default = {
 	  type: _type2.default,
 	  sorting: _sorting2.default,
-	  linear: _linear2.default
+	  linear: _linear2.default,
+	  math: _math2.default
 	};
 
 /***/ },
@@ -105,6 +110,8 @@ module.exports =
 
 	var _Tree = __webpack_require__(11);
 
+	var _UnionFind = __webpack_require__(17);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function __x__(d, b) {
@@ -127,7 +134,9 @@ module.exports =
 	  Stack: _Stack2.default,
 	  MinHeap: _Heap.MinHeap,
 	  MaxHeap: _Heap.MaxHeap,
-	  BinarySearchTree: _Tree.BinarySearchTree
+	  BinarySearchTree: _Tree.BinarySearchTree,
+	  QuickFind: _UnionFind.QuickFind,
+	  WeightedQuickUnion: _UnionFind.WeightedQuickUnion
 	};
 
 /***/ },
@@ -1518,6 +1527,248 @@ module.exports =
 
 	  return copy;
 	}
+
+/***/ },
+/* 16 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _linear = __webpack_require__(9);
+
+	var _linear2 = _interopRequireDefault(_linear);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var EPSILON = Math.abs(1e-29);
+
+	var mod = function mod(i, n) {
+	  return equals(n, 0) ? NaN : i >= 0 ? i % n : mod(i + Math.ceil((0 - i) / n) * n, n);
+	};
+
+	function equals(x, y) {
+	  var eq = false;
+
+	  if (Array.isArray(x) && Array.isArray(y)) {
+	    eq = x.length === y.length && _linear2.default.array.zip(x, y).every(function (item) {
+	      return equals(item[0], item[1]);
+	    });
+	  } else if (!isNaN(parseFloat(x)) && !isNaN(parseFloat(y))) {
+	    eq = Math.abs(parseFloat(x) - parseFloat(y)) < EPSILON;
+	  } else {
+	    eq = false;
+	  }
+
+	  return eq;
+	}
+
+	function range(start, end, step) {
+	  // gets a range [start, end) with step
+	  var arr = [],
+	      i;
+
+	  if (arguments.length == 0) {
+	    throw new Error('at least one argument.');
+	  }
+
+	  for (i = 0; i < arguments.length; i++) {
+	    if (+arguments[i] !== arguments[i]) {
+	      throw new Error('all of arguments should be number.');
+	    }
+	  }
+
+	  if (arguments.length == 1) {
+	    end = arguments[0];
+	    start = 0;
+	    step = 1;
+	  } else if (arguments.length == 2) {
+	    start = arguments[0];
+	    end = arguments[1];
+	    step = 1;
+	  } else {
+	    start = arguments[0];
+	    end = arguments[1];
+	    step = arguments[2];
+	  }
+
+	  if (isNaN(start = +start) || isNaN(end = +end) || isNaN(step = +step)) {
+	    throw new Error('invalid number as parameter');
+	  }
+
+	  for (i = start; i < end; i += step) {
+	    arr.push(i);
+	  }
+
+	  return arr;
+	}
+
+	function randomInteger(a, b) {
+	  // return a random integer in [a=0, b]
+	  var swap = 0;
+	  if (arguments.length === 0) {
+	    throw new Error('at least one parameter');
+	  } else if (arguments.length === 1) {
+	    b = a;
+	    a = 0;
+	  }
+
+	  if (isNaN(a = +a) || isNaN(b = +b)) {
+	    throw new Error('invalid number as parameter');
+	  }
+
+	  if (a > b) {
+	    swap = a;
+	    a = b;
+	    b = swap;
+	  }
+
+	  return Math.floor(Math.random() * (b - a + 1)) + a;
+	}
+
+	function __timer__(fn) {
+	  // stopwatch
+	  var start = new Date().getTime();
+	  fn();
+	  var end = new Date().getTime();
+	  return end - start;
+	}
+
+	exports.default = {
+	  EPSILON: EPSILON,
+	  mod: mod,
+	  equals: equals,
+	  range: range,
+	  randomInteger: randomInteger,
+	  __timer__: __timer__
+	};
+
+/***/ },
+/* 17 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.WeightedQuickUnion = exports.QuickFind = undefined;
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _math = __webpack_require__(16);
+
+	var _math2 = _interopRequireDefault(_math);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	var QuickFind = exports.QuickFind = function () {
+	  function QuickFind(n) {
+	    _classCallCheck(this, QuickFind);
+
+	    this._count = n;
+	    this._id = _math2.default.range(n);
+	  }
+
+	  _createClass(QuickFind, [{
+	    key: 'count',
+	    value: function count() {
+	      return this._count;
+	    }
+
+	    // find parent of i
+
+	  }, {
+	    key: 'find',
+	    value: function find(p) {
+	      p = _math2.default.mod(p, this._id.length);
+	      return this._id[p];
+	    }
+	  }, {
+	    key: 'connected',
+	    value: function connected(p, q) {
+	      return this.find(p) === this.find(q);
+	    }
+	  }, {
+	    key: 'union',
+	    value: function union(p, q) {
+	      var _ = this,
+	          i = _.find(p),
+	          j = _.find(q);
+
+	      if (i !== j) {
+	        _._id.forEach(function (x, k) {
+	          _._id[k] = x === i ? j : x;
+	        });
+
+	        _._count--;
+	      }
+
+	      return _._count;
+	    }
+	  }]);
+
+	  return QuickFind;
+	}();
+
+	var WeightedQuickUnion = exports.WeightedQuickUnion = function (_QuickFind) {
+	  _inherits(WeightedQuickUnion, _QuickFind);
+
+	  function WeightedQuickUnion(n) {
+	    _classCallCheck(this, WeightedQuickUnion);
+
+	    var _this = _possibleConstructorReturn(this, (WeightedQuickUnion.__proto__ || Object.getPrototypeOf(WeightedQuickUnion)).call(this, n));
+
+	    _this._size = _math2.default.range(n).map(function (_) {
+	      return 1;
+	    });
+	    return _this;
+	  }
+
+	  _createClass(WeightedQuickUnion, [{
+	    key: 'find',
+	    value: function find(p) {
+	      p = _math2.default.mod(p, this._id.length);
+	      while (p !== this._id[p]) {
+	        p = this._id[p];
+	      }
+
+	      return p;
+	    }
+	  }, {
+	    key: 'union',
+	    value: function union(p, q) {
+	      var _ = this,
+	          i = this.find(p),
+	          j = this.find(q);
+
+	      if (i !== j) {
+	        if (_._size[i] < _._size[j]) {
+	          _._id[i] = j;
+	          _._size[j] += _._size[i];
+	        } else {
+	          _._id[j] = i;
+	          _._size[i] += _._size[j];
+	        }
+
+	        _._count--;
+	      }
+
+	      return _._count;
+	    }
+	  }]);
+
+	  return WeightedQuickUnion;
+	}(QuickFind);
 
 /***/ }
 /******/ ]);

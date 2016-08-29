@@ -6,6 +6,7 @@ import Queue from './Queue'
 import Stack from './Stack'
 import {MinHeap, MaxHeap} from './Heap'
 import {BinarySearchTree} from './Tree'
+import {WeightedQuickUnion, QuickFind} from './UnionFind'
 
 function __x__(d, b) {
   // inspired from http://www.typescriptlang.org/Playground/
@@ -27,4 +28,6 @@ export default {
   MinHeap,
   MaxHeap,
   BinarySearchTree,
+  QuickFind,
+  WeightedQuickUnion,
 };
