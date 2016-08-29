@@ -1,5 +1,13 @@
 node_modules*
 
+### Self
+*.js.map
+.tscache/
+!bundle.js
+!test/*.js
+!webpack.config.js
+test/*-compiled.js
+
 # single input or output file
 *.i
 *.o
