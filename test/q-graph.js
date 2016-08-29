@@ -1,4 +1,13 @@
-test('Graph constructor and properties, Part I', function () {
+require('./q');
+
+var algo = require('../bundle').default;
+var T = algo.type;
+var Sorting = algo.sorting;
+var Graph = T.Graph;
+var graph = algo.graph;
+var should = require('should');
+
+test('graph constructor and properties, Part I', function () {
   throws(function () {
     new T.Graph();
   }, 'error should be thrown when build graph without indicating n');
@@ -22,14 +31,16 @@ test('Graph constructor and properties, Part I', function () {
 
   g1.__pushEdge__(1, 3);
   deepEqual(g1.__adjacencyList__[1], [1, [3]], 'a edge (u, v) has been pushed into a undirected graph');
-  strictEqual(g1.__adjacencyList__[3], undefined, '(v, u) will not be in graph when we push (u, v) into graph');
+  it('(v, u) will not be in graph when we push (u, v) into graph', function() {
+    should(g1.__adjacencyList__[3]).undefined();
+  });
 
   g1.__pushEdge__(2, 4, true);
   deepEqual(g1.__adjacencyList__[2], [2, [4]], 'a edge (u, v) has been pushed into a undirected graph');
   deepEqual(g1.__adjacencyList__[4], [4, [2]], 'a edge (v, u) has been pushed into a undirected graph too');
 });
 
-test('Graph constructor and properties, Part II', function () {
+test('graph constructor and properties, Part II', function () {
   throws(function () {
     new T.Graph();
   }, 'error should be thrown when build graph without indicating n');
@@ -65,7 +76,7 @@ test('Graph constructor and properties, Part II', function () {
   ok((lst = g2.__getEdgeList__(), lst.length === 1) && lst[0].length === 3, 'get edge list of weigthed graph');
 });
 
-test('Graph exceptions', function () {
+test('graph exceptions', function () {
   var g1 = new T.Graph(10);
   throws(function () {
     g1.__pushEdge__();
@@ -90,7 +101,7 @@ test('Graph exceptions', function () {
   }, 'exception from __visitAt__');
 });
 
-test('Graph algorithm', function () {
+test('graph algorithm', function () {
   var g1 = new T.Graph(50, true);
   [[1, 8], [1, 35], [2, 15], [2, 46], [2, 22], [2, 23], [2, 23],
     [2, 50], [3, 20], [3, 26], [3, 34], [4, 5], [4, 18], [4, 28],
@@ -118,12 +129,12 @@ test('Graph algorithm', function () {
     });
 
   deepEqual(
-    Graph.bfs(g1),
+    algo.graph.bfs(g1),
     [1, 8, 35, 42, 45, 3, 20, 41, 29, 40, 26, 34, 16, 23, 30, 19, 43, 9, 50, 7, 33, 32, 49, 14, 6, 38, 48, 13, 22, 24, 44, 10, 36, 31, 12, 27, 39, 47, 17],
     'bfs on graph');
 
   deepEqual(
-    Graph.dfs(g1),
+    algo.graph.dfs(g1),
     [1, 35, 41, 16, 50, 23, 7, 29, 45, 40, 43, 32, 33, 48, 31, 24, 22, 12, 38, 36, 47, 17, 10, 6, 44, 39, 19, 30, 14, 9, 49, 34, 13, 27, 20, 3, 26, 8, 42],
     'dfs on graph');
 
@@ -134,7 +145,7 @@ test('Graph algorithm', function () {
   });
 
   deepEqual(
-    Graph.topologicalSort(g2),
+    algo.graph.topologicalSort(g2),
     [1, 3, 2, 4], 'topological sort on [1, 3, 2, 4]');
 
   g2 = new T.Graph(3, true);
@@ -144,16 +155,16 @@ test('Graph algorithm', function () {
   });
 
   deepEqual(
-    Graph.topologicalSort(g2),
+    algo.graph.topologicalSort(g2),
     [1, 2, 3], 'topological sort on [1, 2, 3]');
 
   deepEqual(
-    Graph.topologicalSort(g1),
+    algo.graph.topologicalSort(g1),
     [11, 4, 28, 25, 5, 18, 37, 21, 2, 46, 15, 1, 8, 42, 35, 41, 16, 9, 49, 13, 27, 34, 3, 26, 20, 50, 23, 7, 29, 30, 45, 40, 43, 32, 19, 33, 14, 48, 31, 24, 38, 6, 44, 39, 36, 47, 17, 10, 12, 22],
     'topological sort on graph');
 
   deepEqual(
-    Graph.sccKosaraju(g1),
+    algo.graph.sccKosaraju(g1),
     [10, [35, 7, 1, 1, 1, 1, 1, 1, 1, 1], [35, 7, 1]],
     'scc of graph by Kosaraju');
 
@@ -225,8 +236,8 @@ test('Graph algorithm', function () {
     });
   });
 
-  strictEqual(Graph.multiMinimumCut(g2, g2.n), 16, 'minimum cut on graph');
-  strictEqual(Graph.undirectedConnected(g2).length, 1, 'connectivity on graph');
+  strictEqual(algo.graph.multiMinimumCut(g2, g2.n), 16, 'minimum cut on graph');
+  strictEqual(algo.graph.undirectedConnected(g2).length, 1, 'connectivity on graph');
 
   var g3 = new T.GraphW(15);
   // test case form https://class.coursera.org/algo-004/forum/thread?thread_id=1001
@@ -253,7 +264,7 @@ test('Graph algorithm', function () {
   });
 
   deepEqual(
-    Graph.dijkstra(g3).map(function (x) {
+    algo.graph.dijkstra(g3).map(function (x) {
       return x[1];
     }),
     [0, 22, 4, 31, 36, 23, 35, 23, 38, 42, 27, 7, 23, 11, 17],

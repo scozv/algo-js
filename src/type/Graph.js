@@ -1,12 +1,10 @@
-(function (type, undefined) {
+import ERROR from './ERROR'
+import math from '../math'
 
-  // shortcut
-  // _g, the adjacency list of graph, not this
-  // $pt, see wiki
-
-  type.Graph = function (n, directed) {
+export default class Graph {
+  constructor(n, directed) {
     if (isNaN(n = +n)) {
-      throw new Error(T.ERROR.INVALID_NUMERIC_VALUE);
+      throw new Error(ERROR.INVALID_NUMERIC_VALUE);
     }
 
     // gets a unweighted graph, dafualt is undirected graph
@@ -23,32 +21,31 @@
     this.__adjacencyList__ = [];
     this.__v__ = 0;
     this.__e__ = 0;
-  };
+  }
 
-  var $pt = type.Graph.prototype;
-  $pt.v = function () {
+  v() {
     return this.__v__;
-  };
+  }
 
-  $pt.e = function () {
+  e() {
     return this.__directed__ ? this.__e__ : this.__e__ >> 1;
-  };
+  }
 
-  $pt.clone = function () {
-    var gh = new type.Graph(this.n, this.__directed__);
+  clone() {
+    var gh = new Graph(this.n, this.__directed__);
     this.__adjacencyList__.forEach(function (x) {
       // clone each x in format [v, []]
       // TODO: warning the case in which we push v2 into an empty vertex
-      gh.__adjacencyList__[x[0]] = [x[0], x[1].clone()];
+      gh.__adjacencyList__[x[0]] = [x[0], [...x[1]]];
     });
 
     gh.__v__ = this.__v__;
     gh.__e__ = this.__e__;
 
     return gh;
-  };
+  }
 
-  $pt.toString = function (verbose) {
+  toString(verbose) {
     if (verbose !== true) {
       verbose = false;
     }
@@ -68,13 +65,13 @@
     }
 
     return str.join('\n\r');
-  };
+  }
 
-  $pt.__pushEdge__ = function (v1, v2, bidirectional) {
+  __pushEdge__(v1, v2, bidirectional) {
     /// <summary>pushes an edge into thisEdge graph from the v1 to v2.</summary>
 
     if (isNaN(v1 = +v1) || isNaN(v2 = +v2)) {
-      throw new Error(T.ERROR.INVALID_NUMERIC_VALUE);
+      throw new Error(ERROR.INVALID_NUMERIC_VALUE);
     }
 
     var _g = this.__adjacencyList__;
@@ -88,7 +85,7 @@
     this.__e__++;
 
     if (!this.__directed__ && bidirectional) {
-      // if not directed, AND we force bidirectional pusing, 
+      // if not directed, AND we force bidirectional pusing,
       // then we push [v2, v1]
       if (!_g[v2]) {
         _g[v2] = [v2, []];
@@ -98,9 +95,9 @@
       _g[v2][1].push(v1);
       this.__e__++;
     }
-  };
+  }
 
-  $pt.__getEdgeList__ = function () {
+  __getEdgeList__() {
     var edges = this.__edgeListCache__;
     if (edges && edges.length) {
       return edges;
@@ -115,12 +112,12 @@
       });
       return edges;
     }
-  };
+  }
 
-  $pt.__edgesFrom__ = function (v) {
+  __edgesFrom__(v) {
     /// <summary>gets the edge sourceing from v.</summary>
     if (isNaN(v = +v)) {
-      throw new Error(T.ERROR.INVALID_NUMERIC_VALUE);
+      throw new Error(ERROR.INVALID_NUMERIC_VALUE);
     }
 
     var _g = this.__adjacencyList__;
@@ -130,9 +127,9 @@
     }
 
     return _g[v][1];
-  };
+  }
 
-  $pt.__edgeAt__ = function (k) {
+  __edgeAt__(k) {
     /// <summary>gets a the k-th edge of graph, return the two endpoint. start from 0 as index</summary>
 
     var _g = this.__adjacencyList__,
@@ -152,53 +149,53 @@
     });
 
     return edge;
-  };
+  }
 
-  $pt.__count__ = function () {
+  __count__() {
     /// <summary>gets the number of vertex and edge.<summary>
     /// <returns type="Array[2]">returns the number of vertex and edge in arr[0] and arr[1].</returns>
 
     return [this.v(), this.e()];
-  };
+  }
 
-  $pt.__visiableAt__ = function (v) {
+  __visiableAt__(v) {
     /// <summary>determins whether the v of graph is visiable for visiting or not.</summary>
     if (isNaN(v = +v)) {
-      throw new Error(T.ERROR.INVALID_NUMERIC_VALUE);
+      throw new Error(ERROR.INVALID_NUMERIC_VALUE);
     }
 
     var _g = this.__adjacencyList__;
     return (_g[v] === undefined) || (_g[v] && _g[v][0] && _g[v][0] >= 0);
-  };
+  }
 
-  $pt.__hasEdgesAt__ = function (v) {
+  __hasEdgesAt__(v) {
     /// <summary>determins whether graph has edge(s) sourcing from v or not.</summary>
     if (isNaN(v = +v)) {
-      throw new Error(T.ERROR.INVALID_NUMERIC_VALUE);
+      throw new Error(ERROR.INVALID_NUMERIC_VALUE);
     }
 
     var _g = this.__adjacencyList__;
     return _g[v] && _g[v][1] && _g[v][1].length;
   };
 
-  $pt.__labelAll__ = function (label) {
+  __labelAll__ (label) {
     if (typeof label === 'string' || label === +label) {
       var _g = this.__adjacencyList__;
-      Math.range(1, this.n + 1).forEach(function (v) {
+      math.range(1, this.n + 1).forEach(function (v) {
         if (!_g[v]) {
           _g[v] = [v, []];
         }
         _g[v][0] = label;
       });
     }
-  };
+  }
 
-  $pt.__labelAt__ = function (v, label) {
-    /// <summary>marks the label to graph, v for its visited or not, 
+  __labelAt__ (v, label) {
+    /// <summary>marks the label to graph, v for its visited or not,
     /// the default label is false, means we visits the vertex default.
     /// </summary>
     if (isNaN(v = +v)) {
-      throw new Error(T.ERROR.INVALID_NUMERIC_VALUE);
+      throw new Error(ERROR.INVALID_NUMERIC_VALUE);
     }
 
     var _g = this.__adjacencyList__;
@@ -211,22 +208,23 @@
     }
 
     return _g[v][0];
-  };
+  }
 
-  $pt.__visitAt__ = function (v) {
+  __visitAt__(v) {
     this.__labelAt__(v, -1);
-  };
+  }
 
-  type.Graph.__build__ = function (lines) {
+  static __build__(lines) {
     var gh,
       info,
       i,
-      minCut;
+      minCut,
+      result;
 
     lines
       .forEach(function (line, i) {
         if (i === 0) {
-          gh = new type.Graph(+line, true)
+          gh = new Graph(+line, true)
         } else {
           info = line.split(' ')
             .map(function (x) {
@@ -245,6 +243,5 @@
 
     result = Graph.sccKosaraju(gh);
     console.log(result);
-  };
-
-})(window.T = window.T || {});
+  }
+}

@@ -55,17 +55,21 @@ module.exports =
 
 	var _type2 = _interopRequireDefault(_type);
 
-	var _sorting = __webpack_require__(19);
+	var _sorting = __webpack_require__(12);
 
 	var _sorting2 = _interopRequireDefault(_sorting);
 
-	var _linear = __webpack_require__(10);
+	var _linear = __webpack_require__(9);
 
 	var _linear2 = _interopRequireDefault(_linear);
 
-	var _math = __webpack_require__(15);
+	var _math = __webpack_require__(16);
 
 	var _math2 = _interopRequireDefault(_math);
+
+	var _graph = __webpack_require__(24);
+
+	var _graph2 = _interopRequireDefault(_graph);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -73,7 +77,8 @@ module.exports =
 	  type: _type2.default,
 	  sorting: _sorting2.default,
 	  linear: _linear2.default,
-	  math: _math2.default
+	  math: _math2.default,
+	  graph: _graph2.default
 	};
 
 /***/ },
@@ -108,9 +113,17 @@ module.exports =
 
 	var _Heap = __webpack_require__(7);
 
-	var _Tree = __webpack_require__(13);
+	var _Tree = __webpack_require__(11);
 
-	var _UnionFind = __webpack_require__(14);
+	var _UnionFind = __webpack_require__(17);
+
+	var _Graph = __webpack_require__(22);
+
+	var _Graph2 = _interopRequireDefault(_Graph);
+
+	var _WeightedGraph = __webpack_require__(23);
+
+	var _WeightedGraph2 = _interopRequireDefault(_WeightedGraph);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -130,13 +143,11 @@ module.exports =
 	  ERROR: _ERROR2.default,
 	  TRAVERSAL: _TRAVERSAL2.default,
 	  LinkedList: _LinkedList2.default,
-	  Queue: _Queue2.default,
-	  Stack: _Stack2.default,
-	  MinHeap: _Heap.MinHeap,
-	  MaxHeap: _Heap.MaxHeap,
+	  Queue: _Queue2.default, Stack: _Stack2.default,
+	  MinHeap: _Heap.MinHeap, MaxHeap: _Heap.MaxHeap,
 	  BinarySearchTree: _Tree.BinarySearchTree,
-	  QuickFind: _UnionFind.QuickFind,
-	  WeightedQuickUnion: _UnionFind.WeightedQuickUnion
+	  QuickFind: _UnionFind.QuickFind, WeightedQuickUnion: _UnionFind.WeightedQuickUnion,
+	  Graph: _Graph2.default, GraphW: _WeightedGraph2.default
 	};
 
 /***/ },
@@ -553,7 +564,7 @@ module.exports =
 
 	var _internal = __webpack_require__(8);
 
-	var _linear = __webpack_require__(10);
+	var _linear = __webpack_require__(9);
 
 	var _linear2 = _interopRequireDefault(_linear);
 
@@ -725,7 +736,7 @@ module.exports =
 	exports.__compareOrDefault__ = __compareOrDefault__;
 	exports.__randomUniqueArray__ = __randomUniqueArray__;
 
-	var _array = __webpack_require__(9);
+	var _array = __webpack_require__(10);
 
 	var _array2 = _interopRequireDefault(_array);
 
@@ -759,6 +770,31 @@ module.exports =
 
 /***/ },
 /* 9 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _array = __webpack_require__(10);
+
+	var _array2 = _interopRequireDefault(_array);
+
+	var _list = __webpack_require__(18);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	exports.default = {
+	  array: _array2.default,
+	  validPopStackSeries: _list.validPopStackSeries,
+	  medianMaintenence: _list.medianMaintenence,
+	  minimumWeightedCompletion: _list.minimumWeightedCompletion
+	};
+
+/***/ },
+/* 10 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -841,196 +877,7 @@ module.exports =
 	};
 
 /***/ },
-/* 10 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _array = __webpack_require__(9);
-
-	var _array2 = _interopRequireDefault(_array);
-
-	var _list = __webpack_require__(11);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	exports.default = {
-	  array: _array2.default,
-	  validPopStackSeries: _list.validPopStackSeries,
-	  medianMaintenence: _list.medianMaintenence,
-	  minimumWeightedCompletion: _list.minimumWeightedCompletion
-	};
-
-/***/ },
 /* 11 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.minimumWeightedCompletion = exports.medianMaintenence = exports.validPopStackSeries = undefined;
-
-	var _quickSort = __webpack_require__(12);
-
-	var _quickSort2 = _interopRequireDefault(_quickSort);
-
-	var _Stack = __webpack_require__(6);
-
-	var _Stack2 = _interopRequireDefault(_Stack);
-
-	var _Heap = __webpack_require__(7);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var validPopStackSeries = exports.validPopStackSeries = function validPopStackSeries(pushArray, popArray) {
-	  // if we push [1, 2, 3, 4] one by one,
-	  // can we get the series [2, 3, 4, 1] by poping after certain push?
-	  var st = new _Stack2.default(),
-	      j = 0;
-	  pushArray.forEach(function (x) {
-	    st.push(x);
-	    while (!st.isEmpty && st.peek() == popArray[j]) {
-	      st.pop();
-	      j++;
-	    }
-	  });
-
-	  return st.isEmpty;
-	};
-
-	var medianMaintenence = exports.medianMaintenence = function medianMaintenence(arr) {
-	  // [MaxHeap, max], media ,[min, MinHeap]
-
-	  var min = new _Heap.MinHeap(),
-	      max = new _Heap.MaxHeap(),
-	      media = [];
-
-	  arr.forEach(function (x) {
-	    if (min.size === max.size) {
-	      if (!max.isEmpty && x > max.peek()) {
-	        min.push(x);
-	        max.push(min.pop());
-	      } else {
-	        max.push(x);
-	      }
-	    } else {
-	      // we always keep max.size - min.size \in [0, 1]
-	      if (x > max.peek()) {
-	        min.push(x);
-	      } else {
-	        max.push(x);
-	        min.push(max.pop());
-	      }
-	    }
-
-	    media.push(max.peek());
-	  });
-
-	  return media;
-	};
-
-	var minimumWeightedCompletion = exports.minimumWeightedCompletion = function minimumWeightedCompletion(arr, fn) {
-	  // for each x in arr, x[0], x[1] = weight, length
-	  fn = fn || function (x, y) {
-	    return y[0] / y[1] - x[0] / x[1];
-	  };
-
-	  var c = 0,
-	      s = 0;
-	  (0, _quickSort2.default)(arr, fn).forEach(function (x) {
-	    c += x[1];
-	    s += x[0] * c;
-	  });
-
-	  return s;
-	};
-
-/***/ },
-/* 12 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.default = quickSort;
-
-	var _internal = __webpack_require__(8);
-
-	var _array = __webpack_require__(9);
-
-	var _array2 = _interopRequireDefault(_array);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
-	function _partition(arr, l, r, compare) {
-	  var i = l,
-	      j = r + 1;
-
-	  while (true) {
-	    while (compare(arr[++i], arr[l]) < 0) {
-	      if (i == r) {
-	        break;
-	      }
-	    }
-
-	    while (compare(arr[l], arr[--j]) < 0) {
-	      if (j == l) {
-	        break;
-	      }
-	    }
-
-	    if (i >= j) {
-	      break;
-	    }
-	    _array2.default.swap(arr, i, j);
-	  }
-
-	  _array2.default.swap(arr, l, j);
-	  return j;
-	}
-
-	function _quickSort(arr, l, r, compare) {
-	  /// <summary>quick sort the arr, during the range from index l to r, inclusive.</summary>
-
-	  // base case
-	  if (r >= arr.length) {
-	    r = arr.length - 1;
-	  }
-
-	  if (l >= r) {
-	    return;
-	  }
-
-	  var j = _partition(arr, l, r, compare);
-
-	  // recursive calls
-	  _quickSort(arr, l, j - 1, compare);
-	  _quickSort(arr, j + 1, r, compare);
-	}
-
-	function quickSort(arr, compare, skipClone) {
-	  // default order by asc
-	  compare = (0, _internal.__compareOrDefault__)(compare);
-
-	  var arrCopy = skipClone === true ? arr : [].concat(_toConsumableArray(arr));
-
-	  _quickSort(arrCopy, 0, arrCopy.length - 1, compare);
-
-	  return arrCopy;
-	}
-
-/***/ },
-/* 13 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1417,6 +1264,121 @@ module.exports =
 	}(_tree);
 
 /***/ },
+/* 12 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _heapSort = __webpack_require__(13);
+
+	var _heapSort2 = _interopRequireDefault(_heapSort);
+
+	var _quickSort = __webpack_require__(14);
+
+	var _quickSort2 = _interopRequireDefault(_quickSort);
+
+	var _mergeSort = __webpack_require__(15);
+
+	var _internal = __webpack_require__(8);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function isSorted(arr, compare) {
+	  // default order by asc
+	  /*
+	   * inspired by http://enterprisejquery.com/2010/10/how-good-c-habits-can-encourage-bad-javascript-habits-part-1/
+	   */
+	  compare = (0, _internal.__compareOrDefault__)(compare);
+
+	  var sorted = true,
+	      i;
+	  for (i = 0; i < arr.length - 1; i++) {
+	    if (compare(arr[i], arr[i + 1]) > 0) {
+	      // console.log(arr[i], arr[i+1]);
+	      sorted = false;
+	      break;
+	    }
+	  }
+
+	  return sorted;
+	}
+
+	function binarySearch(arr, x, low, high) {
+	  low = low || 0;
+	  high = high || arr.length - 1;
+
+	  var mid = -1;
+
+	  while (low <= high) {
+	    mid = low + (high - low >> 1);
+	    if (arr[mid] === x) {
+	      return mid;
+	    } else if (arr[mid] < x) {
+	      low = mid + 1;
+	    } else {
+	      high = mid - 1;
+	    }
+	  }
+
+	  return -1;
+	}
+
+	exports.default = {
+	  __randomUniqueArray__: _internal.__randomUniqueArray__,
+	  isSorted: isSorted,
+	  binarySearch: binarySearch,
+	  heapSort: _heapSort2.default,
+	  quickSort: _quickSort2.default,
+	  mergeSort: _mergeSort.mergeSort,
+	  mergeSortBU: _mergeSort.mergeSortBU
+	};
+
+/***/ },
+/* 13 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = heapSort;
+
+	var _Heap = __webpack_require__(7);
+
+	function heapSort(arr, option) {
+	  option = option || {
+	    'order': 'ASC'
+	  };
+
+	  var heap;
+
+	  switch (option.order) {
+	    case 'ASC':
+	    case 'asc':
+	      heap = new _Heap.MinHeap();
+	      break;
+	    case 'DESC':
+	    case 'desc':
+	      heap = new _Heap.MaxHeap();
+	      break;
+	    default:
+	      throw new Error('invalid order option, use one of ASC | DESC');
+	  }
+
+	  // push x into heap
+	  arr.forEach(function (x) {
+	    heap.push(x);
+	  });
+
+	  return heap.__toArray__();
+	}
+
+/***/ },
 /* 14 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -1425,120 +1387,74 @@ module.exports =
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.WeightedQuickUnion = exports.QuickFind = undefined;
+	exports.default = quickSort;
 
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	var _internal = __webpack_require__(8);
 
-	var _math = __webpack_require__(15);
+	var _array = __webpack_require__(10);
 
-	var _math2 = _interopRequireDefault(_math);
+	var _array2 = _interopRequireDefault(_array);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	function _partition(arr, l, r, compare) {
+	  var i = l,
+	      j = r + 1;
 
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	  while (true) {
+	    while (compare(arr[++i], arr[l]) < 0) {
+	      if (i == r) {
+	        break;
+	      }
+	    }
 
-	var QuickFind = exports.QuickFind = function () {
-	  function QuickFind(n) {
-	    _classCallCheck(this, QuickFind);
+	    while (compare(arr[l], arr[--j]) < 0) {
+	      if (j == l) {
+	        break;
+	      }
+	    }
 
-	    this._count = n;
-	    this._id = _math2.default.range(n);
+	    if (i >= j) {
+	      break;
+	    }
+	    _array2.default.swap(arr, i, j);
 	  }
 
-	  _createClass(QuickFind, [{
-	    key: 'count',
-	    value: function count() {
-	      return this._count;
-	    }
+	  _array2.default.swap(arr, l, j);
+	  return j;
+	}
 
-	    // find parent of i
+	function _quickSort(arr, l, r, compare) {
+	  /// <summary>quick sort the arr, during the range from index l to r, inclusive.</summary>
 
-	  }, {
-	    key: 'find',
-	    value: function find(p) {
-	      p = _math2.default.mod(p, this._id.length);
-	      return this._id[p];
-	    }
-	  }, {
-	    key: 'connected',
-	    value: function connected(p, q) {
-	      return this.find(p) === this.find(q);
-	    }
-	  }, {
-	    key: 'union',
-	    value: function union(p, q) {
-	      var _ = this,
-	          i = _.find(p),
-	          j = _.find(q);
-
-	      if (i !== j) {
-	        _._id.forEach(function (x, k) {
-	          _._id[k] = x === i ? j : x;
-	        });
-
-	        _._count--;
-	      }
-
-	      return _._count;
-	    }
-	  }]);
-
-	  return QuickFind;
-	}();
-
-	var WeightedQuickUnion = exports.WeightedQuickUnion = function (_QuickFind) {
-	  _inherits(WeightedQuickUnion, _QuickFind);
-
-	  function WeightedQuickUnion(n) {
-	    _classCallCheck(this, WeightedQuickUnion);
-
-	    var _this = _possibleConstructorReturn(this, (WeightedQuickUnion.__proto__ || Object.getPrototypeOf(WeightedQuickUnion)).call(this, n));
-
-	    _this._size = _math2.default.range(n).map(function (_) {
-	      return 1;
-	    });
-	    return _this;
+	  // base case
+	  if (r >= arr.length) {
+	    r = arr.length - 1;
 	  }
 
-	  _createClass(WeightedQuickUnion, [{
-	    key: 'find',
-	    value: function find(p) {
-	      p = _math2.default.mod(p, this._id.length);
-	      while (p !== this._id[p]) {
-	        p = this._id[p];
-	      }
+	  if (l >= r) {
+	    return;
+	  }
 
-	      return p;
-	    }
-	  }, {
-	    key: 'union',
-	    value: function union(p, q) {
-	      var _ = this,
-	          i = this.find(p),
-	          j = this.find(q);
+	  var j = _partition(arr, l, r, compare);
 
-	      if (i !== j) {
-	        if (_._size[i] < _._size[j]) {
-	          _._id[i] = j;
-	          _._size[j] += _._size[i];
-	        } else {
-	          _._id[j] = i;
-	          _._size[i] += _._size[j];
-	        }
+	  // recursive calls
+	  _quickSort(arr, l, j - 1, compare);
+	  _quickSort(arr, j + 1, r, compare);
+	}
 
-	        _._count--;
-	      }
+	function quickSort(arr, compare, skipClone) {
+	  // default order by asc
+	  compare = (0, _internal.__compareOrDefault__)(compare);
 
-	      return _._count;
-	    }
-	  }]);
+	  var arrCopy = skipClone === true ? arr : [].concat(_toConsumableArray(arr));
 
-	  return WeightedQuickUnion;
-	}(QuickFind);
+	  _quickSort(arrCopy, 0, arrCopy.length - 1, compare);
+
+	  return arrCopy;
+	}
 
 /***/ },
 /* 15 */
@@ -1549,20 +1465,113 @@ module.exports =
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
+	exports.mergeSort = mergeSort;
+	exports.mergeSortBU = mergeSortBU;
 
-	var _array = __webpack_require__(9);
+	var _internal = __webpack_require__(8);
+
+	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+	function _deepCloneTo(arr, to, l, r) {
+	  // copy arr to to deeply from l to r inclusively
+	  // require arr.length  = to.length;
+
+	  r = r % arr.length;
+
+	  for (var i = l; i <= r; i++) {
+	    to[i] = arr[i];
+	  }
+	}
+
+	function _merge(arr, aux, l, mid, r, compare) {
+	  // required sorted(arr, l, mid);
+	  // required sorted(arr, mid+1, r);
+	  // require arr.length = aux.length;
+
+	  _deepCloneTo(arr, aux, l, r);
+	  var i = l,
+	      j = mid + 1,
+	      k = l;
+	  for (; k <= r; k++) {
+	    if (i > mid) {
+	      arr[k] = aux[j++];
+	    } else if (j > r) {
+	      arr[k] = aux[i++];
+	    } else if (compare(aux[i], aux[j]) > 0) {
+	      // inversions += (mid - i + 1);
+	      arr[k] = aux[j++];
+	    } else {
+	      arr[k] = aux[i++];
+	    }
+	  }
+	}
+
+	function _mergeSort(arr, aux, l, r, compare) {
+	  if (l < r) {
+	    var mid = l + (r - l >> 1);
+	    _mergeSort(arr, aux, l, mid, compare);
+	    _mergeSort(arr, aux, mid + 1, r, compare);
+	    _merge(arr, aux, l, mid, r, compare);
+	  }
+	}
+
+	function mergeSort(arr, compare) {
+	  // default order by asc
+	  compare = (0, _internal.__compareOrDefault__)(compare);
+
+	  var copy = [].concat(_toConsumableArray(arr));
+	  var aux = [];
+
+	  // inversions = 0;
+
+	  _mergeSort(copy, aux, 0, copy.length - 1, compare);
+
+	  // console.log('# of inversions: ' + inversions);
+
+	  return copy;
+	}
+
+	function mergeSortBU(arr, compare) {
+	  // default order by asc
+	  compare = (0, _internal.__compareOrDefault__)(compare);
+
+	  var copy = [].concat(_toConsumableArray(arr));
+	  var aux = [];
+	  var n = arr.length,
+	      sz = 1,
+	      lo = 0;
+	  for (sz = 1; sz < n; sz <<= 1) {
+	    for (lo = 0; lo < n - sz; lo += sz << 1) {
+	      _merge(copy, aux, lo, lo + sz - 1, Math.min(lo + sz + sz - 1, n - 1), compare);
+	    }
+	  }
+
+	  return copy;
+	}
+
+/***/ },
+/* 16 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _array = __webpack_require__(10);
 
 	var _array2 = _interopRequireDefault(_array);
 
-	var _Stats = __webpack_require__(16);
+	var _Stats = __webpack_require__(19);
 
 	var _Stats2 = _interopRequireDefault(_Stats);
 
-	var _Point = __webpack_require__(17);
+	var _Point = __webpack_require__(20);
 
 	var _Point2 = _interopRequireDefault(_Point);
 
-	var _Vector = __webpack_require__(18);
+	var _Vector = __webpack_require__(21);
 
 	var _Vector2 = _interopRequireDefault(_Vector);
 
@@ -1674,7 +1683,217 @@ module.exports =
 	};
 
 /***/ },
-/* 16 */
+/* 17 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.WeightedQuickUnion = exports.QuickFind = undefined;
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _math = __webpack_require__(16);
+
+	var _math2 = _interopRequireDefault(_math);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	var QuickFind = exports.QuickFind = function () {
+	  function QuickFind(n) {
+	    _classCallCheck(this, QuickFind);
+
+	    this._count = n;
+	    this._id = _math2.default.range(n);
+	  }
+
+	  _createClass(QuickFind, [{
+	    key: 'count',
+	    value: function count() {
+	      return this._count;
+	    }
+
+	    // find parent of i
+
+	  }, {
+	    key: 'find',
+	    value: function find(p) {
+	      p = _math2.default.mod(p, this._id.length);
+	      return this._id[p];
+	    }
+	  }, {
+	    key: 'connected',
+	    value: function connected(p, q) {
+	      return this.find(p) === this.find(q);
+	    }
+	  }, {
+	    key: 'union',
+	    value: function union(p, q) {
+	      var _ = this,
+	          i = _.find(p),
+	          j = _.find(q);
+
+	      if (i !== j) {
+	        _._id.forEach(function (x, k) {
+	          _._id[k] = x === i ? j : x;
+	        });
+
+	        _._count--;
+	      }
+
+	      return _._count;
+	    }
+	  }]);
+
+	  return QuickFind;
+	}();
+
+	var WeightedQuickUnion = exports.WeightedQuickUnion = function (_QuickFind) {
+	  _inherits(WeightedQuickUnion, _QuickFind);
+
+	  function WeightedQuickUnion(n) {
+	    _classCallCheck(this, WeightedQuickUnion);
+
+	    var _this = _possibleConstructorReturn(this, (WeightedQuickUnion.__proto__ || Object.getPrototypeOf(WeightedQuickUnion)).call(this, n));
+
+	    _this._size = _math2.default.range(n).map(function (_) {
+	      return 1;
+	    });
+	    return _this;
+	  }
+
+	  _createClass(WeightedQuickUnion, [{
+	    key: 'find',
+	    value: function find(p) {
+	      p = _math2.default.mod(p, this._id.length);
+	      while (p !== this._id[p]) {
+	        p = this._id[p];
+	      }
+
+	      return p;
+	    }
+	  }, {
+	    key: 'union',
+	    value: function union(p, q) {
+	      var _ = this,
+	          i = this.find(p),
+	          j = this.find(q);
+
+	      if (i !== j) {
+	        if (_._size[i] < _._size[j]) {
+	          _._id[i] = j;
+	          _._size[j] += _._size[i];
+	        } else {
+	          _._id[j] = i;
+	          _._size[i] += _._size[j];
+	        }
+
+	        _._count--;
+	      }
+
+	      return _._count;
+	    }
+	  }]);
+
+	  return WeightedQuickUnion;
+	}(QuickFind);
+
+/***/ },
+/* 18 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.minimumWeightedCompletion = exports.medianMaintenence = exports.validPopStackSeries = undefined;
+
+	var _quickSort = __webpack_require__(14);
+
+	var _quickSort2 = _interopRequireDefault(_quickSort);
+
+	var _Stack = __webpack_require__(6);
+
+	var _Stack2 = _interopRequireDefault(_Stack);
+
+	var _Heap = __webpack_require__(7);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var validPopStackSeries = exports.validPopStackSeries = function validPopStackSeries(pushArray, popArray) {
+	  // if we push [1, 2, 3, 4] one by one,
+	  // can we get the series [2, 3, 4, 1] by poping after certain push?
+	  var st = new _Stack2.default(),
+	      j = 0;
+	  pushArray.forEach(function (x) {
+	    st.push(x);
+	    while (!st.isEmpty && st.peek() == popArray[j]) {
+	      st.pop();
+	      j++;
+	    }
+	  });
+
+	  return st.isEmpty;
+	};
+
+	var medianMaintenence = exports.medianMaintenence = function medianMaintenence(arr) {
+	  // [MaxHeap, max], media ,[min, MinHeap]
+
+	  var min = new _Heap.MinHeap(),
+	      max = new _Heap.MaxHeap(),
+	      media = [];
+
+	  arr.forEach(function (x) {
+	    if (min.size === max.size) {
+	      if (!max.isEmpty && x > max.peek()) {
+	        min.push(x);
+	        max.push(min.pop());
+	      } else {
+	        max.push(x);
+	      }
+	    } else {
+	      // we always keep max.size - min.size \in [0, 1]
+	      if (x > max.peek()) {
+	        min.push(x);
+	      } else {
+	        max.push(x);
+	        min.push(max.pop());
+	      }
+	    }
+
+	    media.push(max.peek());
+	  });
+
+	  return media;
+	};
+
+	var minimumWeightedCompletion = exports.minimumWeightedCompletion = function minimumWeightedCompletion(arr, fn) {
+	  // for each x in arr, x[0], x[1] = weight, length
+	  fn = fn || function (x, y) {
+	    return y[0] / y[1] - x[0] / x[1];
+	  };
+
+	  var c = 0,
+	      s = 0;
+	  (0, _quickSort2.default)(arr, fn).forEach(function (x) {
+	    c += x[1];
+	    s += x[0] * c;
+	  });
+
+	  return s;
+	};
+
+/***/ },
+/* 19 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -1763,7 +1982,7 @@ module.exports =
 	};
 
 /***/ },
-/* 17 */
+/* 20 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1774,7 +1993,7 @@ module.exports =
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _Vector = __webpack_require__(18);
+	var _Vector = __webpack_require__(21);
 
 	var _Vector2 = _interopRequireDefault(_Vector);
 
@@ -1814,7 +2033,7 @@ module.exports =
 	exports.default = Point;
 
 /***/ },
-/* 18 */
+/* 21 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1832,11 +2051,11 @@ module.exports =
 	// Vector class and its members
 
 
-	var _array = __webpack_require__(9);
+	var _array = __webpack_require__(10);
 
 	var _array2 = _interopRequireDefault(_array);
 
-	var _Point = __webpack_require__(17);
+	var _Point = __webpack_require__(20);
 
 	var _Point2 = _interopRequireDefault(_Point);
 
@@ -1924,7 +2143,7 @@ module.exports =
 	exports.default = Vector;
 
 /***/ },
-/* 19 */
+/* 22 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1933,72 +2152,282 @@ module.exports =
 	  value: true
 	});
 
-	var _heapSort = __webpack_require__(20);
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _heapSort2 = _interopRequireDefault(_heapSort);
+	var _ERROR = __webpack_require__(2);
 
-	var _quickSort = __webpack_require__(12);
+	var _ERROR2 = _interopRequireDefault(_ERROR);
 
-	var _quickSort2 = _interopRequireDefault(_quickSort);
+	var _math = __webpack_require__(16);
 
-	var _mergeSort = __webpack_require__(21);
-
-	var _internal = __webpack_require__(8);
+	var _math2 = _interopRequireDefault(_math);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	function isSorted(arr, compare) {
-	  // default order by asc
-	  /*
-	   * inspired by http://enterprisejquery.com/2010/10/how-good-c-habits-can-encourage-bad-javascript-habits-part-1/
-	   */
-	  compare = (0, _internal.__compareOrDefault__)(compare);
+	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
-	  var sorted = true,
-	      i;
-	  for (i = 0; i < arr.length - 1; i++) {
-	    if (compare(arr[i], arr[i + 1]) > 0) {
-	      // console.log(arr[i], arr[i+1]);
-	      sorted = false;
-	      break;
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	var Graph = function () {
+	  function Graph(n, directed) {
+	    _classCallCheck(this, Graph);
+
+	    if (isNaN(n = +n)) {
+	      throw new Error(_ERROR2.default.INVALID_NUMERIC_VALUE);
 	    }
+
+	    // gets a unweighted graph, dafualt is undirected graph
+	    if (directed !== true) {
+	      directed = false;
+	    }
+
+	    Object.defineProperty(this, 'n', { value: n, writable: false });
+	    Object.defineProperty(this, '__directed__', { value: directed, writable: false });
+	    Object.defineProperty(this, '__edgeListCache__', { value: [], writable: false });
+
+	    // adgList format (each x in adgList): [v, [v1, v2, v3...]] = [label, [edgeVertexArray]]
+	    // label can be used for marking visit info
+	    this.__adjacencyList__ = [];
+	    this.__v__ = 0;
+	    this.__e__ = 0;
 	  }
 
-	  return sorted;
-	}
-
-	function binarySearch(arr, x, low, high) {
-	  low = low || 0;
-	  high = high || arr.length - 1;
-
-	  var mid = -1;
-
-	  while (low <= high) {
-	    mid = low + (high - low >> 1);
-	    if (arr[mid] === x) {
-	      return mid;
-	    } else if (arr[mid] < x) {
-	      low = mid + 1;
-	    } else {
-	      high = mid - 1;
+	  _createClass(Graph, [{
+	    key: 'v',
+	    value: function v() {
+	      return this.__v__;
 	    }
-	  }
+	  }, {
+	    key: 'e',
+	    value: function e() {
+	      return this.__directed__ ? this.__e__ : this.__e__ >> 1;
+	    }
+	  }, {
+	    key: 'clone',
+	    value: function clone() {
+	      var gh = new Graph(this.n, this.__directed__);
+	      this.__adjacencyList__.forEach(function (x) {
+	        // clone each x in format [v, []]
+	        // TODO: warning the case in which we push v2 into an empty vertex
+	        gh.__adjacencyList__[x[0]] = [x[0], [].concat(_toConsumableArray(x[1]))];
+	      });
 
-	  return -1;
-	}
+	      gh.__v__ = this.__v__;
+	      gh.__e__ = this.__e__;
 
-	exports.default = {
-	  __randomUniqueArray__: _internal.__randomUniqueArray__,
-	  isSorted: isSorted,
-	  binarySearch: binarySearch,
-	  heapSort: _heapSort2.default,
-	  quickSort: _quickSort2.default,
-	  mergeSort: _mergeSort.mergeSort,
-	  mergeSortBU: _mergeSort.mergeSortBU
-	};
+	      return gh;
+	    }
+	  }, {
+	    key: 'toString',
+	    value: function toString(verbose) {
+	      if (verbose !== true) {
+	        verbose = false;
+	      }
+
+	      var count = this.__count__(),
+	          _g = this.__adjacencyList__,
+	          str = ['Graph: #n = ' + String(this.n) + ', #v = ' + String(count[0]) + ', #e = ' + String(count[1])];
+
+	      if (verbose) {
+	        _g.filter(function (x) {
+	          return x && x[0] && x[0] > 0;
+	        }).forEach(function (x) {
+	          str.push(x[0] + ': ' + x[1].filter(function (v) {
+	            return v > 0;
+	          }).join(' '));
+	        });
+	      }
+
+	      return str.join('\n\r');
+	    }
+	  }, {
+	    key: '__pushEdge__',
+	    value: function __pushEdge__(v1, v2, bidirectional) {
+	      /// <summary>pushes an edge into thisEdge graph from the v1 to v2.</summary>
+
+	      if (isNaN(v1 = +v1) || isNaN(v2 = +v2)) {
+	        throw new Error(_ERROR2.default.INVALID_NUMERIC_VALUE);
+	      }
+
+	      var _g = this.__adjacencyList__;
+
+	      if (!_g[v1]) {
+	        _g[v1] = [v1, []];
+	        this.__v__++;
+	      }
+
+	      _g[v1][1].push(v2);
+	      this.__e__++;
+
+	      if (!this.__directed__ && bidirectional) {
+	        // if not directed, AND we force bidirectional pusing,
+	        // then we push [v2, v1]
+	        if (!_g[v2]) {
+	          _g[v2] = [v2, []];
+	          this.__v__++;
+	        }
+
+	        _g[v2][1].push(v1);
+	        this.__e__++;
+	      }
+	    }
+	  }, {
+	    key: '__getEdgeList__',
+	    value: function __getEdgeList__() {
+	      var edges = this.__edgeListCache__;
+	      if (edges && edges.length) {
+	        return edges;
+	      } else {
+	        this.__adjacencyList__.forEach(function (x) {
+	          x && x[1] && x[1].length && x[1].forEach(function (e) {
+	            // push [u, v, w] if GraphW, else [u, v]
+	            edges.push(e.length ? [x[0], e[0], e[1]] : [x[0], e]);
+	          });
+	        });
+	        return edges;
+	      }
+	    }
+	  }, {
+	    key: '__edgesFrom__',
+	    value: function __edgesFrom__(v) {
+	      /// <summary>gets the edge sourceing from v.</summary>
+	      if (isNaN(v = +v)) {
+	        throw new Error(_ERROR2.default.INVALID_NUMERIC_VALUE);
+	      }
+
+	      var _g = this.__adjacencyList__;
+
+	      if (!_g[v]) {
+	        _g[v] = [v, []];
+	      }
+
+	      return _g[v][1];
+	    }
+	  }, {
+	    key: '__edgeAt__',
+	    value: function __edgeAt__(k) {
+	      /// <summary>gets a the k-th edge of graph, return the two endpoint. start from 0 as index</summary>
+
+	      var _g = this.__adjacencyList__,
+	          p = 0,
+	          edge = [-1, -1];
+
+	      _g.some(function (x) {
+	        return x && x[0] && x[0] >= 0 && x[1].some(function (v) {
+	          if (v >= 0 && p++ == k) {
+	            edge = [x[0], v];
+	            return true;
+	          } else {
+	            return false;
+	          }
+	        });
+	      });
+
+	      return edge;
+	    }
+	  }, {
+	    key: '__count__',
+	    value: function __count__() {
+	      /// <summary>gets the number of vertex and edge.<summary>
+	      /// <returns type="Array[2]">returns the number of vertex and edge in arr[0] and arr[1].</returns>
+
+	      return [this.v(), this.e()];
+	    }
+	  }, {
+	    key: '__visiableAt__',
+	    value: function __visiableAt__(v) {
+	      /// <summary>determins whether the v of graph is visiable for visiting or not.</summary>
+	      if (isNaN(v = +v)) {
+	        throw new Error(_ERROR2.default.INVALID_NUMERIC_VALUE);
+	      }
+
+	      var _g = this.__adjacencyList__;
+	      return _g[v] === undefined || _g[v] && _g[v][0] && _g[v][0] >= 0;
+	    }
+	  }, {
+	    key: '__hasEdgesAt__',
+	    value: function __hasEdgesAt__(v) {
+	      /// <summary>determins whether graph has edge(s) sourcing from v or not.</summary>
+	      if (isNaN(v = +v)) {
+	        throw new Error(_ERROR2.default.INVALID_NUMERIC_VALUE);
+	      }
+
+	      var _g = this.__adjacencyList__;
+	      return _g[v] && _g[v][1] && _g[v][1].length;
+	    }
+	  }, {
+	    key: '__labelAll__',
+	    value: function __labelAll__(label) {
+	      if (typeof label === 'string' || label === +label) {
+	        var _g = this.__adjacencyList__;
+	        _math2.default.range(1, this.n + 1).forEach(function (v) {
+	          if (!_g[v]) {
+	            _g[v] = [v, []];
+	          }
+	          _g[v][0] = label;
+	        });
+	      }
+	    }
+	  }, {
+	    key: '__labelAt__',
+	    value: function __labelAt__(v, label) {
+	      /// <summary>marks the label to graph, v for its visited or not,
+	      /// the default label is false, means we visits the vertex default.
+	      /// </summary>
+	      if (isNaN(v = +v)) {
+	        throw new Error(_ERROR2.default.INVALID_NUMERIC_VALUE);
+	      }
+
+	      var _g = this.__adjacencyList__;
+	      if (!_g[v]) {
+	        _g[v] = [v, []];
+	      }
+
+	      if (arguments.length > 1 || label !== undefined) {
+	        _g[v][0] = label;
+	      }
+
+	      return _g[v][0];
+	    }
+	  }, {
+	    key: '__visitAt__',
+	    value: function __visitAt__(v) {
+	      this.__labelAt__(v, -1);
+	    }
+	  }], [{
+	    key: '__build__',
+	    value: function __build__(lines) {
+	      var gh, info, i, minCut, result;
+
+	      lines.forEach(function (line, i) {
+	        if (i === 0) {
+	          gh = new Graph(+line, true);
+	        } else {
+	          info = line.split(' ').map(function (x) {
+	            return +x.replace(/^\s\s*/, '').replace(/\s\s*$/, '');
+	          }).filter(function (x) {
+	            return x > 0;
+	          });
+
+	          gh.__pushEdge__(info[0], info[1]);
+	        }
+	      });
+
+	      result = Graph.sccTarjan(gh);
+	      console.log(result);
+
+	      result = Graph.sccKosaraju(gh);
+	      console.log(result);
+	    }
+	  }]);
+
+	  return Graph;
+	}();
+
+	exports.default = Graph;
 
 /***/ },
-/* 20 */
+/* 23 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2006,130 +2435,869 @@ module.exports =
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.default = heapSort;
 
-	var _Heap = __webpack_require__(7);
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	function heapSort(arr, option) {
-	  option = option || {
-	    'order': 'ASC'
-	  };
+	var _Graph2 = __webpack_require__(22);
 
-	  var heap;
+	var _Graph3 = _interopRequireDefault(_Graph2);
 
-	  switch (option.order) {
-	    case 'ASC':
-	    case 'asc':
-	      heap = new _Heap.MinHeap();
-	      break;
-	    case 'DESC':
-	    case 'desc':
-	      heap = new _Heap.MaxHeap();
-	      break;
-	    default:
-	      throw new Error('invalid order option, use one of ASC | DESC');
-	  }
+	var _ERROR = __webpack_require__(2);
 
-	  // push x into heap
-	  arr.forEach(function (x) {
-	    heap.push(x);
-	  });
+	var _ERROR2 = _interopRequireDefault(_ERROR);
 
-	  return heap.__toArray__();
-	}
-
-/***/ },
-/* 21 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.mergeSort = mergeSort;
-	exports.mergeSortBU = mergeSortBU;
-
-	var _internal = __webpack_require__(8);
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
-	function _deepCloneTo(arr, to, l, r) {
-	  // copy arr to to deeply from l to r inclusively
-	  // require arr.length  = to.length;
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-	  r = r % arr.length;
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-	  for (var i = l; i <= r; i++) {
-	    to[i] = arr[i];
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var GraphW = function (_Graph) {
+	  _inherits(GraphW, _Graph);
+
+	  function GraphW(n, directed) {
+	    _classCallCheck(this, GraphW);
+
+	    return _possibleConstructorReturn(this, (GraphW.__proto__ || Object.getPrototypeOf(GraphW)).call(this, n, directed));
 	  }
-	}
 
-	function _merge(arr, aux, l, mid, r, compare) {
-	  // required sorted(arr, l, mid);
-	  // required sorted(arr, mid+1, r);
-	  // require arr.length = aux.length;
+	  _createClass(GraphW, [{
+	    key: 'clone',
+	    value: function clone() {
+	      var gh = new GraphW(this.n, this.__directed__);
+	      this.__adjacencyList__.forEach(function (x) {
+	        // clone each x in format [v, []]
+	        // TODO: warning the case in which we push v2 into an empty vertex
+	        gh.__adjacencyList__[x[0]] = [x[0], x[1].map(function (v) {
+	          return [].concat(_toConsumableArray(v));
+	        })];
+	      });
 
-	  _deepCloneTo(arr, aux, l, r);
-	  var i = l,
-	      j = mid + 1,
-	      k = l;
-	  for (; k <= r; k++) {
-	    if (i > mid) {
-	      arr[k] = aux[j++];
-	    } else if (j > r) {
-	      arr[k] = aux[i++];
-	    } else if (compare(aux[i], aux[j]) > 0) {
-	      // inversions += (mid - i + 1);
-	      arr[k] = aux[j++];
-	    } else {
-	      arr[k] = aux[i++];
+	      gh.__v__ = this.__v__;
+	      gh.__e__ = this.__e__;
+
+	      return gh;
+	    }
+	  }, {
+	    key: 'toString',
+	    value: function toString(verbose) {
+	      if (verbose !== true) {
+	        verbose = false;
+	      }
+
+	      var count = this.__count__(),
+	          _g = this.__adjacencyList__,
+	          str = ['graph: #n = ' + String(this.n) + ', #v = ' + String(count[0]) + ', #e = ' + String(count[1])];
+
+	      if (verbose) {
+	        _g.filter(function (x) {
+	          return x && x[0] && x[0] > 0;
+	        }).forEach(function (x) {
+	          str.push(x[0] + ': ' + x[1].filter(function (v) {
+	            return v.length === 2;
+	          }).map(function (v) {
+	            return String(v[0]) + '(' + String(v[1]) + ')';
+	          }).join(','));
+	        });
+	      }
+
+	      return str.join('\n\r');
+	    }
+	  }, {
+	    key: '__pushEdge__',
+	    value: function __pushEdge__(v1, v2, w, bidirectional) {
+	      /// <summary>pushes an edge into thisEdge graph from the v1 to v2.</summary>
+
+	      if (isNaN(v1 = +v1) || isNaN(v2 = +v2)) {
+	        throw new Error(_ERROR2.default.INVALID_NUMERIC_VALUE);
+	      }
+
+	      var _g = this.__adjacencyList__;
+
+	      if (!_g[v1]) {
+	        _g[v1] = [v1, []];
+	        this.__v__++;
+	      }
+
+	      _g[v1][1].push([v2, w]);
+	      this.__e__++;
+
+	      if (!this.__directed__ && bidirectional) {
+	        // if not directed, AND we force bidirectional pusing,
+	        // then we push [v2, v1]
+	        if (!_g[v2]) {
+	          _g[v2] = [v2, []];
+	          this.__v__++;
+	        }
+
+	        _g[v2][1].push([v1, w]);
+	        this.__e__++;
+	      }
+	    }
+	  }], [{
+	    key: '__build__',
+	    value: function __build__(lines) {
+	      var gh, info, i, current, vm, result;
+
+	      lines.forEach(function (line, i) {
+	        if (i === 0) {
+	          gh = new GraphW(+line.split(' ')[0]);
+	        } else {
+	          info = line.split(' ');
+	          gh.__pushEdge__(+info[0], +info[1], +info[2], true);
+	        }
+	      });
+
+	      result = _Graph3.default.mstPrim(gh);
+	      console.log(result);
+
+	      result = _Graph3.default.mstKruskal(gh);
+	      console.log(result);
+	    }
+	  }]);
+
+	  return GraphW;
+	}(_Graph3.default);
+
+	exports.default = GraphW;
+
+/***/ },
+/* 24 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _cut = __webpack_require__(25);
+
+	var _mst = __webpack_require__(26);
+
+	var _path = __webpack_require__(27);
+
+	var _search = __webpack_require__(28);
+
+	exports.default = {
+	  // cut
+	  mergeVertex: _cut.mergeVertex, minimumCut: _cut.minimumCut, multiMinimumCut: _cut.multiMinimumCut,
+
+	  // mst
+	  mstKruskal: _mst.mstKruskal, mstPrim: _mst.mstPrim,
+
+	  // path
+	  dijkstra: _path.dijkstra, tspHeldKarp: _path.tspHeldKarp,
+
+	  // search
+	  topologicalSort: _search.topologicalSort, sccTarjan: _search.sccTarjan, sccKosaraju: _search.sccKosaraju, bfs: _search.bfs, dfs: _search.dfs, undirectedConnected: _search.undirectedConnected
+	};
+
+/***/ },
+/* 25 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.mergeVertex = exports.minimumCut = exports.multiMinimumCut = undefined;
+
+	var _math = __webpack_require__(16);
+
+	var _math2 = _interopRequireDefault(_math);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var multiMinimumCut = exports.multiMinimumCut = function multiMinimumCut(graph, times) {
+	  /// <summary>gets the minimum number of potential minimum cut in multiple try.<summary>
+
+	  var min = Number.MAX_VALUE,
+	      gh,
+	      cut,
+	      time = [];
+
+	  _math2.default.range(times).forEach(function () {
+	    gh = graph.clone();
+	    time.push(_math2.default.__timer__(function () {
+	      cut = minimumCut(gh);
+	    }));
+	    if (cut < min) {
+	      min = cut;
+	    }
+	  });
+	  console.log(_math2.default.Stats.mean(time), _math2.default.Stats.stddev(time));
+	  console.log(time.join(', '));
+	  return min;
+	};
+
+	var minimumCut = exports.minimumCut = function minimumCut(graph) {
+	  /// <summary>gets the number of potential minimum cut in single try.<summary>
+
+	  var count = graph.__count__(),
+	      v = count[0],
+	      e = count[1],
+	      k = 0,
+	      edge;
+	  while (v > 2) {
+	    k = _math2.default.randomInteger(1, e);
+	    // find the k-th edge
+	    edge = graph.__edgeAt__(k);
+	    // merge
+	    mergeVertex(graph, edge[0], edge[1]);
+	    // recount
+	    count = graph.__count__();
+	    v = count[0];
+	    e = count[1];
+	  }
+
+	  // return number of edges of min cut
+	  return graph.__count__()[1];
+	};
+
+	var mergeVertex = exports.mergeVertex = function mergeVertex(graph, v1, v2) {
+	  /// <summary>merges the vertex and contracts the edge.<summary>
+
+	  // merge the edge from v1 to v2, e1 is the edges from v1 to v2 (no matter in undirected graph)
+	  // 1. copy the endpoints from v1's to v2's
+	  // 2. loop all vertex of graph, change endpoint v1 to v2
+	  // 3.      if self loop, delete endpoint
+	  // 4. mark v1 visited
+
+	  var _g = graph.__adjacencyList__,
+	      e1 = graph.__edgesFrom__(v1),
+	      e2 = graph.__edgesFrom__(v2),
+	      i;
+
+	  // 1
+	  e1.forEach(function (v) {
+	    if (v >= 0 /*&& e2.indexOf(v) === -1*/) {
+	        e2.push(v);
+	      }
+	  });
+
+	  // 2
+	  _g.forEach(function (x) {
+	    if (x && x[0]) {
+	      // edges from x[0]
+	      for (i = 0; i < x[1].length; i++) {
+	        if (x[1][i] === v1) {
+	          x[1][i] = v2;
+	        }
+	        // 3 self loop
+	        if (x[1][i] > 0 && x[1][i] === x[0]) {
+	          x[1][i] = -1;
+	          graph.__e__--;
+	        }
+	      }
+	    }
+	  });
+
+	  // 4
+	  // DO NOT decrease __e__, for _g[v1][1] has been moved into _g[v2][1] at step 1
+	  _g[v1][0] = -1;
+	  graph.__v__--;
+	};
+
+/***/ },
+/* 26 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.mstKruskal = exports.mstPrim = undefined;
+
+	var _Heap = __webpack_require__(7);
+
+	var _UnionFind = __webpack_require__(17);
+
+	var _quickSort = __webpack_require__(14);
+
+	var _quickSort2 = _interopRequireDefault(_quickSort);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var mstPrim = exports.mstPrim = function mstPrim(graph, s) {
+	  s = s || 1;
+
+	  // assert is weighted, s in [1. n]
+
+	  // in our heap (frontier), each x, y is formated like [u, v, w],
+	  // where u in X, v not in X, w is weight
+	  var frontier = new _Heap.MinHeap(function (x, y) {
+	    return x[2] - y[2];
+	  }),
+	      g = graph.clone(),
+	      mst = [],
+	      i = 0,
+	      current;
+
+	  // label each vertex
+	  // -1 for init, 1 for having been added in X
+	  g.__labelAll__(-1);
+
+	  // init for s
+	  frontier.push([0, s, 0]);
+
+	  while (!frontier.isEmpty() && i < g.n) {
+	    current = frontier.pop();
+	    // add current into X, T
+	    g.__labelAt__(current[1], 1);
+	    mst.push(current);
+	    i++;
+
+	    g.__edgesFrom__(current[1]).forEach(function (v) {
+	      if (g.__labelAt__(v[0]) === -1) {
+	        // not visited, update each in frontier
+	        var updated = frontier.update(function (x) {
+	          return x[1] === v[0];
+	        }, function (x) {
+	          return v[1] < x[2];
+	        }, function (x) {
+	          x[0] = current[1];
+	          x[2] = v[1];
+	        });
+
+	        if (!updated) {
+	          frontier.push([current[1], v[0], v[1]]);
+	        }
+	      } // end if, unvisited
+	    });
+	  }
+
+	  return mst.reduce(function (acc, x) {
+	    return acc + x[2];
+	  }, 0);
+	};
+
+	var mstKruskal = exports.mstKruskal = function mstKruskal(graph, k) {
+	  var g = graph.clone(),
+	      edges = (0, _quickSort2.default)(g.__getEdgeList__(), function (x, y) {
+	    return x[2] - y[2];
+	  }),
+	      mst = [],
+	      u = 0,
+	      v = 0,
+	      frontier = new _UnionFind.WeightedQuickUnion(g.n),
+	      space = -1;
+
+	  edges.some(function (e) {
+	    u = e[0];
+	    v = e[1];
+	    if (!frontier.connected(u, v)) {
+	      if (!k || frontier.count() > k) {
+	        mst.push(e);
+	        frontier.union(u, v);
+	      } else {
+	        space = e[2];
+	        return true;
+	      }
+	    }
+	  });
+
+	  return k ? space : mst.reduce(function (acc, x) {
+	    return acc + x[2];
+	  }, 0);
+	};
+
+/***/ },
+/* 27 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.tspHeldKarp = exports.dijkstra = undefined;
+
+	var _Heap = __webpack_require__(7);
+
+	var dijkstra = exports.dijkstra = function dijkstra(graph, s) {
+	  s = s || 1;
+
+	  // assert is weighted, s in [1. n]
+
+	  // in our heap (frontier), each x, y is formated like [v, w],
+	  // means, for now on, shortest path from s to v is w
+	  var frontier = new _Heap.MinHeap(function (x, y) {
+	    return x[1] - y[1];
+	  }),
+	      g = graph.clone(),
+	      i = 0,
+	      current;
+
+	  // label each vertex
+	  // -1 for init
+	  // [0, ...] for FINAL shortest length from init s
+	  g.__labelAll__(-1);
+
+	  // init for s
+	  frontier.push([s, 0]);
+
+	  while (!frontier.isEmpty && i < g.n) {
+	    current = frontier.pop();
+	    g.__labelAt__(current[0], current[1]);
+	    i++;
+
+	    g.__edgesFrom__(current[0]).forEach(function (v) {
+	      if (g.__labelAt__(v[0]) === -1) {
+	        // not visited, update each in frontier
+	        var updated = frontier.update(function (x) {
+	          return x[0] === v[0];
+	        }, function (x) {
+	          return current[1] + v[1] < x[1];
+	        }, function (x) {
+	          x[1] = current[1] + v[1];
+	        });
+
+	        if (!updated) {
+	          frontier.push([v[0], current[1] + v[1]]);
+	        }
+	      } // end if, unvisited
+	    });
+	  }
+
+	  return g.__adjacencyList__.map(function (v, i) {
+	    return [i, v[0]];
+	  }).filter(function (v) {
+	    return v && v.length;
+	  });
+	};
+
+	var tspHeldKarp = exports.tspHeldKarp = function tspHeldKarp(coordinates) {
+	  // run TSP algorithm by Held-Karp
+	  // vertex i in input corrdinates array is [x,y]
+
+	  var n = coordinates.length,
+	      cost = [],
+	      i,
+	      j;
+
+	  function distance(a, b) {
+	    return Math.pow(a[0] - b[0], 2) + Math.pow(a[1] - b[1], 2);
+	  }
+
+	  // build cost matrix c(i,j) for each (i, j) and i < j
+	  for (i = 0; i < n; i++) {
+	    for (j = i + 1; j < n; j++) {
+	      cost[i * n + j] = distance(coordinates[i], coordinates[j]);
 	    }
 	  }
-	}
+	};
 
-	function _mergeSort(arr, aux, l, r, compare) {
-	  if (l < r) {
-	    var mid = l + (r - l >> 1);
-	    _mergeSort(arr, aux, l, mid, compare);
-	    _mergeSort(arr, aux, mid + 1, r, compare);
-	    _merge(arr, aux, l, mid, r, compare);
+/***/ },
+/* 28 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.sccTarjan = exports.sccKosaraju = exports.topologicalSort = exports.undirectedConnected = exports.dfs = exports.bfs = undefined;
+
+	var _Stack = __webpack_require__(6);
+
+	var _Stack2 = _interopRequireDefault(_Stack);
+
+	var _Queue = __webpack_require__(5);
+
+	var _Queue2 = _interopRequireDefault(_Queue);
+
+	var _Graph = __webpack_require__(22);
+
+	var _Graph2 = _interopRequireDefault(_Graph);
+
+	var _ERROR = __webpack_require__(2);
+
+	var _ERROR2 = _interopRequireDefault(_ERROR);
+
+	var _math = __webpack_require__(16);
+
+	var _math2 = _interopRequireDefault(_math);
+
+	var _quickSort = __webpack_require__(14);
+
+	var _quickSort2 = _interopRequireDefault(_quickSort);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	// labelAt for diff meaning
+	// topo: -1 for init, 0 for head, >0 for order
+	// search: -1 for init, 0 for being in frotiner, 1 for being visited
+	// tarjan scc: -1 as init, 0 as being SCC, else as dfs(v)
+
+	var bfs = exports.bfs = function bfs(graph) {
+	  var g = graph.clone();
+	  g.__labelAll__(-1);
+	  var result = search(g, new _Queue2.default(), 1);
+	  g = null;
+
+	  return result;
+	};
+
+	var dfs = exports.dfs = function dfs(graph) {
+	  var g = graph.clone();
+	  g.__labelAll__(-1);
+	  var result = search(g, new _Stack2.default(), 1);
+	  g = null;
+
+	  return result;
+	};
+
+	var undirectedConnected = exports.undirectedConnected = function undirectedConnected(graph) {
+	  if (graph.__directed__) {
+	    throw new Error(_ERROR2.default.INVALID_GRAPH_ACTION);
 	  }
-	}
 
-	function mergeSort(arr, compare) {
-	  // default order by asc
-	  compare = (0, _internal.__compareOrDefault__)(compare);
+	  var g = graph.clone(),
+	      connect = [],
+	      // [x] where x = [head, [following vertex]]
+	  label;
 
-	  var copy = [].concat(_toConsumableArray(arr));
-	  var aux = [];
+	  g.__labelAll__(-1);
 
-	  // inversions = 0;
+	  _math2.default.range(1, g.n + 1).forEach(function (v) {
+	    label = g.__labelAt__(v);
+	    if (label < 1 /*label !== 'v'*/) {
+	        connect.push([v, search(g, new _Stack2.default(), v)]);
+	      }
+	  });
 
-	  _mergeSort(copy, aux, 0, copy.length - 1, compare);
+	  g = null;
 
-	  // console.log('# of inversions: ' + inversions);
+	  // undirected graph is connected iff connect.length == 1 && connnect[0][1] == graph.dfs(graph)
+	  return connect;
+	};
 
-	  return copy;
-	}
+	var topologicalSort = exports.topologicalSort = function topologicalSort(graph) {
+	  if (!graph.__directed__) {
+	    throw new Error(_ERROR2.default.INVALID_GRAPH_ACTION);
+	  }
 
-	function mergeSortBU(arr, compare) {
-	  // default order by asc
-	  compare = (0, _internal.__compareOrDefault__)(compare);
+	  var g = graph.clone(),
+	      result,
+	      i = 0,
+	      n = [g.n];
 
-	  var copy = [].concat(_toConsumableArray(arr));
-	  var aux = [];
-	  var n = arr.length,
-	      sz = 1,
-	      lo = 0;
-	  for (sz = 1; sz < n; sz <<= 1) {
-	    for (lo = 0; lo < n - sz; lo += sz << 1) {
-	      _merge(copy, aux, lo, lo + sz - 1, Math.min(lo + sz + sz - 1, n - 1), compare);
+	  g.__labelAll__(-1);
+
+	  _math2.default.range(1, g.n + 1).forEach(function (v) {
+	    if (g.__labelAt__(v) <= 0) {
+	      // unvisited or unmarked
+	      i++;
+	      tsearch(g, v, n);
 	    }
+	  });
+
+	  // TODO: inspect i to find graph info after topo sort, is there non connection, is there cycle?
+	  console.log(i);
+
+	  result = g.__adjacencyList__.map(function (x, i) {
+	    return [i, +x[0]];
+	  }).filter(function (x, i) {
+	    return i > 0 && x;
+	  });
+
+	  g = null;
+
+	  result = (0, _quickSort2.default)(result, function (x, y) {
+	    return x[1] - y[1];
+	  }).map(function (x) {
+	    return x[0];
+	  });
+
+	  return result;
+	};
+
+	var sccKosaraju = exports.sccKosaraju = function sccKosaraju(graph) {
+	  var label,
+	      // label of vertex
+	  rg = reverse(graph),
+	      // reversed graph
+	  g = graph.clone(),
+	      // clone one
+	  connect = []; // connectivity array
+
+	  g.__labelAll__(-1);
+
+	  topologicalSort(rg).forEach(function (v) {
+	    label = g.__labelAt__(v);
+	    if (label < 1 /*typeof label !== 'string'*/) {
+	        connect.push([v, search(g, new _Stack2.default(), v)]);
+	      }
+	  });
+
+	  rg = null;
+	  g = null;
+
+	  return buildConnect(connect);
+	};
+
+	var sccTarjan = exports.sccTarjan = function sccTarjan(graph) {
+	  var g = graph.clone(),
+	      n = [0],
+	      connect = [],
+	      low = [],
+	      component = new _Stack2.default();
+
+	  g.__labelAll__(-1);
+
+	  Math.range(1, g.n + 1).forEach(function (i) {
+	    if (g.__labelAt__(i) === 0) {
+	      // has been marked SCC
+	      return;
+	    }
+
+	    // tarjan(g, i, n);
+
+	    // pseudo code for tarjan(g, i, index) below, iteration version
+	    // inspired by https://www.byvoid.com/blog/scc-tarjan
+
+	    var index = n,
+	        frontier = new _Stack2.default(),
+	        // frontier for keep order
+	    head = new _Stack2.default(),
+	        // head stack for push vertex before pusing (walking) its edges
+	    current,
+	        label;
+
+	    frontier.push(i);
+	    // g.__labelAt__(i, 'm');
+	    head.push(-1);
+
+	    while (!frontier.isEmpty) {
+	      current = frontier.peek();
+	      // if current has been in a SCC (0) or in a component (>0) or , we pop it and continue
+	      if (g.__labelAt__(current) === 0 || low[current] === -1) {
+	        frontier.pop();
+	        continue;
+	      }
+
+	      if (current === head.peek()) {
+	        // that means we are on the top of dfs(v), we visit current from its parent
+	        frontier.pop();
+	        head.pop();
+	        // assert this ?
+	        if (component.isEmpty) {
+	          // console.warn('component.isEmpty while head.isNotEmpty');
+	        } else if (current !== component.peek()) {}
+	        // console.warn(current, 'head.peek !== component.peek', component.peek());
+
+
+	        // dfn or visited info
+	        label = g.__labelAt__(current);
+
+	        if (low[current] === label) {
+	          var c = [],
+	              // temporary connect which will be a connect component
+	          h; // each value in THIS component
+
+	          while (
+	          // we reach the 1st item of head (outmost of recursion) OR
+	          head.peek() === -1 && !component.isEmpty ||
+	          // we repeat until leading of connect equals component vettex again
+	          // i.e. repeat until u = v
+	          !component.isEmpty && (h = component.peek(), h !== current)) {
+	            h = component.pop();
+	            c.push(h);
+	            g.__labelAt__(h, 0);
+	          }
+
+	          if (!component.isEmpty && (h = component.peek(), h === current)) {
+	            // push the leading of component
+	            h = component.pop();
+	            c.push(h);
+	            g.__labelAt__(h, 0);
+	          }
+
+	          connect.push([current, c]);
+	        } else {
+	          // pay attention on h has poped before
+	          low[head.peek()] = Math.min(low[head.peek()], low[current]);
+	          // g.__labelAt__(current, -1);
+	          // Attention! if current is poped from f and h, that means all of
+	          // its children have been poped too.
+	          low[current] = -1;
+	        }
+
+	        continue;
+	      }
+
+	      head.push(current);
+	      // components will be poped from stack like head until dfn = low
+	      component.push(current);
+	      low[current] = ++index[0];
+	      if (low[current] > g.n) {
+	        debugger;
+	      }
+	      g.__labelAt__(current, low[current]);
+
+	      if (g.__hasEdgesAt__(current)) {
+	        g.__edgesFrom__(current).forEach(function (v) {
+	          label = g.__labelAt__(v);
+	          if (label !== 0) {
+	            // not visited yet
+	            if (label > 0) {
+	              // marked
+	              low[current] = Math.min(low[current], label);
+	            } else {
+	              // not marked
+	              frontier.push(v);
+	            }
+	          }
+	        });
+	      } // end if
+	    } // end while
+	  });
+
+	  g = null;
+
+	  return buildConnect(connect);
+	};
+
+	var tsearch = function tsearch(graph, i, n) {
+
+	  var frontier = new _Stack2.default(),
+	      // frontier for keep order
+	  head = new _Stack2.default(),
+	      // head stack for push vertex before pusing (walking) its edges
+	  current,
+	      label;
+	  // n = graph.n;					// as topological order
+
+	  frontier.push(i);
+	  // graph.__labelAt__(i, 'm');
+	  head.push(-1);
+
+	  while (!frontier.isEmpty) {
+
+	    current = frontier.peek();
+	    label = graph.__labelAt__(current);
+	    if (label > 0 /*label !== 'h' && label !== 'm' && typeof label === 'string'*/) {
+	        // current has been marked order OR has been in head (avoid cycle)
+	        frontier.pop();
+	        continue;
+	      }
+
+	    if (current === head.peek()) {
+	      // that means we are on the top of dfs(v), we visit current from its parent
+
+	      // lable as topological order
+	      graph.__labelAt__(current, n[0]--);
+	      frontier.pop();
+	      head.pop();
+
+	      continue;
+	    }
+
+	    head.push(current);
+	    graph.__labelAt__(current, 0);
+
+	    if (graph.__hasEdgesAt__(current)) {
+	      graph.__edgesFrom__(current).forEach(function (v) {
+	        label = graph.__labelAt__(v);
+	        if (label === -1 /*label === 'm' || typeof label !== 'string'*/) {
+	            frontier.push(v);
+	            // v has been add into frontier
+	            // graph.__labelAt__(v, 'm');
+	          }
+	      });
+	    } // end if
+	  } // end while
+	};
+
+	var search = function search(graph, frontier, i) {
+	  // seach graph from initial vertex v, using that frontier
+
+	  i = i || (i = +i) || 1;
+
+	  var order = [],
+	      frontierIn = function frontierIn(item) {
+	    return frontier.push && frontier.push(item) || frontier.enqueue && frontier.enqueue(item);
+	  },
+	      frontierOut = function frontierOut() {
+	    return frontier.pop && frontier.pop() || frontier.dequeue && frontier.dequeue();
+	  },
+	      current,
+	      label;
+
+	  frontierIn(i);
+	  graph.__labelAt__(i, 0);
+	  while (!frontier.isEmpty) {
+	    current = frontierOut();
+
+	    // push all valid v sourcing from current into frontier
+	    if (graph.__hasEdgesAt__(current)) {
+	      graph.__edgesFrom__(current).forEach(function (v) {
+	        label = graph.__labelAt__(v);
+	        if (label < 0 /*label !== 'm' && !== 'v'*/) {
+	            frontierIn(v);
+	            // v has been add into frontier
+	            graph.__labelAt__(v, 0);
+	          }
+	      });
+	    }
+	    // visit current
+	    graph.__labelAt__(current, 1);
+	    order.push(current);
 	  }
 
-	  return copy;
-	}
+	  return order;
+	};
+
+	var reverse = function reverse(graph) {
+	  // get a new graph from graph, with each u->v into v->u
+
+	  if (graph.__directed__) {
+	    var rg = new _Graph2.default(graph.n, true);
+	    _math2.default.range(1, graph.n + 1).forEach(function (u) {
+	      if (graph.__hasEdgesAt__(u)) {
+	        graph.__edgesFrom__(u).forEach(function (v) {
+	          rg.__pushEdge__(v, u);
+	        });
+	      }
+	    });
+
+	    return rg;
+	  } else {
+	    // reverse undirected graph is itself
+	    return graph.clone();
+	  }
+	};
+
+	var buildConnect = function buildConnect(connect) {
+	  // return [
+	  //   length of component,
+	  //   [top 100 componet size],
+	  //   [top 100 distinct component size]
+	  // ]
+
+	  connect = connect.map(function (x) {
+	    return x[1].length;
+	  });
+
+	  var desc = function desc(x, y) {
+	    return y - x;
+	  },
+	      sortedSize = (0, _quickSort2.default)(connect, desc, true),
+	      pre = -1;
+
+	  return [connect.length, sortedSize.slice(0, 100), sortedSize.filter(function (x) {
+	    var same = x === pre;
+	    pre = x;
+	    return !same;
+	  }).slice(0, 100)];
+	};
 
 /***/ }
 /******/ ]);
