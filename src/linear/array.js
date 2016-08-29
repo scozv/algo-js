@@ -1,69 +1,74 @@
-
-const array = {
-  zip: function (arr1, arr2) {
-    var arr = [],
-      n = Math.min(arr1.length, arr2.length),
-      i;
-    for (i = 0; i < n; i++) {
-      arr.push([arr1[i], arr2[i]]);
-    }
-    return arr;
-  },
-  swap: function (arr, i, j) {
-    i %= arr.length;
-    j %= arr.length;
-
-    var swap = arr[i];
-    arr[i] = arr[j];
-    arr[j] = swap;
+function zip(arr1, arr2) {
+  var arr = [],
+    n = Math.min(arr1.length, arr2.length),
+    i;
+  for (i = 0; i < n; i++) {
+    arr.push([arr1[i], arr2[i]]);
   }
+  return arr;
+}
+
+function swap(arr, i, j) {
+  i %= arr.length;
+  j %= arr.length;
+
+  var swap = arr[i];
+  arr[i] = arr[j];
+  arr[j] = swap;
+}
+
+
+const take = function (arr, n) {
+  var result = [];
+  for (var i = 0; i < arr.length && i < n; i++) {
+    result.push(arr[i]);
+  }
+
+  return result;
 };
 
-export default array;
+const skip = function (arr, n) {
+  var result = [];
+  for (var i = n; i < arr.length; i++) {
+    result.push(arr[i]);
+  }
 
+  return result;
+};
 
-// $pt.take = function (n) {
-//   var result = [];
-//   for (var i = 0; i < this.length && i < n; i++) {
-//     result.push(this[i]);
-//   }
-//
-//   return result;
-// };
-//
-// $pt.skip = function (n) {
-//   var result = [];
-//   for (var i = n; i < this.length; i++) {
-//     result.push(this[i]);
-//   }
-//
-//   return result;
-// };
-//
-// // update or insert item of array, array will be changed
-// $pt.upsert = function (item, where, how) {
-//   return this.update(item, where, how, true);
-// };
-//
-// // update item of array, array will be changed
-// $pt.update = function (item, where, how, upsert) {
-//   var itemKey = (where && where(item)) || item,
-//     updated = false;
-//   /// insert = insert && true;
-//
-//   // find the item in array by where-function
-//   for (var i = 0; i < this.length; i++) {
-//     var x = this[i];
-//     if (where(x) === itemKey) {
-//       // find it and update it
-//       updated = true;
-//       this[i] = how(x, item);
-//     }
-//   }
-//
-//   if (!updated && upsert) {
-//     this.push(item);
-//   }
-//
-//   return this;
-// };
+// update or insert item of array, array will be changed
+const upsert = function (arr, item, where, how) {
+  return update(arr, item, where, how, true);
+};
+
+// update item of array, array will be changed
+const update = function (arr, item, where, how, upsert) {
+  var itemKey = (where && where(item)) || item,
+    updated = false;
+  /// insert = insert && true;
+
+  // find the item in array by where-function
+  for (var i = 0; i < arr.length; i++) {
+    var x = arr[i];
+    if (where(x) === itemKey) {
+      // find it and update it
+      updated = true;
+      arr[i] = how(x, item);
+    }
+  }
+
+  if (!updated && upsert) {
+    arr.push(item);
+  }
+
+  return arr;
+};
+
+export default {
+  zip,
+  swap,
+  take,
+  skip,
+  upsert,
+  update,
+};

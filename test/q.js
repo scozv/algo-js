@@ -11,8 +11,8 @@ window = global;
 // require('../src/Graph.js');
 // require('../src/WeightedGraph.js');
 // require('../src/UnionFind.js');
-// require('../src/x.math.stats.js');
-// require('../src/x.math.vector.js');
+// require('../src/Stats.js');
+// require('../src/Vector.js');
 //
 // require('../src/list.js');
 // require('../src/index.js');

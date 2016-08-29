@@ -1,4 +1,7 @@
 import array from '../linear/array'
+import Stats from './Stats'
+import Point from './Point'
+import Vector from './Vector'
 
 const EPSILON = Math.abs(1e-29);
 
@@ -102,4 +105,7 @@ export default {
   range,
   randomInteger,
   __timer__,
+  Stats,
+  Point,
+  Vector,
 }
