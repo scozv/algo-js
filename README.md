@@ -86,7 +86,7 @@ Due to default option of `git log` in github is no option,
 so please use command below to follow the full history of the codes 
 which I have moved from root into `src/` during this migration:
 
-##### `git log --follow src/sorting.js`
+##### `git log --follow src/index.js`
 
 [1]: http://mochajs.org/ "Mocha.js"
 [2]: http://blanketjs.org/ "Blanket.js"

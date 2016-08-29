@@ -15,9 +15,9 @@ window = global;
 // require('../src/x.math.vector.js');
 //
 // require('../src/list.js');
-// require('../src/sorting.js');
-// require('../src/sorting.mergeSort.js');
-// require('../src/sorting.quickSort.js');
+// require('../src/index.js');
+// require('../src/mergeSort.js');
+// require('../src/quickSort.js');
 // require('../src/graph.cut.js');
 // require('../src/graph.search.js');
 // require('../src/graph.path.js');

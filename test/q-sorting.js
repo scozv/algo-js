@@ -1,3 +1,9 @@
+require('./q');
+
+var algo = require('../bundle').default;
+var T = algo.type;
+var Sorting = algo.sorting;
+
 test('Sorting, the basic function', function () {
   // test random unique array generator
   var uniqueArraySort = function (length) {
@@ -145,7 +151,7 @@ test('Soring, the time test', function () {
   // ok(error(100000, Sorting.mergeSort) < 0.1, 'merge sort in nlogn');
   // ok(error(100000, Sorting.quickSort) < 0.1, 'merge sort in nlogn');
   // ok(error(100000, Sorting.heapSort) < 0.1, 'merge sort in nlogn');
-  ok(true, 'wait for time test of sorting, please look at the code of q-sorting.js');
+  ok(true, 'wait for time test of sorting, please look at the code of q-index.js');
 });
 
 test('Sorting, the binary search', function () {

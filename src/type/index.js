@@ -4,6 +4,7 @@ import TRAVERSAL from './TRAVERSAL'
 import LinkedList from './LinkedList'
 import Queue from './Queue'
 import Stack from './Stack'
+import {MinHeap, MaxHeap} from './Heap'
 
 function __x__(d, b) {
   // inspired from http://www.typescriptlang.org/Playground/
@@ -17,11 +18,11 @@ function __x__(d, b) {
 }
 
 export default {
-  ERROR: ERROR,
-  TRAVERSAL: TRAVERSAL,
-  "__x__": __x__,
-
-  LinkedList: LinkedList,
-  Queue: Queue,
-  Stack: Stack
+  ERROR,
+  TRAVERSAL,
+  LinkedList,
+  Queue,
+  Stack,
+  MinHeap,
+  MaxHeap,
 };
