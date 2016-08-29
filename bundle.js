@@ -725,9 +725,9 @@ module.exports =
 	exports.__compareOrDefault__ = __compareOrDefault__;
 	exports.__randomUniqueArray__ = __randomUniqueArray__;
 
-	var _linear = __webpack_require__(9);
+	var _array = __webpack_require__(10);
 
-	var _linear2 = _interopRequireDefault(_linear);
+	var _array2 = _interopRequireDefault(_array);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -751,7 +751,7 @@ module.exports =
 	  for (i = length - 1; i > 0; i--) {
 	    // math.r in [0, 1), we need j in [0, i]
 	    j = Math.floor(Math.random() * (i + 1));
-	    _linear2.default.array.swap(arr, i, j);
+	    _array2.default.swap(arr, i, j);
 	  }
 
 	  return arr;
@@ -771,10 +771,15 @@ module.exports =
 
 	var _array2 = _interopRequireDefault(_array);
 
+	var _list = __webpack_require__(18);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	exports.default = {
-	  array: _array2.default
+	  array: _array2.default,
+	  validPopStackSeries: _list.validPopStackSeries,
+	  medianMaintenence: _list.medianMaintenence,
+	  minimumWeightedCompletion: _list.minimumWeightedCompletion
 	};
 
 /***/ },
@@ -1370,9 +1375,9 @@ module.exports =
 
 	var _internal = __webpack_require__(8);
 
-	var _linear = __webpack_require__(9);
+	var _array = __webpack_require__(10);
 
-	var _linear2 = _interopRequireDefault(_linear);
+	var _array2 = _interopRequireDefault(_array);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1398,10 +1403,10 @@ module.exports =
 	    if (i >= j) {
 	      break;
 	    }
-	    _linear2.default.array.swap(arr, i, j);
+	    _array2.default.swap(arr, i, j);
 	  }
 
-	  _linear2.default.array.swap(arr, l, j);
+	  _array2.default.swap(arr, l, j);
 	  return j;
 	}
 
@@ -1538,9 +1543,9 @@ module.exports =
 	  value: true
 	});
 
-	var _linear = __webpack_require__(9);
+	var _array = __webpack_require__(10);
 
-	var _linear2 = _interopRequireDefault(_linear);
+	var _array2 = _interopRequireDefault(_array);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1554,7 +1559,7 @@ module.exports =
 	  var eq = false;
 
 	  if (Array.isArray(x) && Array.isArray(y)) {
-	    eq = x.length === y.length && _linear2.default.array.zip(x, y).every(function (item) {
+	    eq = x.length === y.length && _array2.default.zip(x, y).every(function (item) {
 	      return equals(item[0], item[1]);
 	    });
 	  } else if (!isNaN(parseFloat(x)) && !isNaN(parseFloat(y))) {
@@ -1769,6 +1774,92 @@ module.exports =
 
 	  return WeightedQuickUnion;
 	}(QuickFind);
+
+/***/ },
+/* 18 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.minimumWeightedCompletion = exports.medianMaintenence = exports.validPopStackSeries = undefined;
+
+	var _quickSort = __webpack_require__(14);
+
+	var _quickSort2 = _interopRequireDefault(_quickSort);
+
+	var _Stack = __webpack_require__(6);
+
+	var _Stack2 = _interopRequireDefault(_Stack);
+
+	var _Heap = __webpack_require__(7);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var validPopStackSeries = exports.validPopStackSeries = function validPopStackSeries(pushArray, popArray) {
+	  // if we push [1, 2, 3, 4] one by one,
+	  // can we get the series [2, 3, 4, 1] by poping after certain push?
+	  var st = new _Stack2.default(),
+	      j = 0;
+	  pushArray.forEach(function (x) {
+	    st.push(x);
+	    while (!st.isEmpty && st.peek() == popArray[j]) {
+	      st.pop();
+	      j++;
+	    }
+	  });
+
+	  return st.isEmpty;
+	};
+
+	var medianMaintenence = exports.medianMaintenence = function medianMaintenence(arr) {
+	  // [MaxHeap, max], media ,[min, MinHeap]
+
+	  var min = new _Heap.MinHeap(),
+	      max = new _Heap.MaxHeap(),
+	      media = [];
+
+	  arr.forEach(function (x) {
+	    if (min.size === max.size) {
+	      if (!max.isEmpty && x > max.peek()) {
+	        min.push(x);
+	        max.push(min.pop());
+	      } else {
+	        max.push(x);
+	      }
+	    } else {
+	      // we always keep max.size - min.size \in [0, 1]
+	      if (x > max.peek()) {
+	        min.push(x);
+	      } else {
+	        max.push(x);
+	        min.push(max.pop());
+	      }
+	    }
+
+	    media.push(max.peek());
+	  });
+
+	  return media;
+	};
+
+	var minimumWeightedCompletion = exports.minimumWeightedCompletion = function minimumWeightedCompletion(arr, fn) {
+	  // for each x in arr, x[0], x[1] = weight, length
+	  fn = fn || function (x, y) {
+	    return y[0] / y[1] - x[0] / x[1];
+	  };
+
+	  var c = 0,
+	      s = 0;
+	  (0, _quickSort2.default)(arr, fn).forEach(function (x) {
+	    c += x[1];
+	    s += x[0] * c;
+	  });
+
+	  return s;
+	};
 
 /***/ }
 /******/ ]);

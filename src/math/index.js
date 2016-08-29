@@ -1,4 +1,4 @@
-import linear from '../linear'
+import array from '../linear/array'
 
 const EPSILON = Math.abs(1e-29);
 
@@ -12,7 +12,7 @@ function equals(x, y) {
 
   if (Array.isArray(x) && Array.isArray(y)) {
     eq = x.length === y.length &&
-      linear.array.zip(x, y).every(item => equals(item[0], item[1])
+      array.zip(x, y).every(item => equals(item[0], item[1])
       )
     ;
   } else if (!isNaN(parseFloat(x)) && !isNaN(parseFloat(y))) {

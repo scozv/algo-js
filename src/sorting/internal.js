@@ -1,4 +1,4 @@
-import linear from '../linear'
+import array from '../linear/array'
 
 export function __compareOrDefault__(compare) {
   return compare && (typeof compare === 'function') ?
@@ -22,7 +22,7 @@ export function __randomUniqueArray__(length) {
   for (i = length - 1; i > 0; i--) {
     // math.r in [0, 1), we need j in [0, i]
     j = Math.floor(Math.random() * (i + 1));
-    linear.array.swap(arr, i, j);
+    array.swap(arr, i, j);
   }
 
   return arr;

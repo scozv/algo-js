@@ -1,5 +1,5 @@
 import {__compareOrDefault__} from './internal'
-import linear from '../linear'
+import array from '../linear/array'
 
 function _partition(arr, l, r, compare) {
   var i = l,
@@ -21,10 +21,10 @@ function _partition(arr, l, r, compare) {
     if (i >= j) {
       break;
     }
-    linear.array.swap(arr, i, j);
+    array.swap(arr, i, j);
   }
 
-  linear.array.swap(arr, l, j);
+  array.swap(arr, l, j);
   return j;
 }
 

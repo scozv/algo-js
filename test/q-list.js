@@ -1,3 +1,8 @@
+require('./q');
+
+var algo = require('../bundle').default;
+var List = algo.linear;
+
 test('Linear Collection', function () {
   ok(
     List.validPopStackSeries([1, 2, 3], [1, 2, 3]) &&
@@ -9,5 +14,5 @@ test('Linear Collection', function () {
 
   var arr = [3, 1, 2, 5, 7, 8, 6, 4, 9, 0];
   var med = [3, 1, 2, 2, 3, 3, 5, 4, 5, 4];
-  deepEqual(List.medianMaintenence(arr), med, 'median maintenence');
+  deepEqual(List.medianMaintenence(arr), med, 'median maintenance');
 });
