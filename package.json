@@ -1,7 +1,7 @@
 {
   "name": "algo",
   "private": true,
-  "version": "1.0.0",
+  "version": "2.3.0",
   "description": "Implementation of some algorithms using JavaScript",
   "main": "bundle.js",
   "dependencies": {},
