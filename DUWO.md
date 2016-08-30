@@ -1,7 +1,7 @@
-[![Build Status](https://drone.io/github.com/scotv/algo-js/status.png)](https://drone.io/github.com/scotv/algo-js/latest)
+[![Build Status](https://drone.io/github.com/scozv/algo-js/status.png)](https://drone.io/github.com/scozv/algo-js/latest)
 
 # Algo.js
-####### _版本: 3_
+####### _版本: 3.1_
 ####### _使用`ECMAScript 6`实现的基础算法包_
 
 ## 摘要
@@ -25,6 +25,7 @@ git tag -n
 时间 | 说明 | 参考源
 :-------|:---------|:-------:
 2016&darr; | - | -
+八月，30 | 使用`istanbul`检测代码覆盖率 | [mocha-instanbul](http://ricostacruz.com/til/mocha-instanbul-coverage.html)
 八月，30 | 使用 `webpack`和`ES 6`重写代码 | [05a6c70](https://github.com/scozv/algo-js/commit/05a6c7068fd50204c0206f46dae2dfcd965b6912)
 2015&darr; | - | -
 八月，03 | 发布简体中文接口文档 | [文档页面] [6]
@@ -61,8 +62,8 @@ git tag -n
 nvm install v5.11.1
 nodejs --version
 npm i
-npm install -g grunt-cli mocha
-npm test
+npm install -g mocha istanbul
+npm run coverage
 ```
 ### Travis CI
 ```yml
@@ -70,7 +71,7 @@ npm test
 language: node_js
 node_js:
   - "v5.11.1"
-script: 'npm i -g grunt-cli mocha && npm test'
+script: 'npm install -g mocha istanbul && npm i && npm run coverage'
 ```
 
 ## 测试和代码覆盖

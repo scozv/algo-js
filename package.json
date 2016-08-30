@@ -15,6 +15,7 @@
   },
   "scripts": {
     "test": "tar xjkvf test/graph/scc.tar -C test/graph/ --overwrite && webpack && mocha",
+    "coverage": "tar xjkvf test/graph/scc.tar -C test/graph/ --overwrite && webpack && istanbul cover _mocha -- -R spec",
     "start": "wget -nc -P test/graph/ https://github.com/scotv/algo-js/releases/download/2.7182818284/scc99.7z && 7z e test/graph/scc99.7z -otest/graph/ -aoa"
   },
   "config": {

@@ -6,7 +6,7 @@ node_modules*
 !bundle.js
 !test/*.js
 !webpack.config.js
-test/*-compiled.js
+*-compiled.js
 
 # single input or output file
 *.i

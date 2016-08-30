@@ -2,12 +2,12 @@
 
 # Algo.js
 ####### [简体中文](https://github.com/scozv/algo-js/blob/master/DUWO.md)
-####### _Version: 3_
+####### _Version: 3.1_
 ####### _Implementation of some algorithms using ECMAScript 6_
 
 ## Abstract
 This is a project containing implementation of some fundamental algorithms in `ECMAScript 6` with arrow functions enabled. 
-I use [Mocha] [1] for unit test, [Blanketjs] [2] for code coverage, and [drone.io] [7] for CI.
+I use [Mocha] [1] for unit test, [istanbul] [2] for code coverage, and [drone.io] [7] for CI.
 
 ## Documentation
 Read new [__API Documentation__] [6] page for details.
@@ -22,6 +22,7 @@ git tag -n
 When | What | Where
 :-------|:---------|:-------:
 2016&darr; | - | -
+Aug, 30 | `istanbul` for code coverage | [mocha-instanbul](http://ricostacruz.com/til/mocha-instanbul-coverage.html)
 Aug, 30 | switch to `webpack` and `ES 6` | [05a6c70](https://github.com/scozv/algo-js/commit/05a6c7068fd50204c0206f46dae2dfcd965b6912)
 2015&darr; | - | -
 Aug, 03 | publish API page in `zh-cn` | [接口文档](http://scozv.github.io/algo-wiki/zh-cn/index.html)
@@ -56,8 +57,8 @@ Use following scripts to initialize your environments.
 nvm install v5.11.1
 nodejs --version
 npm i
-npm install -g grunt-cli mocha
-npm test
+npm install -g mocha istanbul
+npm run coverage
 ```
 ### Travis CI
 ```yml
@@ -65,7 +66,7 @@ npm test
 language: node_js
 node_js:
   - "v5.11.1"
-script: 'npm i -g grunt-cli mocha && npm test'
+script: 'npm install -g mocha istanbul && npm i && npm run coverage'
 ```
 
 ## Test and Coverage
