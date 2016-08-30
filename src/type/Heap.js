@@ -93,8 +93,8 @@ export class MaxHeap extends Heap {
 }
 
 export class MinHeap extends Heap {
-  constructor(){
-    super((x, y) => x - y);
+  constructor(compare){
+    super(compare);
   }
 
   update(indexWhen, updateWhen, updateHow) {
