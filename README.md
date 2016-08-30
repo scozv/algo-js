@@ -13,13 +13,16 @@ I use [Mocha] [1] for unit test, [Blanketjs] [2] for code coverage, and [drone.i
 Read new [__API Documentation__] [6] page for details.
 
 ## Milestone
-Use following command to list the history tags.
-##### git tag -n
+Use following command to list the history tags：
+
+```
+git tag -n
+```
 
 When | What | Where
 :-------|:---------|:-------:
 2016&darr; | - | -
-Aug, 30 | switch to `webpack` and `ES 6` | 
+Aug, 30 | switch to `webpack` and `ES 6` | [05a6c70](https://github.com/scozv/algo-js/commit/05a6c7068fd50204c0206f46dae2dfcd965b6912)
 2015&darr; | - | -
 Aug, 03 | publish API page in `zh-cn` | [接口文档](http://scozv.github.io/algo-wiki/zh-cn/index.html)
 Aug, 01 | introduce new tag version naming system |
