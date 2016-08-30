@@ -259,7 +259,7 @@ test('graph algorithm', function () {
     [14, [[2, 13], [4, 19], [5, 22], [7, 9], [10, 78], [12, 63]]]].forEach(function (x) {
     var v = x[0] + 1;
     x[1].forEach(function (u) {
-      g3.__pushEdge__(v, u[0] + 1, u[1], true);
+      g3.__pushEdge__(v, u[0] + 1, u[1], false);
     });
   });
 

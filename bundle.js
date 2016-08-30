@@ -696,12 +696,10 @@ module.exports =
 	var MinHeap = exports.MinHeap = function (_Heap2) {
 	  _inherits(MinHeap, _Heap2);
 
-	  function MinHeap() {
+	  function MinHeap(compare) {
 	    _classCallCheck(this, MinHeap);
 
-	    return _possibleConstructorReturn(this, (MinHeap.__proto__ || Object.getPrototypeOf(MinHeap)).call(this, function (x, y) {
-	      return x - y;
-	    }));
+	    return _possibleConstructorReturn(this, (MinHeap.__proto__ || Object.getPrototypeOf(MinHeap)).call(this, compare));
 	  }
 
 	  _createClass(MinHeap, [{
